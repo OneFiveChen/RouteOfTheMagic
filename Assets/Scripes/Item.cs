@@ -14,31 +14,31 @@ public class ItemTool {
     public ItemTool()
     {
         itemList = new List<ItemBuff>();
-        ItemBuff ib = new ItemBuff(ItemName.Alchemy, BuffType.sBuffMove, 5);
+        ItemBuff ib = new ItemBuff(ItemName.炼金阵, BuffType.sBuffMove, 5);
         ib.ME += alchemyE;//添加事件
         itemList.Add(ib);
 
-        ib = new ItemBuff(ItemName.Universalnode, BuffType.sBuffTurn, 3);
+        ib = new ItemBuff(ItemName.万用节点, BuffType.sBuffTurn, 3);
         ib.NE += TheUniversalnode;
         itemList.Add(ib);
 
-        ib = new ItemBuff(ItemName.HotGem, BuffType.sBuffMove, 3);
+        ib = new ItemBuff(ItemName.炽热宝石, BuffType.sBuffMove, 3);
         ib.ME += HotGem;
         itemList.Add(ib);
 
-        ib = new ItemBuff(ItemName.Pocketwatches, BuffType.sBuffTurn, 5);
+        ib = new ItemBuff(ItemName.旅人的怀表, BuffType.sBuffTurn, 5);
         ib.NE += Pocketwatches;
         itemList.Add(ib);
 
-        ib = new ItemBuff(ItemName.Avalon, BuffType.sBuffMove, 1);
+        ib = new ItemBuff(ItemName.阿瓦隆, BuffType.sBuffMove, 1);
         ib.ME += Avalon;
         itemList.Add(ib);
 
-        ib = new ItemBuff(ItemName.Shadowchains, BuffType.sBuffMove, 1);
+        ib = new ItemBuff(ItemName.暗影锁链, BuffType.sBuffMove, 1);
         ib.ME += ShadowChains;
         itemList.Add(ib);
 
-        ib = new ItemBuff(ItemName.Fourimagearray, BuffType.sBuffTurn, -1);
+        ib = new ItemBuff(ItemName.四象阵, BuffType.sBuffTurn, -1);
         ib.NE += Fourimagearray;
         itemList.Add(ib);
 
@@ -47,11 +47,11 @@ public class ItemTool {
         itemList.Add(ib);
 
 
-        ib = new ItemBuff(ItemName.DoubleedgedStaff, BuffType.sBuffTurn, -1);
+        ib = new ItemBuff(ItemName.双刃杖, BuffType.sBuffTurn, -1);
         ib.NE += DoubleedgedStaff;
         itemList.Add(ib);
 
-        ib = new ItemBuff(ItemName.SageStone, BuffType.sBuffTurn, -1);
+        ib = new ItemBuff(ItemName.贤者之石, BuffType.sBuffTurn, -1);
         ib.NE += SageStone1;
         itemList.Add(ib);
 
@@ -59,19 +59,19 @@ public class ItemTool {
         ib.ME += SageStone2;
         itemList.Add(ib);
 
-        ib = new ItemBuff(ItemName.FlameHeart, BuffType.sBuffMove, 3);
+        ib = new ItemBuff(ItemName.烈焰之心, BuffType.sBuffMove, 3);
         ib.ME += FlameHeart;
         itemList.Add(ib);
 
-        ib = new ItemBuff(ItemName.iceHeart, BuffType.sBuffMove, 3);
+        ib = new ItemBuff(ItemName.寒霜之心, BuffType.sBuffMove, 3);
         ib.ME += IceHeart;
         itemList.Add(ib);
 
-        ib = new ItemBuff(ItemName.ThunderHeart, BuffType.sBuffMove, 3);
+        ib = new ItemBuff(ItemName.雷霆之心, BuffType.sBuffMove, 3);
         ib.ME += ThunderHeart;
         itemList.Add(ib);
 
-        ib = new ItemBuff(ItemName.DeathEnd, BuffType.sBuffDamage, 1);
+        ib = new ItemBuff(ItemName.即死领悟, BuffType.sBuffDamage, 1);
         ib.DE += DeathEnd1;
         itemList.Add(ib);
 
@@ -79,7 +79,7 @@ public class ItemTool {
         ib.NE += DeathEnd2;
         itemList.Add(ib);
 
-        ib = new ItemBuff(ItemName.BatterStaff, BuffType.sBuffSkill, 1);
+        ib = new ItemBuff(ItemName.连击法杖, BuffType.sBuffSkill, 1);
         ib.NE += BatterStaff;
         itemList.Add(ib);
 

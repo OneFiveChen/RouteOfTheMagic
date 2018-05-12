@@ -25,7 +25,7 @@ public class MagicCore {
         mMonster = new List<Monster>();
         mMonsterAttack = new List<EDamage>();
            
-        addBuff(itemTool.getItem(ItemName.DeathEnd), -1);
+        addBuff(itemTool.getItem(ItemName.即死领悟), -1);
         MaxHp = 100;
         MaxATK = 10;
         MaxDEF = 1;
@@ -1777,7 +1777,7 @@ public class MagicCore {
         l = new Line(32, 9, 17);
         r.Add(l);
 
-        l = new Line(33, 17, 18);
+        l = new Line(33, 9, 18);
         r.Add(l);
 
         l = new Line(34, 11, 18);

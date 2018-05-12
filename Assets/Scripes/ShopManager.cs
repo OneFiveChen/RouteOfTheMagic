@@ -33,31 +33,31 @@ namespace RouteOfTheMagic
 
             //
             skillPoint.onClick.AddListener(SkillPoint);
-            skillPoint.GetComponentInChildren<Text>().text = "价格：" + 10;
+            skillPoint.GetComponentInChildren<Text>().text = "增加一个技能点\n价格：" + 10;
             skillPointPrice = 10;
 
+            SkillName skillName = (SkillName)Random.Range(0, (int)SkillName.count);
             skill.onClick.AddListener(delegate ()
             {
                 CostMoney(skillPrice);
                 skill.interactable = false;
                 skill.GetComponentInChildren<Text>().text = "已购买，无法再次购买";
             //测试代码
-            skillsRoot.SetActive(true);
-                skill.interactable = false;
-                SkillSpawn(null);
-            /*增加技能
-            Skill s = new Skill();
-            if(!mc.addSKill())
+                //skillsRoot.SetActive(true);
+                //skill.interactable = false;
+                //SkillSpawn(null);
+                
+            Skill s = mc.skillTool.getSkill((int)skillName);
+            if(!mc.addSKill(s))
             {
                 //产生三个按钮
                 skillsRoot.SetActive(true);
                 skill.interactable = false;
+                SkillSpawn(s);
             }
-            */
-
             //skill.gameObject.SetActive(false);
         });
-            skill.GetComponentInChildren<Text>().text = "XX技能\n价格：" + 30;
+            skill.GetComponentInChildren<Text>().text = skillName+"\n价格：" + 30;
             skillPrice = 30;
 
             ButtonCheck();
@@ -70,8 +70,7 @@ namespace RouteOfTheMagic
         void Item(ItemName name, int price)
         {
             CostMoney(price);
-            ItemTool itemTool = new ItemTool();
-            mc.addBuff(itemTool.getItem(name), -1);
+            mc.addBuff(mc.itemTool.getItem(name), -1);
         }
         /// <summary>
         /// 绑定替换技能按钮
@@ -120,13 +119,13 @@ namespace RouteOfTheMagic
             CostMoney(skillPointPrice);
             if (clickTime == 1)
             {
-                skillPoint.GetComponentInChildren<Text>().text = "价格：" + 15;
+                skillPoint.GetComponentInChildren<Text>().text = "增加一个技能点\n价格：" + 15;
                 skillPointPrice = 15;
 
             }
             else if (clickTime == 2)
             {
-                skillPoint.GetComponentInChildren<Text>().text = "价格：" + 20;
+                skillPoint.GetComponentInChildren<Text>().text = "增加一个技能点\n价格：" + 20;
                 skillPointPrice = 20;
                 //mc.skillPoint += 1;
             }

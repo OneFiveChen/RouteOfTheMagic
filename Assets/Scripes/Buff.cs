@@ -69,7 +69,7 @@ public class CharactorBuffTool {
         buff.NE += PoisonFroge;
         buffs.Add(buff);
         //示例item：名字：例子 ，执行类型：全局移动时触发，计数器个数3（如果不需要计数器，这里设置成1就行）
-        ItemBuff iBuff = new ItemBuff(ItemName.Alchemy, BuffType.sBuffMove, 3);
+        ItemBuff iBuff = new ItemBuff(ItemName.炼金阵, BuffType.sBuffMove, 3);
         iBuff.ME += Simple;//添加事件函数，函数本体在最下边
         //添加到你的储存数组中，自己新建一个c#文件完成工具类
     }

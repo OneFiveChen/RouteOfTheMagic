@@ -11,9 +11,16 @@ public class SkillState : MonoBehaviour {
     string[] line;
     string str;
     public TextAsset Skilltext;
-	// Use this for initialization
-	void Start () {
-	}
+    public static TextAsset SkilltextGlobal;
+
+    // Use this for initialization
+    void Start () {
+        if(!SkilltextGlobal)
+        {
+            if (Skilltext)
+                SkilltextGlobal = Skilltext;
+        }
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -22,12 +29,13 @@ public class SkillState : MonoBehaviour {
 
     public void show()
     {
-        string[] lines = Skilltext.text.Split("\n"[0]);
-
+        string[] lines = SkilltextGlobal.text.Split("\n"[0]);
+        Debug.Log(lines.Length);
         for (int i = 0; i < lines.Length; ++i)
         {
             string[] parts = lines[i].Split(" "[0]);
-            if (parts[0] == child.GetComponent<Text>().text)
+            string[] childString= child.GetComponent<Text>().text.Split("\n"[0]);
+            if (parts[0] == childString[0])
             {
                 panel.GetComponentInChildren<Text>().text = parts[1];
                 break;
