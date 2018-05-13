@@ -198,11 +198,11 @@ public class Clickcontrol : MonoBehaviour {
             linePerb.GetComponent<LineRenderer>().SetPosition(0, pos1);
             linePerb.GetComponent<LineRenderer>().SetPosition(1, pos2);
            
-
+            linePerb.GetComponentInChildren<ParticleSystem>().Pause();
             GameObject lineP = GameObject.Instantiate(linePerb);
             lineP.transform.parent = lines.transform;
             lineP.SetActive(false);
-            lineP.GetComponentInChildren<ParticleSystem>().Stop();
+            
             lineGameObjectlist.Add(lineP);
            
 
