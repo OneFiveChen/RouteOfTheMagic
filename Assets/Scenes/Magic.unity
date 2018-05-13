@@ -518,6 +518,7 @@ MonoBehaviour:
   showState: {fileID: 1047453022}
   detail: {fileID: 406567862}
   gameOver: {fileID: 1833307236}
+  drop: {fileID: 706050362}
   canvas: {fileID: 596403104}
   ATK: {fileID: 700984505}
   DEF: {fileID: 770151557}
@@ -531,6 +532,74 @@ MonoBehaviour:
   Skilltext: {fileID: 4900000, guid: 3ed040d5bcdef7b4fa8eda3daf7ba7ae, type: 3}
   Itemtext: {fileID: 4900000, guid: bb31c22a9bc67664482db7b139102f29, type: 3}
   isShow: 0
+--- !u!1 &82650084
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 82650085}
+  - component: {fileID: 82650087}
+  - component: {fileID: 82650086}
+  m_Layer: 5
+  m_Name: Cover
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &82650085
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 82650084}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1833307237}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 119, y: -128}
+  m_SizeDelta: {x: 233.3, y: 258.6}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &82650086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 82650084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &82650087
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 82650084}
 --- !u!1 &86834185
 GameObject:
   m_ObjectHideFlags: 0
@@ -1331,7 +1400,7 @@ Prefab:
     - target: {fileID: 224268210586098108, guid: 7c178c7844c91e14ab9fa6538cf78669,
         type: 2}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 224268210586098108, guid: 7c178c7844c91e14ab9fa6538cf78669,
         type: 2}
@@ -1341,7 +1410,7 @@ Prefab:
     - target: {fileID: 224268210586098108, guid: 7c178c7844c91e14ab9fa6538cf78669,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 903
+      value: 756
       objectReference: {fileID: 0}
     - target: {fileID: 224268210586098108, guid: 7c178c7844c91e14ab9fa6538cf78669,
         type: 2}
@@ -1405,7 +1474,7 @@ Prefab:
     - target: {fileID: 114150966711416802, guid: 7c178c7844c91e14ab9fa6538cf78669,
         type: 2}
       propertyPath: m_FontData.m_Alignment
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 224511191159041904, guid: 7c178c7844c91e14ab9fa6538cf78669,
         type: 2}
@@ -1500,6 +1569,10 @@ Prefab:
     - target: {fileID: 1959894420214804, guid: 7c178c7844c91e14ab9fa6538cf78669, type: 2}
       propertyPath: m_Name
       value: Detail
+      objectReference: {fileID: 0}
+    - target: {fileID: 1624420795474146, guid: 7c178c7844c91e14ab9fa6538cf78669, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114131179988883438, guid: 7c178c7844c91e14ab9fa6538cf78669, type: 2}
@@ -2462,6 +2535,11 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 700984505}
+--- !u!1 &706050362 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1959894420214804, guid: 7c178c7844c91e14ab9fa6538cf78669,
+    type: 2}
+  m_PrefabInternal: {fileID: 1940921697}
 --- !u!1 &770151557
 GameObject:
   m_ObjectHideFlags: 0
@@ -3220,7 +3298,7 @@ Prefab:
     - target: {fileID: 114150966711416802, guid: 7c178c7844c91e14ab9fa6538cf78669,
         type: 2}
       propertyPath: m_FontData.m_Alignment
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 224511191159041904, guid: 7c178c7844c91e14ab9fa6538cf78669,
         type: 2}
@@ -4969,7 +5047,7 @@ RectTransform:
   - {fileID: 169901799}
   - {fileID: 2068831905}
   m_Father: {fileID: 1833307237}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -5036,6 +5114,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 82650085}
   - {fileID: 1832609455}
   - {fileID: 309157167}
   - {fileID: 1940921698}
@@ -5044,8 +5123,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 124}
+  m_SizeDelta: {x: 0, y: -250.19995}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1833307238
 MonoBehaviour:
@@ -5530,7 +5609,7 @@ Prefab:
     - target: {fileID: 224268210586098108, guid: 7c178c7844c91e14ab9fa6538cf78669,
         type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 224268210586098108, guid: 7c178c7844c91e14ab9fa6538cf78669,
         type: 2}
@@ -5540,7 +5619,7 @@ Prefab:
     - target: {fileID: 224268210586098108, guid: 7c178c7844c91e14ab9fa6538cf78669,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 478
+      value: 352
       objectReference: {fileID: 0}
     - target: {fileID: 224268210586098108, guid: 7c178c7844c91e14ab9fa6538cf78669,
         type: 2}
@@ -5604,7 +5683,7 @@ Prefab:
     - target: {fileID: 114150966711416802, guid: 7c178c7844c91e14ab9fa6538cf78669,
         type: 2}
       propertyPath: m_FontData.m_Alignment
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 224511191159041904, guid: 7c178c7844c91e14ab9fa6538cf78669,
         type: 2}
@@ -5654,7 +5733,7 @@ Prefab:
     - target: {fileID: 114150966711416802, guid: 7c178c7844c91e14ab9fa6538cf78669,
         type: 2}
       propertyPath: m_Text
-      value: 
+      value: "\u8BF7\u9009\u62E9\u8981\u4E22\u5F03\u7684\u6280\u80FD"
       objectReference: {fileID: 0}
     - target: {fileID: 224511191159041904, guid: 7c178c7844c91e14ab9fa6538cf78669,
         type: 2}
@@ -5699,6 +5778,10 @@ Prefab:
     - target: {fileID: 1959894420214804, guid: 7c178c7844c91e14ab9fa6538cf78669, type: 2}
       propertyPath: m_Name
       value: Drop
+      objectReference: {fileID: 0}
+    - target: {fileID: 1624420795474146, guid: 7c178c7844c91e14ab9fa6538cf78669, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114131179988883438, guid: 7c178c7844c91e14ab9fa6538cf78669, type: 2}
@@ -6818,31 +6901,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2094969384}
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 76366354}
         m_MethodName: skillPlus
         m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 2068831904}
-        m_MethodName: SetActive
-        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

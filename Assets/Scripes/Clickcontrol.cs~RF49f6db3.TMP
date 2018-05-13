@@ -277,21 +277,15 @@ public class Clickcontrol : MonoBehaviour {
     //点击技能触发
     public void toSkill()
     {
+        Debug.Log("1");
         btnGameObject = EventSystem.current.currentSelectedGameObject;
         int skillID = int.Parse(btnGameObject.name);
         if (isDrop)
         {
             magic.setSkill(magic.skillTool.getSkill(sk),skillID);
-            foreach (GameObject go in skillList)
-            {
-                go.GetComponent<Button>().interactable = false;
-                go.GetComponent<Image>().color = Color.white;
-            }
-            GameObject.Find("skill").SetActive(false);
-            GameObject.Find("skill (1)").SetActive(false);
-            drop.SetActive(false);
-            isDrop = false;
+            Debug.Log(magic.getSkill(skillID).name);
             overCount--;
+            //Debug.Log("2");
         }
         else
         { 
@@ -441,7 +435,7 @@ public class Clickcontrol : MonoBehaviour {
     //加技能
     public void skillPlus()
     {
-        if (!magic.addSKill(sklist)&&!isDrop)
+        if (!magic.addSKill(sklist))
         {
             drop.SetActive(true);
             foreach (GameObject ls in skillList)
