@@ -660,7 +660,7 @@ public class SkillTool {
         int atk = 0;
         for (int i = pStart; i <= pEnd; ++i)
         {
-            atk += point[route[i].pEnd].MaxMagic;
+            atk += point[route[i].pEnd].magic;
         }
 
         atk = (int)Mathf.Ceil(atk * (magic.skill.power + magic.skill.addpower)) + (int)magic.skill.basic + (int)magic.skill.addbasic;

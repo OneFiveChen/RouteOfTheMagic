@@ -90,6 +90,7 @@ public class EFController{
         Vector3 nPos = (eGO.transform.position - sGO.transform.position) * rate + sGO.transform.position;
         LineRenderer.SetPosition(1, nPos);
         //调整子对象中的粒子发射器位置，使其与终点相同
+        nPos.z = -5;
         line.GetComponentInChildren<ParticleSystem>().transform.position = nPos;
     }
 
