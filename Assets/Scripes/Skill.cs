@@ -184,7 +184,7 @@ public class SkillTool {
         }
     }
 
-    Skill getSkill(SkillName sk)
+    public Skill getSkill(SkillName sk)
     {
         foreach (Skill s in skillList)
         {

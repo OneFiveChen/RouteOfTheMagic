@@ -1023,8 +1023,11 @@ public class MagicCore {
                 if (isMonsterLive(m))
                     aLiveM.Add(m);
             }
-            int damTarget = aLiveM[Random.Range(0, aLiveM.Count - 1)];
-            mMonster[damTarget].getDamage(damage);
+            if (aLiveM.Count > 0)
+            {
+                int damTarget = aLiveM[Random.Range(0, aLiveM.Count - 1)];
+                mMonster[damTarget].getDamage(damage);
+            }
         }
     }
 
@@ -1655,6 +1658,32 @@ public class MagicCore {
     }
 
     //查询接口
+    public bool getSKillHad(SkillName sk)
+    {
+        bool r = false;
+        foreach (Skill s in mSkill)
+        {
+            if (s.name == sk)
+                r = true;
+        }
+        return r;
+    }
+
+    public bool getItemHad(ItemName it)
+    {
+        bool r = false;
+        foreach (BuffBasic b in buffList)
+        {
+            if (b.GetType() == typeof(ItemBuff))
+            {
+                ItemBuff ib = (ItemBuff)b;
+                if (ib.iName == it)
+                    r = true;
+            }
+        }
+        return r;
+    }
+
     public Point getPoint(int pNo)
     {
         return mPoint[pNo];

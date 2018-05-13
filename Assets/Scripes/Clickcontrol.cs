@@ -17,6 +17,7 @@ public class Clickcontrol : MonoBehaviour {
     public GameObject monster0;
     public GameObject startButton;
     public GameObject showState;
+    public GameObject detail;
     public GameObject gameOver;
     public GameObject canvas;
     public GameObject ATK;
@@ -24,12 +25,16 @@ public class Clickcontrol : MonoBehaviour {
     public GameObject HP;
     public List<GameObject> skillList;
     public Sprite tempSprite;
+    public TextAsset Skilltext;
+    public TextAsset Itemtext;
     private GameObject instance;
     private GameObject btnGameObject;
     private List<GameObject> lineGameObjectlist;
     private List<GameObject> pointGameObjectlist;
     ItemBuff Ibuff;
     ItemName it;
+    Skill sklist;
+    SkillName sk;
     
 
     public static bool isDrag;
@@ -44,8 +49,19 @@ public class Clickcontrol : MonoBehaviour {
         height = showState.GetComponent<RectTransform>().rect.height;
 
         magic = MagicCore.Instance;
+        
         it = (ItemName)Random.Range(0, (int)ItemName.count);
+        while (magic.getItemHad(it))
+        {
+            it = (ItemName)Random.Range(0, (int)ItemName.count);
+        }
+        sk = (SkillName)Random.Range(0, (int)SkillName.count);
+        while (magic.getSKillHad(sk))
+        {
+            sk = (SkillName)Random.Range(0, (int)SkillName.count);
+        }
         Ibuff = magic.itemTool.getItem(it);
+        sklist = magic.skillTool.getSkill(sk);
         monster = new Monster();
         mouse = new mouseevent();
         lineGameObjectlist = new List<GameObject>();
@@ -54,8 +70,8 @@ public class Clickcontrol : MonoBehaviour {
         isAttacking = false;
         isShow = false;
         instance = node;
-        //三个结算物品
-        overCount = 3;
+        //四个结算物品
+        overCount = 4;
 
         magic.addMonster(monster0.GetComponent<Monster>());
         magic.startTurn();
@@ -111,6 +127,7 @@ public class Clickcontrol : MonoBehaviour {
             {
                 gameOver.SetActive(true);
                 GameObject.Find("tool").GetComponentInChildren<Text>().text = Ibuff.iName.ToString();
+                GameObject.Find("skill").GetComponentInChildren<Text>().text = sklist.name.ToString();
                 isShow = true;
             }
         }
@@ -124,6 +141,7 @@ public class Clickcontrol : MonoBehaviour {
         //控制特效刷新
         EFController.Instance.Update();
     }
+
     //初始化
     public void startinit()
     {
@@ -400,4 +418,55 @@ public class Clickcontrol : MonoBehaviour {
         overCount--;
     }
 
+    //加技能
+    public void skillPlus()
+    {
+        if (!magic.addSKill(sklist))
+        {
+
+        }
+        overCount--;
+    }
+
+    //显示钱数
+    public void mshow()
+    {
+        detail.GetComponentInChildren<Text>().text = "获得10个金币";
+    }
+    
+    //显示技能点
+    public void spshow()
+    {
+        detail.GetComponentInChildren<Text>().text = "获得1个技能点";
+    }
+
+    //显示技能信息
+    public void skillshow()
+    {
+        string[] lines = Skilltext.text.Split("\n"[0]);
+        for (int i = 0; i < lines.Length; ++i)
+        {
+            string[] parts = lines[i].Split(" "[0]);
+            if (parts[0] == GameObject.Find("skill").GetComponentInChildren<Text>().text)
+            {
+                detail.GetComponentInChildren<Text>().text = parts[1];
+                break;
+            }
+        }
+    }
+    
+    //显示工具信息
+    public void toolshow()
+    {
+        string[] lines = Itemtext.text.Split("\n"[0]);
+        for (int i = 0; i < lines.Length; ++i)
+        {
+            string[] parts = lines[i].Split(" "[0]);
+            if (parts[0] == GameObject.Find("tool").GetComponentInChildren<Text>().text)
+            {
+                detail.GetComponentInChildren<Text>().text = parts[1];
+                break;
+            }
+        }
+    }
 }
