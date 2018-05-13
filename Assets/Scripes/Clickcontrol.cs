@@ -144,11 +144,12 @@ public class Clickcontrol : MonoBehaviour {
         Vector3 mPos;
         mPos.x = radium * Mathf.Cos(angle / 180.0f * Mathf.PI);
         mPos.y = radium * Mathf.Sin(angle / 180.0f * Mathf.PI);
-        mPos.z = 0;
+        mPos.z = -1;
         
         //实例化
         instance=GameObject.Instantiate(instance, mPos,Quaternion.identity);
         instance.transform.parent = nodes.transform;
+        instance.transform.localPosition = mPos;
         instance.tag = (int.Parse(instance.tag) + 1).ToString();
         instance.name = "Point" + instance.tag;
     }
@@ -157,19 +158,19 @@ public class Clickcontrol : MonoBehaviour {
     {
         for (int i = 0; i < 6; ++i)
         {
-            InitPoint(3, 120 - i * 60);
+            InitPoint(1.8f, 120 - i * 60);
         }
         for (int i = 0; i < 6; ++i)
         {
-            InitPoint(3 * Mathf.Sqrt(3), 90 - i * 60);
+            InitPoint(1.8f * Mathf.Sqrt(3), 90 - i * 60);
         }
         for (int i = 0; i < 3; ++i)
         {
-            InitPoint(9, 90 - i * 120);
+            InitPoint(5.4f, 90 - i * 120);
         }
         for (int i = 0; i < 3; ++i)
         {
-            InitPoint(9, 150 - i * 120);
+            InitPoint(5.4f, 150 - i * 120);
         }
     }
 

@@ -632,10 +632,6 @@ public class MagicCore {
         //回复魔力
         if(!mPoint[id].isProtected)
             mPoint[id].magic += 1;
-        if (mPoint[id].magic > mPoint[id].MaxMagic)
-        {
-            mPoint[id].magic = mPoint[id].MaxMagic;
-        }
         //取消激活
         mPoint[id].isActivity = false;
         //魔力放出伤害
@@ -1786,13 +1782,13 @@ public class MagicCore {
         l = new Line(35, 11, 16);
         r.Add(l);
 
-        l = new Line(36, 0, 13);
+        l = new Line(36, 7, 13);
         r.Add(l);
 
-        l = new Line(37, 0, 14);
+        l = new Line(37, 9, 14);
         r.Add(l);
 
-        l = new Line(38, 0, 15);
+        l = new Line(38, 11, 15);
         r.Add(l);
 
         return r;
@@ -1823,40 +1819,40 @@ public class MagicCore {
         p = new Point(6, PointColor.black, PointType.normal, 2, new List<int> { 5, 10, 11, 21, 22 });
         r.Add(p);
 
-        p = new Point(7, PointColor.red, PointType.normal, 3, new List<int> { 12, 13, 30, 31 });
+        p = new Point(7, PointColor.red, PointType.normal, 3, new List<int> { 12, 13, 30, 31,36 });
         r.Add(p);
 
         p = new Point(8, PointColor.yellow, PointType.normal, 3, new List<int> { 14, 15, 25, 26 });
         r.Add(p);
 
-        p = new Point(9, PointColor.blue, PointType.normal, 3, new List<int> { 16, 17, 23, 33 });
+        p = new Point(9, PointColor.blue, PointType.normal, 3, new List<int> { 16, 17, 32, 33, 37 });
         r.Add(p);
 
-        p = new Point(10, PointColor.red, PointType.normal, 0, new List<int> { 16, 17, 23, 33 });
+        p = new Point(10, PointColor.red, PointType.normal, 3, new List<int> { 18, 19 , 27, 28 });
         r.Add(p);
 
-        p = new Point(11, PointColor.yellow, PointType.normal, 0, new List<int> { 16, 17, 23, 33 });
+        p = new Point(11, PointColor.yellow, PointType.normal, 3, new List<int> { 16, 17, 34, 35,38 });
         r.Add(p);
 
-        p = new Point(12, PointColor.blue, PointType.normal, 0, new List<int> { 13, 15, 22, 23 });
+        p = new Point(12, PointColor.blue, PointType.normal, 3, new List<int> { 22, 23, 24, 29 });
         r.Add(p);
 
-        p = new Point(13, PointColor.black, PointType.normal, 0, new List<int> { 24, 25, 36 });
+        p = new Point(13, PointColor.black, PointType.normal, 2, new List<int> { 24, 25, 36 });
         r.Add(p);
 
-        p = new Point(14, PointColor.black, PointType.normal, 0, new List<int> { 26, 27, 37 });
+        p = new Point(14, PointColor.black, PointType.normal, 2, new List<int> { 26, 27, 37 });
         r.Add(p);
 
-        p = new Point(15, PointColor.black, PointType.normal, 0, new List<int> { 28, 29, 38 });
+        p = new Point(15, PointColor.black, PointType.normal, 2, new List<int> { 28, 29, 38 });
         r.Add(p);
 
-        p = new Point(16, PointColor.white, PointType.normal, 0, new List<int> { 30, 35 });
+        p = new Point(16, PointColor.white, PointType.normal, 3, new List<int> { 30, 35 });
         r.Add(p);
 
-        p = new Point(17, PointColor.white, PointType.normal, 0, new List<int> { 31, 32 });
+        p = new Point(17, PointColor.white, PointType.normal, 3, new List<int> { 31, 32 });
         r.Add(p);
 
-        p = new Point(18, PointColor.white, PointType.normal, 0, new List<int> { 33, 34 });
+        p = new Point(18, PointColor.white, PointType.normal, 3, new List<int> { 33, 34 });
         r.Add(p);
 
         return r;

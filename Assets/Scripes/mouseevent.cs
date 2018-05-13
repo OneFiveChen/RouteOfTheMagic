@@ -29,7 +29,7 @@ public class mouseevent : MonoBehaviour {
         else if (!magic.getPointBroked(int.Parse(this.tag)))
         {
             this.GetComponentInChildren<TextMesh>().text =
-            magic.getPoint(int.Parse(this.tag)).magic + "/" + magic.getPoint(int.Parse(this.tag)).MaxMagic;
+            magic.getPoint(int.Parse(this.tag)).magic + "";
             this.GetComponent<SpriteRenderer>().sprite = oldSprite;
         }
         //节点颜色初始化
