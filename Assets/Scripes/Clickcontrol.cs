@@ -202,7 +202,9 @@ public class Clickcontrol : MonoBehaviour {
             GameObject lineP = GameObject.Instantiate(linePerb);
             lineP.transform.parent = lines.transform;
             lineP.SetActive(false);
+            lineP.GetComponentInChildren<ParticleSystem>().Stop();
             lineGameObjectlist.Add(lineP);
+           
 
             if (Plist[p1].MaxMagic!=0 && Plist[p2].MaxMagic != 0)
             {
@@ -368,7 +370,8 @@ public class Clickcontrol : MonoBehaviour {
                 if(lineGameObjectlist.Count > 0)
                 foreach (Transform child in lineGameObjectlist[ed.ID].transform)
                 {
-                    child.GetComponentInChildren<TextMesh>().text = null;
+                    if (child.name == "Damage")
+                        child.GetComponent<TextMesh>().text = null;
                     
                 }
             }
