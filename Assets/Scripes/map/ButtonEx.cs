@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;  
 using UnityEngine.UI;  
 using UnityEngine.Events;  
-using UnityEngine.EventSystems;  
-#if UNITY_EDITOR  
-using UnityEditor;  
+using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
+#if UNITY_EDITOR  
+using UnityEditor;
+#else
+using System.ComponentModel.Design;
 #endif
 
 /// <summary>

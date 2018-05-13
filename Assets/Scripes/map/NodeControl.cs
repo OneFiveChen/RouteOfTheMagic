@@ -25,7 +25,8 @@ public class NodeControl : MonoBehaviour {
         //判断状态,确定节点是否显示，以及其魔力值等
         if (magic.getPoint(id).MaxMagic == 0)
         {
-            spriteRenderer.sprite = null;
+
+           //spriteRenderer.sprite = null;
         }
         else if (!magic.getPointBroked(id))
         {
@@ -73,10 +74,11 @@ public class NodeControl : MonoBehaviour {
 
     void OnMouseDown()
     {
-        foreach (var item in child)
-        {
-            item.gameObject.SetActive(true);
-        }
+        if (magic.isPointTransable(id))
+            foreach (var item in child)
+            {
+                item.gameObject.SetActive(true);
+            }
     }
     //鼠标抬起事件(基于碰撞体)
     void OnMouseUp()

@@ -61,7 +61,7 @@ public class SkillTool {
         s = new Skill(11, SkillName.混沌魔弹, new List<PointColor> {  PointColor.red, PointColor.white,  PointColor.red }, new List<int> {  1, 2, 1 }, SkillType.singleE, SkillDoType.oneWay, 5.0f, 0, 1);
         skillList.Add(s);
 
-        s = new Skill(12, SkillName.冰弹, new List<PointColor> { PointColor.blue, PointColor.white }, new List<int> { 1, 1 }, SkillType.singleE, SkillDoType.twoWay, 1.5f, 0, 1);
+        s = new Skill(12, SkillName.冰弹, new List<PointColor> { PointColor.blue, PointColor.white }, new List<int> { 1, 1 }, SkillType.singleE, SkillDoType.twoWay, 1.0f, 0, 1);
         s.skillDo += iceBall;
         skillList.Add(s);
 
@@ -74,11 +74,11 @@ public class SkillTool {
         skillList.Add(s);
 
         s = new Skill(15, SkillName.毒雾, new List<PointColor> { PointColor.blue, PointColor.yellow }, new List<int> { 2, 1 }, SkillType.self, SkillDoType.twoWay, 0, 0, 0);
-//======加事件
+        s.skillDo += PoisonForge;
         skillList.Add(s);
 
         s = new Skill(16, SkillName.冰风暴, new List<PointColor> { PointColor.blue, PointColor.white, PointColor.blue }, new List<int> { 0, 1, 0 }, SkillType.singleE, SkillDoType.single, 1.0f, 0, 3);
-//======加事件
+        s.skillDo += IceStrom;
         skillList.Add(s);
 
         s = new Skill(17, SkillName.暴风雪, new List<PointColor> { PointColor.blue, PointColor.white, PointColor.yellow }, new List<int> { 0, 0, 0 }, SkillType.allE, SkillDoType.twoWay, 0.5f, 0, 4);
@@ -86,7 +86,7 @@ public class SkillTool {
         skillList.Add(s);
 
         s = new Skill(18, SkillName.毒弹, new List<PointColor> { PointColor.blue, PointColor.red }, new List<int> { 0, 0 }, SkillType.singleE, SkillDoType.twoWay, 2.5f, 0, 1);
-//======加事件
+        s.skillDo += PoisonBall;
         skillList.Add(s);
 
         s = new Skill(19, SkillName.治疗术, new List<PointColor> { PointColor.white, PointColor.blue, PointColor.white }, new List<int> { 0, 0, 0 }, SkillType.self, SkillDoType.oneWay, 0, 0, 0);
@@ -98,7 +98,8 @@ public class SkillTool {
         skillList.Add(s);
 
         s = new Skill(21, SkillName.毒爆术, new List<PointColor> { PointColor.blue, PointColor.red, PointColor.white }, new List<int> { 0, 0, 0 }, SkillType.singleE, SkillDoType.unorder, 0, 0, 0);
-//======加事件
+        s.beforeDo += bePoisonBomb;
+        s.skillDo += PoisonBomb;
         skillList.Add(s);
 
         s = new Skill(22, SkillName.冰封节点, new List<PointColor> { PointColor.blue }, new List<int> { 1 }, SkillType.selfP, SkillDoType.single, 0, 0, 0);
@@ -201,15 +202,6 @@ public class SkillTool {
     /// <param name="magic"></param>
     void sS5(ref Magic magic)
     {
-        List<Move> mainRoute = magicCore.getRoute();
-        List<int> magicRoute = magic.magicRoute;
-        List<Point> point = magicCore.getPoint();
-        //计算防御值
-        float basic = 0;
-        for (int i = magicRoute[0]; i <= magicRoute[1]; ++i)
-        {
-            basic += point[mainRoute[i].pEnd].magic;
-        }
         //添加防御路径
         magicCore.addBuff(buffTool.getBuff(BuffName.火焰路径), -1);
     }
@@ -280,7 +272,7 @@ public class SkillTool {
     /// <param name="m"></param>
     void meltArmor(ref Magic m)
     {
-        
+        magicCore.addMonsterBuff(m.target, Monster.BuffConnection.Poison, 99);
     }
 
     /// <summary>
@@ -310,6 +302,25 @@ public class SkillTool {
             plist[pindex].isProtected = true;
         }
     }
+
+    /// <summary>
+    /// 毒雾：为自己添加buff，每回合开始时给所有敌人3层毒
+    /// </summary>
+    /// <param name="magic"></param>
+    void PoisonForge(ref Magic magic)
+    {
+        magicCore.addBuff(buffTool.getBuff(BuffName.毒雾), -1);
+    }
+
+    /// <summary>
+    /// 冰风暴： 给敌人施加1层虚弱buff
+    /// </summary>
+    /// <param name="magic"></param>
+    void IceStrom(ref Magic magic)
+    {
+        magicCore.addMonsterBuff(magic.target, Monster.BuffConnection.Weak, 1);
+    }
+
 
     /// <summary>
     /// 暴风雪：所有敌人的攻击路径减少2条
@@ -357,6 +368,46 @@ public class SkillTool {
     void quickAttack(ref Magic magic)
     {
         magicCore.setATK(magicCore.getATK() + 3);
+    }
+
+    /// <summary>
+    /// 毒弹：给敌人添加5层毒buff
+    /// </summary>
+    /// <param name="magic"></param>
+    void PoisonBall(ref Magic magic)
+    {
+        magicCore.addMonsterBuff(magic.target, Monster.BuffConnection.Poison, 5);
+    }
+
+    /// <summary>
+    /// 毒爆术前 ： 伤害为5*毒buff的层数
+    /// </summary>
+    /// <param name="magic"></param>
+    void bePoisonBomb(ref Magic magic)
+    {
+        int d = magicCore.checkMonsterBuff(magic.target, Monster.BuffConnection.Poison);
+        magic.skill.addbasic = d * 5;
+    }
+
+    /// <summary>
+    /// 毒暴术：如果把怪物打死了，传染
+    /// </summary>
+    /// <param name="magic"></param>
+    void PoisonBomb(ref Magic magic)
+    {
+        int d = magicCore.checkMonsterBuff(magic.target, Monster.BuffConnection.Poison);
+        magicCore.clearMonstBuff(magic.target, Monster.BuffConnection.Poison);
+
+        if (!magicCore.isMonsterLive(magic.target))
+        {
+            for (int i = 0; i < 4; ++i)
+            {
+                if(magicCore.isMonsterLive(i))
+                {
+                    magicCore.addMonsterBuff(i, Monster.BuffConnection.Poison, d);
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -561,7 +612,7 @@ public class SkillTool {
         int pos = magicCore.getRoute()[m.magicRoute[0]].pEnd;
         magicCore.getPoint(pos).isProtected = false;
 
-        magicCore.doAttackToMonster(m.target, 1, magicCore.getPoint(pos).magic * 5);
+        magicCore.doAOEToMonster(1, magicCore.getPoint(pos).magic * 5);
         magicCore.getPoint(pos).magic = -1;
         magicCore.getPoint(pos).isBroken = true;
     }

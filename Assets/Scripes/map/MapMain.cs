@@ -51,6 +51,7 @@ namespace RouteOfTheMagic
 
             set
             {
+                button.GetComponent<Image>().color +=new Color(0.5f, 0.5f, 0.5f);
                 button.fatherIsPass = value;
                 fatherIsPass = value;
 
@@ -71,10 +72,10 @@ namespace RouteOfTheMagic
         public int layerCount = 5;
         public Sprite sprite;
         private MagicCore magicCore;
-        MapMain instance;
+        static MapMain instance;
         MapNode currentMapNode;
 
-        public MapMain Instance
+        public static MapMain Instance
         {
             get
             {
@@ -84,7 +85,8 @@ namespace RouteOfTheMagic
                     if (instance == null)
                     {
                         // 如果没有找到， 则新建一个
-                        GameObject obj = new GameObject(this.name);
+
+                        GameObject obj = new GameObject("main");
                         // 对象不可见，不会被保存
                         obj.hideFlags = HideFlags.HideAndDontSave;
                         // 强制转换为 T 
@@ -307,17 +309,35 @@ namespace RouteOfTheMagic
         void buttonResponse(MapNode mapNode)
         {
             currentMapNode = mapNode;
+            mapRoot.SetActive(false);
+            //Debug.Log(mapRoot);
+            foreach (var item in Root)
+            {
+                item.SetActive(false);
+                //Debug.Log(item.activeSelf);
+            }
             if (mapNode.nodeType==NodeType.fight)
             {
-                SceneManager.LoadSceneAsync("Magic");
-                mapRoot.SetActive(false);
-                foreach (var item in Root)
-                {
-                    item.SetActive(false);
-                }
+                SceneManager.LoadSceneAsync("Magic");   
+            }
+            else if(mapNode.nodeType == NodeType.shop)
+            {
+                SceneManager.LoadSceneAsync("Shop");
+            }
+            else if (mapNode.nodeType == NodeType.thing)
+            {
+                SceneManager.LoadSceneAsync("Event");
             }
             Debug.Log(mapNode.nodeType);
         }
+        /// <summary>
+        /// 创建按钮
+        /// </summary>
+        /// <param name="pos"></param>
+        /// <param name="size"></param>
+        /// <param name="sprite"></param>
+        /// <param name="color"></param>
+        /// <returns></returns>
         ButtonEx CreatButton(Vector2 pos,Vector2 size, Sprite sprite,Color color= new Color())
         {
             GameObject go = new GameObject("node");
@@ -327,10 +347,11 @@ namespace RouteOfTheMagic
             go.AddComponent<CanvasRenderer>();
             Image img = go.AddComponent<Image>();
             //img.color = Color.white;
-            img.color = color;
+            img.color = color -new Color(0.5f,0.5f,0.5f,0);
             img.fillCenter = true;
             img.raycastTarget = true;
             img.sprite = sprite;
+
             if (img.sprite != null)
                 img.type = Image.Type.Sliced;
             ButtonEx button=go.AddComponent<ButtonEx>();
@@ -341,12 +362,19 @@ namespace RouteOfTheMagic
             go.GetComponent<Selectable>().image = img;
             go.transform.SetParent(mapRoot.transform);
             go.transform.localPosition = pos;
+            //ColorBlock cb = new ColorBlock();
+            //cb.normalColor = Color.white;
+            //cb.highlightedColor = Color.green;
+            //cb.pressedColor = Color.blue;
+            //cb.disabledColor = Color.black;
+            //button.colors = cb;
             return button;
         }
         // Update is called once per frame
 
         void Update()
         {
+            //测试用代码
             if(Input.GetKeyDown(KeyCode.A))
             {
                 SceneEnd(true);
@@ -358,8 +386,10 @@ namespace RouteOfTheMagic
         /// <param name="istrue">战斗是否胜利</param>
         public void SceneEnd(bool istrue)
         {
+            //Debug.Log("gameOver");
             int layer = currentMapNode.layer;
-            if(istrue)
+            currentMapNode.button.interactable = false;
+            if (istrue)
                 foreach (var item in currentMapNode.child)
                 {
                     map[layer+1][item].FatherIsPass = true;
@@ -368,6 +398,7 @@ namespace RouteOfTheMagic
             {
                 item.SetActive(true);
             }
+            mapRoot.SetActive(true);
 
         }
     }

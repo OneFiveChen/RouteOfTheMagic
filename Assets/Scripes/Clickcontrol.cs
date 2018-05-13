@@ -8,8 +8,8 @@ using RouteOfTheMagic;
 public class Clickcontrol : MonoBehaviour {
 
     public MagicCore magic;
-    public mouseevent mouse;
-    public Monster monster;
+    mouseevent mouse;
+    Monster monster;
     public GameObject node;
     public GameObject nodes;
     public GameObject lines;
@@ -17,28 +17,45 @@ public class Clickcontrol : MonoBehaviour {
     public GameObject monster0;
     public GameObject startButton;
     public GameObject showState;
+    public GameObject gameOver;
+    public GameObject canvas;
+    public GameObject ATK;
+    public GameObject DEF;
+    public GameObject HP;
     public List<GameObject> skillList;
     public Sprite tempSprite;
     private GameObject instance;
     private GameObject btnGameObject;
     private List<GameObject> lineGameObjectlist;
+    private List<GameObject> pointGameObjectlist;
+    ItemBuff Ibuff;
+    ItemName it;
+    
 
     public static bool isDrag;
+    public bool isShow;
     private bool isAttacking;
     private float width;
     private float height;
+    private int overCount;
     // Use this for initialization
     void Start () {
         width = showState.GetComponent<RectTransform>().rect.width;
         height = showState.GetComponent<RectTransform>().rect.height;
 
         magic = MagicCore.Instance;
+        it = (ItemName)Random.Range(0, (int)ItemName.count);
+        Ibuff = magic.itemTool.getItem(it);
         monster = new Monster();
         mouse = new mouseevent();
         lineGameObjectlist = new List<GameObject>();
+        pointGameObjectlist = new List<GameObject>();
         isDrag = false;
         isAttacking = false;
+        isShow = false;
         instance = node;
+        //三个结算物品
+        overCount = 3;
 
         magic.addMonster(monster0.GetComponent<Monster>());
         magic.startTurn();
@@ -53,9 +70,9 @@ public class Clickcontrol : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         //显示ATK和DEF
-        GameObject.Find("ATK").GetComponent<Text>().text = "ATK: "+ magic.getATK().ToString();
-        GameObject.Find("DEF").GetComponent<Text>().text = "DEF: "+ magic.getDEF().ToString();
-        GameObject.Find("HP").GetComponent<Text>().text = "HP:" + magic.getHP().ToString();
+        ATK.GetComponent<Text>().text = "ATK: "+ magic.getATK().ToString();
+        DEF.GetComponent<Text>().text = "DEF: "+ magic.getDEF().ToString();
+        HP.GetComponent<Text>().text = "HP:" + magic.getHP().ToString();
         //测试monster，获取血量等
         monster0.GetComponentInChildren<Text>().text = monster0.GetComponent<Monster>().monsterHP.ToString();
         //绘制连线颜色
@@ -69,7 +86,7 @@ public class Clickcontrol : MonoBehaviour {
 
         //检查线上的信息
         lineStatus();
-
+        
         //监听函数
         if (magic.getFlag()==ClickFlag.defencer)
         {
@@ -81,18 +98,31 @@ public class Clickcontrol : MonoBehaviour {
         }
 
         //说明框位置跟随
-        showState.transform.position = 
-            new Vector3((int)Input.mousePosition.x - (int)width*showState.transform.localScale.x / 2+0.1f, 
-            (int)Input.mousePosition.y + (int)height * showState.transform.localScale.y / 2+0.1f, 0);
+        //showState.transform.position = 
+        //    new Vector3((int)Input.mousePosition.x - (int)width*showState.transform.localScale.x / 2+0.1f, 
+        //    (int)Input.mousePosition.y + (int)height * showState.transform.localScale.y / 2+0.1f, 0);
 
         //检测怪物是否活着
         for(int i=0;i<4;++i)
         {
             if (magic.isMonsterLive(i))
                 break;
-            else if (i == 3)
-                break;
+            if (i == 3&&!isShow)
+            {
+                gameOver.SetActive(true);
+                GameObject.Find("tool").GetComponentInChildren<Text>().text = Ibuff.iName.ToString();
+                isShow = true;
+            }
         }
+        if (overCount == 0)
+        {
+            overCount = -1;
+            MapMain.Instance.SceneEnd(true);
+            canvas.SetActive(false);
+        }
+
+        //控制特效刷新
+        EFController.Instance.Update();
     }
     //初始化
     public void startinit()
@@ -119,32 +149,36 @@ public class Clickcontrol : MonoBehaviour {
         Vector3 mPos;
         mPos.x = radium * Mathf.Cos(angle / 180.0f * Mathf.PI);
         mPos.y = radium * Mathf.Sin(angle / 180.0f * Mathf.PI);
-        mPos.z = 0;
+        mPos.z = -1;
         
         //实例化
         instance=GameObject.Instantiate(instance, mPos,Quaternion.identity);
         instance.transform.parent = nodes.transform;
-        instance.tag = (int.Parse(instance.tag) + 1).ToString();
+        instance.transform.localPosition = mPos;
+        if(pointGameObjectlist.Count != 0)
+        instance.tag = (int.Parse(instance.tag)+1).ToString();
         instance.name = "Point" + instance.tag;
+        pointGameObjectlist.Add(instance);
     }
 
     public void InitPointPos()
     {
+        InitPoint(0, 0);
         for (int i = 0; i < 6; ++i)
         {
-            InitPoint(3, 120 - i * 60);
+            InitPoint(1.8f, 120 - i * 60);
         }
         for (int i = 0; i < 6; ++i)
         {
-            InitPoint(3 * Mathf.Sqrt(3), 90 - i * 60);
+            InitPoint(1.8f * Mathf.Sqrt(3), 90 - i * 60);
         }
         for (int i = 0; i < 3; ++i)
         {
-            InitPoint(9, 90 - i * 120);
+            InitPoint(5.4f, 90 - i * 120);
         }
         for (int i = 0; i < 3; ++i)
         {
-            InitPoint(9, 150 - i * 120);
+            InitPoint(5.4f, 150 - i * 120);
         }
     }
 
@@ -174,9 +208,26 @@ public class Clickcontrol : MonoBehaviour {
             {
                 lineP.SetActive(true);
             }
-                
-
         }
+
+        //特效测试
+        for (int i = 0; i < 6; ++i)
+        {
+            Line l = lineList[i];
+            EFController.Instance.NewLineCreatAnimation(pointGameObjectlist[l.p1], pointGameObjectlist[l.p2], lineGameObjectlist[i], 0, 30);
+        }
+        for (int i = 6; i < 24; ++i)
+        {
+            Line l = lineList[i];
+            EFController.Instance.NewLineCreatAnimation(pointGameObjectlist[l.p1], pointGameObjectlist[l.p2], lineGameObjectlist[i], 40, 25);
+        }
+        for (int i = 24; i < 39; ++i)
+        {
+            Line l = lineList[i];
+            EFController.Instance.NewLineCreatAnimation(pointGameObjectlist[l.p1], pointGameObjectlist[l.p2], lineGameObjectlist[i], 75, 20);
+        }
+
+
     }
     
     public Color toLineColor(lineState lineSt)
@@ -191,7 +242,7 @@ public class Clickcontrol : MonoBehaviour {
                 lineColor = Color.blue;
                 break;
             case lineState.normal:
-                lineColor = Color.black;
+                lineColor = Color.white;
                 break;
             case lineState.used:
                 lineColor = Color.red;
@@ -237,7 +288,7 @@ public class Clickcontrol : MonoBehaviour {
                 List<PointColor> skColor = magic.getSkill(int.Parse(sk.name)).mRequire;
                 if (child.name == "Name")
                     child.GetComponent<Text>().text = magic.getSkill(int.Parse(sk.name)).name.ToString();
-                if (child.name == "ATK")
+                if (child.name == "Atk")
                     child.GetComponent<Text>().text = magic.getSkill(int.Parse(sk.name)).damage.ToString();
                 if (child.name=="Type")
                 {
@@ -299,6 +350,7 @@ public class Clickcontrol : MonoBehaviour {
         {
             if (ed.damage != 0)
             {
+                if (lineGameObjectlist.Count > 0)
                 foreach (Transform child in lineGameObjectlist[ed.ID].transform)
                 {
                     Vector3 pos1 = child.parent.GetComponent<LineRenderer>().GetPosition(0);
@@ -306,20 +358,43 @@ public class Clickcontrol : MonoBehaviour {
                     if (child.name == "Damage")
                     {
                         child.position = new Vector3((pos1.x + pos2.x) / 2, (pos1.y + pos2.y) / 2, 0);
-                        child.GetComponent<TextMesh>().text = ed.damage.ToString();
+                        child.GetComponent<TextMesh>().text = ed.damage.ToString();    
                     }
                    
                 }
             }
             else
             {
+                if(lineGameObjectlist.Count > 0)
                 foreach (Transform child in lineGameObjectlist[ed.ID].transform)
                 {
-                    child.GetComponent<TextMesh>().text = null;
+                    child.GetComponentInChildren<TextMesh>().text = null;
+                    
                 }
             }
         }
     }
 
+    //技能++
+    public void spPlus()
+    {
+        magic.skillPoint += 1;
+        overCount--;
+    }
     
+    //money+10
+    public void mPlus()
+    {
+        magic.Money += 10;
+        overCount--;
+    }
+
+    //加道具
+    public void toolPlus()
+    {
+        magic.addBuff(Ibuff, -1);
+        magic.itemTool.removeItem(Ibuff.iName);
+        overCount--;
+    }
+
 }

@@ -109,26 +109,27 @@ namespace RouteOfTheMagic
         风暴前夕 = 10,
         附加伤害 = 11,
         无敌 = 12,
+        毒雾 = 13,
         count
     }
 
     public enum ItemName
     {
-        Alchemy = 0,
-        Universalnode = 1,
-        HotGem = 2,
-        Pocketwatches = 3,
-        Avalon = 4,
-        Shadowchains = 5,
-        Fourimagearray = 6,        
-        SageStone = 7,       
-        DoubleedgedStaff = 8,
-        FlameHeart = 9,
-        iceHeart = 10,
-        ThunderHeart = 11,
-        DeathEnd = 12,
+        炼金阵 = 0,
+        万用节点 = 1,
+        炽热宝石 = 2,
+        旅人的怀表 = 3,
+        阿瓦隆 = 4,
+        暗影锁链 = 5,
+        四象阵 = 6,        
+        贤者之石 = 7,       
+        双刃杖 = 8,
+        烈焰之心 = 9,
+        寒霜之心 = 10,
+        雷霆之心 = 11,
+        即死领悟 = 12,
         DeathEnd2 = 13,
-        BatterStaff = 14,
+        连击法杖 = 14,
         例子=15,
         SageStone2 = 16,
         Fourimagearrays = 17,
@@ -203,6 +204,8 @@ namespace RouteOfTheMagic
             isActivity = false;
             isDefence = false;
             isProtected = false;
+
+            buff = new List<BuffBasic>();
         }
 
         //节点属性

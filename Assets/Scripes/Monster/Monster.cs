@@ -200,7 +200,11 @@ namespace RouteOfTheMagic
         {
             Poison,
             Weak,
-            EasilyInjured
+            EasilyInjured,
+            DamagesImmunity,
+            AddAttackValue,
+            DownAttackValue,
+            count
         }
 
         /// <summary>
@@ -278,7 +282,7 @@ namespace RouteOfTheMagic
             /// <summary>
             /// The type of the buff.
             /// </summary>
-            public BuffType buffType;
+            public BuffConnection buffType;
             /// <summary>
             /// The type of the buff last.
             /// </summary>
@@ -294,7 +298,7 @@ namespace RouteOfTheMagic
 
             public BuffOverlapType buffOverlapType;
 
-            public buff(int _buffID, BuffType _buffType, BuffLastType _buffLastType, int _buffTime, int _buffValue, BuffOverlapType _buffOverlapType)
+            public buff(int _buffID, BuffConnection _buffType, BuffLastType _buffLastType, int _buffTime, int _buffValue, BuffOverlapType _buffOverlapType)
             {
                 this.buffID = _buffID;
                 this.buffType = _buffType;
@@ -334,24 +338,6 @@ namespace RouteOfTheMagic
         }
 
         /// <summary>
-        /// Check the buff when round over.
-        /// </summary>
-        public void checkBuffRoundOver()
-        {
-            for (int i = 0; i < buffList.Count; i++)
-            {
-                if(buffList[i].buffType == BuffType.MinusHP)
-                {
-                    getDamage((int)buffList[i].buffValue);
-                }
-                if(buffList[i].buffType == BuffType.AddHP)
-                {
-                    restoreMonsterHP((int)buffList[i].buffValue);
-                }
-            }
-        }
-
-        /// <summary>
         /// Adds the buff.
         /// </summary>
         /// <param name="buffID">Buff identifier.</param>
@@ -360,10 +346,10 @@ namespace RouteOfTheMagic
         /// <param name="buffTime">Buff time.</param>
         /// <param name="tempBuffValue">Temp buff value.</param>
         /// <param name="buffOverlapType">Buff overlap type.</param>
-        public void addBuff(int buffID, int buffTypeNum, int buffLastTypeNum, int buffTime, int tempBuffValue, int buffOverlapType)
+        public void addBuff(int buffID, BuffConnection buffTypeNum, int buffLastTypeNum, int buffTime, int tempBuffValue, int buffOverlapType)
         {
             buff tempbuff = new buff(buffID,
-                                     (BuffType)buffTypeNum,
+                                     buffTypeNum,
                                      (BuffLastType)buffLastTypeNum,
                                      buffTime,
                                      tempBuffValue,
@@ -393,38 +379,6 @@ namespace RouteOfTheMagic
         /// Gets the add buff identifier from magic core.
         /// </summary>
         /// <param name="buffid">Buffid.</param>
-        public void getAddBuffID(int buffid)
-        {
-            switch (buffid)
-            {
-                case 1: //伤害免疫50%
-                    addBuff(1, 11, 0, 1, 5, 1); 
-                    break;
-                case 2: //缓慢回复
-                    addBuff(2, 2, 1, 3, 5, 2);
-                    break;
-                case 3: //嘲讽
-                    addBuff(3, 6, 0, 1, 1, 1);
-                    break;
-                case 4: //增加攻击力
-                    addBuff(4, 0, 1, 3, 10, 2);
-                    break;
-                case 5: //降低攻击力
-                    addBuff(5, 1, 1, 3, 10, 2);
-                    break;
-                case 6: //流血、毒
-                    addBuff(6, 3, 1, 3, 5, 2);
-                    break;
-                case 7: //易伤
-                    addBuff(7, 10, 1, 3, 5, 1);
-                    break;
-                case 8: //虚弱
-                    addBuff(8, 12, 1, 3, 1, 1);
-                    break;
-                default:
-                    break;
-            }
-        }
 
         public void playerGiveBuff(BuffConnection buff,int bufftime,int buffvalue)
         {
@@ -446,13 +400,13 @@ namespace RouteOfTheMagic
                     //addBuff(5, 1, 1, bufftime, buffvalue, 2);
                     //break;
                 case BuffConnection.Poison: //毒
-                    addBuff(6, 3, 1, bufftime, buffvalue, 2);
+                    addBuff(6, BuffConnection.Poison, 1, bufftime, buffvalue, 2);
                     break;
                 case BuffConnection.EasilyInjured: //易伤
-                    addBuff(7, 10, 1, bufftime, 5, 1);
+                    addBuff(7, BuffConnection.EasilyInjured, 1, bufftime, 5, 1);
                     break;
                 case BuffConnection.Weak: //虚弱
-                    addBuff(8, 12, 1, bufftime, 1, 1);
+                    addBuff(8, BuffConnection.Weak, 1, bufftime, 1, 1);
                     break;
                 default:
                     break;
@@ -463,32 +417,33 @@ namespace RouteOfTheMagic
         /// Checks the weak buff.
         /// </summary>
         /// <returns><c>true</c>, if weak buff was checked, <c>false</c> otherwise.</returns>
-        public bool checkWeakBuff()
+        public int checkBuff(BuffConnection bt)
         {
+            int r = -1;
             for (int i = 0; i < buffList.Count; i++)
             {
-                if(buffList[i].buffType == BuffType.Weak)
+                if(buffList[i].buffType == bt)
                 {
-                    return true;
+                    i = buffList[i].buffTime;
                 }
             }
-            return false;
+            return r;
         }
 
         /// <summary>
-        /// Checks the easily injured buff.
+        /// 删除对应的buff
         /// </summary>
-        /// <returns><c>true</c>, if easily injured buff was checked, <c>false</c> otherwise.</returns>
-        public bool checkEasilyInjuredBuff()
+        /// <param name="bt"></param>
+        public void clearBuff(BuffConnection bt)
         {
             for (int i = 0; i < buffList.Count; i++)
             {
-                if(buffList[i].buffType == BuffType.EasilyInjured)
+                if (buffList[i].buffType == bt)
                 {
-                    return true;
+                    buffList.RemoveAt(i);
+                    --i;
                 }
             }
-            return false;
         }
 
         /// <summary>
@@ -501,17 +456,18 @@ namespace RouteOfTheMagic
             for (int i = 0; i < buffList.Count; i++)
             {
                 //Add attack buff
-                if(buffList[i].buffType == BuffType.AddAttackValue)
+                if(buffList[i].buffType == BuffConnection.AddAttackValue)
                 {
                     tempAttackValue += buffList[i].buffValue;
                 }
                 //down attack buff
-                if(buffList[i].buffType == BuffType.DownAttackValue)
+                if(buffList[i].buffType == BuffConnection.DownAttackValue)
                 {
                     tempAttackValue -= buffList[i].buffValue;
                 }
             }
-            tempValue.Add(tempAttackValue);
+            tempValue.Add(6);
+            tempValue.Add(11);
             if (attackType == AttackType.Random)
             {
                 //访问线的list
@@ -549,11 +505,11 @@ namespace RouteOfTheMagic
         {
             for (int i = 0; i < buffList.Count; i++)
             {
-                if(buffList[i].buffType == BuffType.DamagesImmunity)
+                if(buffList[i].buffType == BuffConnection.DamagesImmunity)
                 {
                     tempDamageValue = (int)(tempDamageValue * 0.5f);
                 }
-                if(buffList[i].buffType == BuffType.EasilyInjured)
+                if(buffList[i].buffType == BuffConnection.EasilyInjured)
                 {
                     tempDamageValue = (int)(tempDamageValue * 1.5f);
                 }
@@ -561,14 +517,29 @@ namespace RouteOfTheMagic
             reduceMonsterHP(tempDamageValue);
          //   checkDeath();         外部来check
         }
-
         /// <summary>
-        /// When round over,check buff.
+        /// Update the buff time wheneven ATKTurn End
         /// </summary>
-        public void roundOver()
+        public void UpdateBuff()
         {
-            checkBuffRoundOver();
-            checkBuffCount();
+            for (int i = 0; i < buffList.Count; ++i)
+            {
+                if (buffList[i].buffType == BuffConnection.Poison)
+                {
+                    reduceMonsterHP(buffList[i].buffTime);
+                }
+
+                buff b = buffList[i];
+                b.buffTime -= 1;
+                buffList[i] = b;
+
+                if (b.buffTime <= 0)
+                {
+                    buffList.Remove(b);
+                    --i;
+                    continue;
+                }
+            }
         }
 
         ///// <summary>

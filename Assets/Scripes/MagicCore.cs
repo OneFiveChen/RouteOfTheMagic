@@ -25,7 +25,7 @@ public class MagicCore {
         mMonster = new List<Monster>();
         mMonsterAttack = new List<EDamage>();
            
-        addBuff(itemTool.getItem(ItemName.DeathEnd), -1);
+        addBuff(itemTool.getItem(ItemName.即死领悟), -1);
         MaxHp = 100;
         MaxATK = 10;
         MaxDEF = 1;
@@ -74,7 +74,7 @@ public class MagicCore {
 
     //全局变量
     public int skillPoint; //剩余技能点数
-    public int Money;      //金钱
+    public int Money=30;      //金钱
 
     private static MagicCore instance;
 
@@ -413,16 +413,14 @@ public class MagicCore {
         }
         if (sdt == SkillDoType.single)
         {
-            //顺序找最后一个点
-            for (int i = mRoute.Count - 1; i >= 0; --i)
+            //直接找最后一个点
+            if(mRoute.Count != 0)
+            if (mPoint[mRoute[mRoute.Count -1].pEnd].color == pc[0] && !mPoint[mRoute[mRoute.Count - 1].pEnd].isBroken)
             {
-                if (mPoint[mRoute[i].pEnd].color == pc[0] && !mPoint[mRoute[i].pEnd].isBroken)
-                {
-                    subRoute.Add(i);
-                    subRoute.Add(i);
-                    subRoute.Add(0);
-                    break;
-                }
+                subRoute.Add(mRoute.Count - 1);
+                subRoute.Add(mRoute.Count - 1);
+                subRoute.Add(0);
+                
             }
         }
         if (sdt == SkillDoType.norequire)
@@ -634,10 +632,6 @@ public class MagicCore {
         //回复魔力
         if(!mPoint[id].isProtected)
             mPoint[id].magic += 1;
-        if (mPoint[id].magic > mPoint[id].MaxMagic)
-        {
-            mPoint[id].magic = mPoint[id].MaxMagic;
-        }
         //取消激活
         mPoint[id].isActivity = false;
         //魔力放出伤害
@@ -763,7 +757,7 @@ public class MagicCore {
         }
         skillReady.skill.beforeDo(ref skillReady);
         skillReady.skill.skillDo(ref skillReady);
-        skillReady.skill.useable = false;
+        skillReady.skill.damage = 0;
         //释放技能攻击效果
         if (skillReady.Damage > 0)
         {
@@ -790,6 +784,8 @@ public class MagicCore {
             move.moveLine = -1;
             mRoute[0] = move;
         }
+        //更新技能状态
+        FreshSkillActivity();
         //刷新怪物攻击
         freshMonsterAttack();
         //清空路径
@@ -1231,7 +1227,6 @@ public class MagicCore {
             {
                 skillReady.skill = s;               //保存准备释放的技能对象
                 skillReady.magicRoute = getSuitRoute(s.mRequire, s.skillDoType);   //获取技能的子路径
-                Debug.Log("0");
 
                 if (s.skillType == SkillType.singleE)
                 {
@@ -1239,7 +1234,6 @@ public class MagicCore {
                 }
                 else
                 {
-                    Debug.Log("1");
                     doSkill();
                 }
             }
@@ -1366,38 +1360,52 @@ public class MagicCore {
         switch (buff.type)
         {
             case BuffType.pBuffBroken:
-                mPoint[pl].buff.Add(buff);
-                break;
-            case BuffType.pBuffMoveIn:
-                mPoint[pl].buff.Add(buff);
-                break;
+            case BuffType.pBuffMoveIn:  
             case BuffType.pBuffSkill:
-                mPoint[pl].buff.Add(buff);
+                {
+                    bool isHave = false;
+                    foreach (BuffBasic b in mPoint[pl].buff)
+                    {
+                        if (b.GetType() == typeof(Buff))
+                        {
+                            Buff bBuff = (Buff)b;
+                            if (bBuff.name == ((Buff)buff).name)
+                            {
+                                isHave = true;
+                                b.turn += buff.turn;
+                            }
+                        }
+                    }
+                    if(!isHave)
+                        mPoint[pl].buff.Add(buff);
+                }
                 break;
 
             case BuffType.sBuffDamage:
-                buffList.Add(buff);
-                break;
-            case BuffType.sBuffMove:
-                buffList.Add(buff);
-                break;
-            case BuffType.sBuffSkill:
-                buffList.Add(buff);
-                break;
-            case BuffType.sBuffStart:
-                buffList.Add(buff);
-                break;
-            case BuffType.sBuffTurn:
-                buffList.Add(buff);
-                break;
-            case BuffType.sBuffTurnEnd:
-                buffList.Add(buff);
-                break;
+            case BuffType.sBuffMove:              
+            case BuffType.sBuffSkill:             
+            case BuffType.sBuffStart:            
+            case BuffType.sBuffTurn:             
+            case BuffType.sBuffTurnEnd:             
             case BuffType.sBuffDefence:
-                buffList.Add(buff);
-                break;
             case BuffType.sBuffAttack:
-                buffList.Add(buff);
+                {
+                    bool isHave = false;
+                    foreach (BuffBasic b in buffList)
+                    {
+                        if (b.GetType() == typeof(Buff))
+                        {
+                            Buff bBuff = (Buff)b;
+                            if (bBuff.name == ((Buff)buff).name)
+                            {
+                                isHave = true;
+                                b.turn += buff.turn;
+                            }
+                        }
+                    }
+                    if (!isHave)
+                        buffList.Add(buff);
+                }
                 break;
         }
     }
@@ -1536,9 +1544,19 @@ public class MagicCore {
         }
     }
 
-    public void addMonsterBuff(int id, Monster.BuffType type, int count)
+    public void addMonsterBuff(int id, Monster.BuffConnection type, int count)
     {
-        mMonster[id].getAddBuffID((int)type);
+        mMonster[id].playerGiveBuff(type,count,0);
+    }
+
+    public int checkMonsterBuff(int id, Monster.BuffConnection type)
+    {
+        return mMonster[id].checkBuff(type);
+    }
+
+    public void clearMonstBuff(int id, Monster.BuffConnection type)
+    {
+        mMonster[id].checkBuff(type);
     }
 
     public void Victory()
@@ -1731,7 +1749,7 @@ public class MagicCore {
         l = new Line(24, 12, 13);
         r.Add(l);
 
-        l = new Line(25, 13, 8);
+        l = new Line(25, 8, 13);
         r.Add(l);
 
         l = new Line(26, 8, 14);
@@ -1746,7 +1764,7 @@ public class MagicCore {
         l = new Line(29, 12, 15);
         r.Add(l);
 
-        l = new Line(30, 16, 7);
+        l = new Line(30, 7, 16);
         r.Add(l);
 
         l = new Line(31, 7, 17);
@@ -1755,7 +1773,7 @@ public class MagicCore {
         l = new Line(32, 9, 17);
         r.Add(l);
 
-        l = new Line(33, 17, 18);
+        l = new Line(33, 9, 18);
         r.Add(l);
 
         l = new Line(34, 11, 18);
@@ -1764,13 +1782,13 @@ public class MagicCore {
         l = new Line(35, 11, 16);
         r.Add(l);
 
-        l = new Line(36, 0, 13);
+        l = new Line(36, 7, 13);
         r.Add(l);
 
-        l = new Line(37, 0, 14);
+        l = new Line(37, 9, 14);
         r.Add(l);
 
-        l = new Line(38, 0, 15);
+        l = new Line(38, 11, 15);
         r.Add(l);
 
         return r;
@@ -1801,40 +1819,40 @@ public class MagicCore {
         p = new Point(6, PointColor.black, PointType.normal, 2, new List<int> { 5, 10, 11, 21, 22 });
         r.Add(p);
 
-        p = new Point(7, PointColor.red, PointType.normal, 3, new List<int> { 12, 13, 30, 31 });
+        p = new Point(7, PointColor.red, PointType.normal, 3, new List<int> { 12, 13, 30, 31,36 });
         r.Add(p);
 
         p = new Point(8, PointColor.yellow, PointType.normal, 3, new List<int> { 14, 15, 25, 26 });
         r.Add(p);
 
-        p = new Point(9, PointColor.blue, PointType.normal, 3, new List<int> { 16, 17, 23, 33 });
+        p = new Point(9, PointColor.blue, PointType.normal, 3, new List<int> { 16, 17, 32, 33, 37 });
         r.Add(p);
 
-        p = new Point(10, PointColor.red, PointType.normal, 0, new List<int> { 16, 17, 23, 33 });
+        p = new Point(10, PointColor.red, PointType.normal, 3, new List<int> { 18, 19 , 27, 28 });
         r.Add(p);
 
-        p = new Point(11, PointColor.yellow, PointType.normal, 0, new List<int> { 16, 17, 23, 33 });
+        p = new Point(11, PointColor.yellow, PointType.normal, 3, new List<int> { 16, 17, 34, 35,38 });
         r.Add(p);
 
-        p = new Point(12, PointColor.blue, PointType.normal, 0, new List<int> { 13, 15, 22, 23 });
+        p = new Point(12, PointColor.blue, PointType.normal, 3, new List<int> { 22, 23, 24, 29 });
         r.Add(p);
 
-        p = new Point(13, PointColor.black, PointType.normal, 0, new List<int> { 24, 25, 36 });
+        p = new Point(13, PointColor.black, PointType.normal, 2, new List<int> { 24, 25, 36 });
         r.Add(p);
 
-        p = new Point(14, PointColor.black, PointType.normal, 0, new List<int> { 26, 27, 37 });
+        p = new Point(14, PointColor.black, PointType.normal, 2, new List<int> { 26, 27, 37 });
         r.Add(p);
 
-        p = new Point(15, PointColor.black, PointType.normal, 0, new List<int> { 28, 29, 38 });
+        p = new Point(15, PointColor.black, PointType.normal, 2, new List<int> { 28, 29, 38 });
         r.Add(p);
 
-        p = new Point(16, PointColor.white, PointType.normal, 0, new List<int> { 30, 35 });
+        p = new Point(16, PointColor.white, PointType.normal, 3, new List<int> { 30, 35 });
         r.Add(p);
 
-        p = new Point(17, PointColor.white, PointType.normal, 0, new List<int> { 31, 32 });
+        p = new Point(17, PointColor.white, PointType.normal, 3, new List<int> { 31, 32 });
         r.Add(p);
 
-        p = new Point(18, PointColor.white, PointType.normal, 0, new List<int> { 33, 34 });
+        p = new Point(18, PointColor.white, PointType.normal, 3, new List<int> { 33, 34 });
         r.Add(p);
 
         return r;

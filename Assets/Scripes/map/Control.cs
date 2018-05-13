@@ -88,13 +88,14 @@ public class Control : MonoBehaviour {
             GameObject lineP = GameObject.Instantiate(linePerb);
             lineP.gameObject.layer = 8;
             lineP.transform.parent = lines.transform;
-            lineP.SetActive(false);
+
+            //lineP.SetActive(false);
             lineGameObjectlist.Add(lineP);
 
-            if (Plist[p1].MaxMagic != 0 && Plist[p2].MaxMagic != 0)
-            {
-                lineP.SetActive(true);
-            }
+            //if (Plist[p1].MaxMagic != 0 && Plist[p2].MaxMagic != 0)
+            //{
+            //    lineP.SetActive(true);
+            //}
         }
     }
     }

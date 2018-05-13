@@ -64,22 +64,31 @@ public class CharactorBuffTool {
         buff = new Buff(BuffName.无敌, 1, BuffType.sBuffDamage, -1, false);
         buff.DE += Unstopable;
         buffs.Add(buff);
+
+        buff = new Buff(BuffName.毒雾, 100, BuffType.sBuffTurn, -1, false);
+        buff.NE += PoisonFroge;
+        buffs.Add(buff);
         //示例item：名字：例子 ，执行类型：全局移动时触发，计数器个数3（如果不需要计数器，这里设置成1就行）
-        ItemBuff iBuff = new ItemBuff(ItemName.例子, BuffType.sBuffMove, 3);
+        ItemBuff iBuff = new ItemBuff(ItemName.炼金阵, BuffType.sBuffMove, 3);
         iBuff.ME += Simple;//添加事件函数，函数本体在最下边
         //添加到你的储存数组中，自己新建一个c#文件完成工具类
     }
 
- 
-     
+    /// <summary>
+    /// 返回所需buff
+    /// </summary>
+    /// <param name="bName"></param>
+    /// <returns></returns>
     public BuffBasic getBuff(BuffName bName)
     {
-        return buffs[(int)bName]; 
-    }
-
-    public BuffBasic getItem(ItemName iName)
-    {
-        return buffs[(int)iName];
+        for (int i = 0; i < buffs.Count; ++i)
+        {
+            if (((Buff)buffs[i]).name == bName)
+            {
+                return buffs[i];
+            }
+        }
+        return buffs[0];
     }
 
     /// <summary>
@@ -209,6 +218,20 @@ public class CharactorBuffTool {
     void addBasic(ref Magic m)
     {
         m.skill.addbasic += 5;
+    }
+
+    /// <summary>
+    /// 对所有存活的怪物施加3层中毒buff
+    /// </summary>
+    void PoisonFroge()
+    {
+        for (int i = 0; i < 4; ++i)
+        {
+            if (magic.isMonsterLive(i))
+            {
+                magic.addMonsterBuff(i, Monster.BuffConnection.Poison, 3);
+            }
+        }
     }
 
     /// <summary>
