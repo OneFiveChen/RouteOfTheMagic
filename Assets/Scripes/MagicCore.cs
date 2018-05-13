@@ -1749,7 +1749,7 @@ public class MagicCore {
         l = new Line(24, 12, 13);
         r.Add(l);
 
-        l = new Line(25, 13, 8);
+        l = new Line(25, 8, 13);
         r.Add(l);
 
         l = new Line(26, 8, 14);
@@ -1764,7 +1764,7 @@ public class MagicCore {
         l = new Line(29, 12, 15);
         r.Add(l);
 
-        l = new Line(30, 16, 7);
+        l = new Line(30, 7, 16);
         r.Add(l);
 
         l = new Line(31, 7, 17);

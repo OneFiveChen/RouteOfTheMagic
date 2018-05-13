@@ -27,6 +27,7 @@ public class Clickcontrol : MonoBehaviour {
     private GameObject instance;
     private GameObject btnGameObject;
     private List<GameObject> lineGameObjectlist;
+    private List<GameObject> pointGameObjectlist;
     ItemBuff Ibuff;
     ItemName it;
     
@@ -48,6 +49,7 @@ public class Clickcontrol : MonoBehaviour {
         monster = new Monster();
         mouse = new mouseevent();
         lineGameObjectlist = new List<GameObject>();
+        pointGameObjectlist = new List<GameObject>();
         isDrag = false;
         isAttacking = false;
         isShow = false;
@@ -96,9 +98,9 @@ public class Clickcontrol : MonoBehaviour {
         }
 
         //说明框位置跟随
-        showState.transform.position = 
-            new Vector3((int)Input.mousePosition.x - (int)width*showState.transform.localScale.x / 2+0.1f, 
-            (int)Input.mousePosition.y + (int)height * showState.transform.localScale.y / 2+0.1f, 0);
+        //showState.transform.position = 
+        //    new Vector3((int)Input.mousePosition.x - (int)width*showState.transform.localScale.x / 2+0.1f, 
+        //    (int)Input.mousePosition.y + (int)height * showState.transform.localScale.y / 2+0.1f, 0);
 
         //检测怪物是否活着
         for(int i=0;i<4;++i)
@@ -118,6 +120,9 @@ public class Clickcontrol : MonoBehaviour {
             MapMain.Instance.SceneEnd(true);
             canvas.SetActive(false);
         }
+
+        //控制特效刷新
+        EFController.Instance.Update();
     }
     //初始化
     public void startinit()
@@ -150,12 +155,15 @@ public class Clickcontrol : MonoBehaviour {
         instance=GameObject.Instantiate(instance, mPos,Quaternion.identity);
         instance.transform.parent = nodes.transform;
         instance.transform.localPosition = mPos;
-        instance.tag = (int.Parse(instance.tag) + 1).ToString();
+        if(pointGameObjectlist.Count != 0)
+        instance.tag = (int.Parse(instance.tag)+1).ToString();
         instance.name = "Point" + instance.tag;
+        pointGameObjectlist.Add(instance);
     }
 
     public void InitPointPos()
     {
+        InitPoint(0, 0);
         for (int i = 0; i < 6; ++i)
         {
             InitPoint(1.8f, 120 - i * 60);
@@ -200,9 +208,26 @@ public class Clickcontrol : MonoBehaviour {
             {
                 lineP.SetActive(true);
             }
-                
-
         }
+
+        //特效测试
+        for (int i = 0; i < 6; ++i)
+        {
+            Line l = lineList[i];
+            EFController.Instance.NewLineCreatAnimation(pointGameObjectlist[l.p1], pointGameObjectlist[l.p2], lineGameObjectlist[i], 0, 30);
+        }
+        for (int i = 6; i < 24; ++i)
+        {
+            Line l = lineList[i];
+            EFController.Instance.NewLineCreatAnimation(pointGameObjectlist[l.p1], pointGameObjectlist[l.p2], lineGameObjectlist[i], 40, 25);
+        }
+        for (int i = 24; i < 39; ++i)
+        {
+            Line l = lineList[i];
+            EFController.Instance.NewLineCreatAnimation(pointGameObjectlist[l.p1], pointGameObjectlist[l.p2], lineGameObjectlist[i], 75, 20);
+        }
+
+
     }
     
     public Color toLineColor(lineState lineSt)
@@ -217,7 +242,7 @@ public class Clickcontrol : MonoBehaviour {
                 lineColor = Color.blue;
                 break;
             case lineState.normal:
-                lineColor = Color.black;
+                lineColor = Color.white;
                 break;
             case lineState.used:
                 lineColor = Color.red;
@@ -325,6 +350,7 @@ public class Clickcontrol : MonoBehaviour {
         {
             if (ed.damage != 0)
             {
+                if (lineGameObjectlist.Count > 0)
                 foreach (Transform child in lineGameObjectlist[ed.ID].transform)
                 {
                     Vector3 pos1 = child.parent.GetComponent<LineRenderer>().GetPosition(0);
@@ -339,9 +365,11 @@ public class Clickcontrol : MonoBehaviour {
             }
             else
             {
+                if(lineGameObjectlist.Count > 0)
                 foreach (Transform child in lineGameObjectlist[ed.ID].transform)
                 {
-                    child.GetComponent<TextMesh>().text = null;
+                    child.GetComponentInChildren<TextMesh>().text = null;
+                    
                 }
             }
         }

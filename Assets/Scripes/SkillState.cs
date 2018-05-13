@@ -30,7 +30,6 @@ public class SkillState : MonoBehaviour {
     public void show()
     {
         string[] lines = SkilltextGlobal.text.Split("\n"[0]);
-        Debug.Log(lines.Length);
         for (int i = 0; i < lines.Length; ++i)
         {
             string[] parts = lines[i].Split(" "[0]);
