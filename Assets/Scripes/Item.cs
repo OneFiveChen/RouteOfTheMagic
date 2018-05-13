@@ -116,8 +116,6 @@ public class ItemTool {
     public void TheUniversalnode()
     {
         int t = magiccore.getTurn();
-
-
         int pos;
         Point p;
         pos = magiccore.getPos();
@@ -235,7 +233,7 @@ public class ItemTool {
 
     public void DoubleedgedStaff()
     {
-        Debug.Log(magiccore.getATK());
+        
         magiccore.setATK(magiccore.getATK()+2);
        
         magiccore.setDEF(magiccore.getDEF()-1);        
@@ -288,21 +286,16 @@ public class ItemTool {
 
     public void DeathEnd1(Damage dam)
     {
-        int hp;
-        int damage;
-        hp = magiccore.getHP();
-        Debug.Log(hp);
-        
+        int hp;       
+        hp = magiccore.getHP();             
         if (hp <= 0)
         {
             if (doingbuff.count == 0)
             {
-                magiccore.addBuff(magiccore.skillTool.buffTool.getBuff(BuffName.无敌),-1);
-                
+                magiccore.addBuff(magiccore.skillTool.buffTool.getBuff(BuffName.无敌),-1);                
                 magiccore.setHP(hp);
                 doingbuff.count += 1;
-            }
-           
+            }           
         }
         else
         { }
