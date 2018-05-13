@@ -1349,6 +1349,32 @@ public class MagicCore {
     }
 
     //工具
+    public List<ItemName> getItemList()
+    {
+        List<ItemName> r = new List<ItemName>();
+        foreach (BuffBasic b in buffList)
+        {
+            if (b.GetType() == typeof(ItemBuff))
+            {
+                r.Add(((ItemBuff)b).iName);
+            }
+        }
+        return r;
+    }
+
+    public Dictionary<BuffName, int> GetBuffList()
+    {
+        Dictionary<BuffName, int> r = new Dictionary<BuffName, int>();
+        foreach (BuffBasic b in buffList)
+        {
+            if (b.GetType() == typeof(Buff))
+            {
+                r.Add(((Buff)b).name,((Buff)b).turn);
+            }
+        }
+        return r;
+    }
+
     public void initCore(List<Point> pList, List<Line> lList)
     {
         mPoint = pList;
