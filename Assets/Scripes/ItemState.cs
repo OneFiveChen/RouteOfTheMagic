@@ -44,6 +44,7 @@ using UnityEngine.UI;
         }
     public void show()
         {
+        Debug.Log("Adasd");
             string[] lines = itemTextGlobal.text.Split("\n"[0]);
             for (int i = 0; i < lines.Length; ++i)
             {

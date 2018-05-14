@@ -157,7 +157,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 9
+  orthographic size: 50
   m_Depth: 10
   m_CullingMask:
     serializedVersion: 2
@@ -219,7 +219,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -541, y: 0}
+  m_AnchoredPosition: {x: -61, y: 0}
   m_SizeDelta: {x: 160, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &168129554
@@ -509,6 +509,11 @@ Prefab:
       propertyPath: m_SortingOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 212869563585739530, guid: 88b43a5040aa9674c9a524315efbb7d1,
+        type: 2}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 88b43a5040aa9674c9a524315efbb7d1, type: 2}
   m_IsPrefabParent: 0
@@ -625,7 +630,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 293, y: 243}
+  m_AnchoredPosition: {x: 106, y: 260}
   m_SizeDelta: {x: 125.4, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &759121672
@@ -1080,7 +1085,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 292.99997, y: 242.99997}
+  m_AnchoredPosition: {x: 105, y: 260}
   m_SizeDelta: {x: 125.4, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1475619422
