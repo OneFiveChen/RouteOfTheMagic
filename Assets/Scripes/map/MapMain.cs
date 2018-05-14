@@ -249,10 +249,8 @@ namespace RouteOfTheMagic
             int length = 500 / layerCount;
             for (int i = 0; i < map.Count; i++)
             {
-                Debug.Log("层");
                 for (int j = 0; j < map[i].Count; j++)
                 {
-                    Debug.Log("节点");
                     int layerXNum = map[i].Count * -50 + 50;
                     int layerYNum = 0;
                     if (i == map.Count - 1)
@@ -287,7 +285,6 @@ namespace RouteOfTheMagic
                     //Button btn = new Button();
                     for (int m = 0; m < map[i][j].child.Count; m++)
                     {
-                        Debug.Log(map[i][j].child[m]);
                         int num = map[i][j].child[m];
                         mapLine li = new mapLine();
 

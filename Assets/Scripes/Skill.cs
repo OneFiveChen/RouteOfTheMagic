@@ -184,7 +184,7 @@ public class SkillTool {
         }
     }
 
-    Skill getSkill(SkillName sk)
+    public Skill getSkill(SkillName sk)
     {
         foreach (Skill s in skillList)
         {
@@ -640,6 +640,8 @@ public class SkillTool {
         List<Skill> skill = new List<Skill>();
         skill.Add(skillList[0]);
         skill.Add(skillList[37]); //加一个魔法飞弹
+        skill.Add(skillList[2]);
+        skill.Add(skillList[3]);
         return skill;
     }
 
@@ -660,7 +662,7 @@ public class SkillTool {
         int atk = 0;
         for (int i = pStart; i <= pEnd; ++i)
         {
-            atk += point[route[i].pEnd].MaxMagic;
+            atk += point[route[i].pEnd].magic;
         }
 
         atk = (int)Mathf.Ceil(atk * (magic.skill.power + magic.skill.addpower)) + (int)magic.skill.basic + (int)magic.skill.addbasic;

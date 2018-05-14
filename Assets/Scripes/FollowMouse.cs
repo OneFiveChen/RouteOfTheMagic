@@ -18,10 +18,10 @@ public class FollowMouse : MonoBehaviour {
 	
 	// Update is called once per frame
 	public void Update () {
-        //移动说明框
-        panel.transform.position =
-    new Vector3((int)Input.mousePosition.x - (int)width * panel.transform.localScale.x / 2 - 10f,
-    (int)Input.mousePosition.y + (int)height * panel.transform.localScale.y / 2+10f, 0);
-        //Debug.Log(panel.transform.position);
+    //    //移动说明框
+    //    panel.transform.position =
+    //new Vector3((int)Input.mousePosition.x - (int)width * panel.transform.localScale.x / 2 - 10f,
+    //(int)Input.mousePosition.y + (int)height * panel.transform.localScale.y / 2+10f, 0);
+    //    //Debug.Log(panel.transform.position);
     }
 }

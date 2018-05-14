@@ -29,7 +29,7 @@ public class mouseevent : MonoBehaviour {
         else if (!magic.getPointBroked(int.Parse(this.tag)))
         {
             this.GetComponentInChildren<TextMesh>().text =
-            magic.getPoint(int.Parse(this.tag)).magic + "/" + magic.getPoint(int.Parse(this.tag)).MaxMagic;
+            magic.getPoint(int.Parse(this.tag)).magic + "";
             this.GetComponent<SpriteRenderer>().sprite = oldSprite;
         }
         //节点颜色初始化
@@ -40,9 +40,9 @@ public class mouseevent : MonoBehaviour {
         }
         //当前节点变大
         if (magic.getPos() == int.Parse(this.tag))
-            this.transform.localScale = new Vector3(5, 5, 0);
-        else
             this.transform.localScale = new Vector3(3, 3, 0);
+        else
+            this.transform.localScale = new Vector3(2, 2, 0);
 
         //空白处按右键，取消所有操作
         if (Input.GetMouseButton(1) && Clickcontrol.isDrag)
@@ -91,19 +91,19 @@ public class mouseevent : MonoBehaviour {
         switch (pointC)
         {
             case PointColor.black:
-                color = Color.black;
+                color = new Color(0.1f,0.11f,0.12f);
                 break;
             case PointColor.blue:
-                color = Color.blue;
+                color = new Color(0.4f, 0.6f, 0.9f);
                 break;
             case PointColor.red:
-                color = Color.red;
+                color = new Color(0.9f, 0.4f, 0.4f);
                 break;
             case PointColor.white:
-                color = Color.white;
+                color = new Color(0.83f, 0.85f, 0.87f);
                 break;
             case PointColor.yellow:
-                color = Color.yellow;
+                color = new Color(0.9f, 0.9f, 0.5f);
                 break;
         }
         return color;

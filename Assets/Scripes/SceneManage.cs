@@ -7,8 +7,8 @@ public class SceneManage : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
-	}
+        Screen.SetResolution(450, 800, false);
+    }
 	
 	// Update is called once per frame
 	void Update () {
