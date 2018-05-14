@@ -1684,6 +1684,11 @@ public class MagicCore {
     }
 
     //查询接口
+    public void setSkill(Skill s, int id)
+    {
+        mSkill[id] = s;
+    }
+
     public bool getSKillHad(SkillName sk)
     {
         bool r = false;
