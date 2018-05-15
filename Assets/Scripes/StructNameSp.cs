@@ -168,6 +168,7 @@ namespace RouteOfTheMagic
         transport = 5,                    //要施法传送时的状态
         endturn = 6,                      //强制回合结束
         fixPoint = 7,                     //修复节点操作
+        wait = 8,                         //等待特效释放完毕
         count
     };
 

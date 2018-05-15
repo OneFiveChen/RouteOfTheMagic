@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using RouteOfTheMagic;
 
 public class EFController{
 
@@ -48,9 +49,16 @@ public class EFController{
                 switch (ef.type)
                 {
                     case EFType.LineEffect:
-                       
                         LineEffect lef = (LineEffect)ef;
                         lef.lineEF(lef.sGO, lef.eGO, lef.selfGO, rate);
+                        break;
+                    case EFType.RingEffect:
+                        RingEffect e = (RingEffect)ef;
+                        e.ringEF(e.selfGO, e.sSize, e.eSize, e.sAlpha, e.eAlpha, 0 ,rate);
+                        break;
+                    case EFType.FigureEffect:
+                        FigureEffect f = (FigureEffect)ef;
+                        f.figureEF(f.selfGO, rate);
                         break;
                 }
                 if (ef.nowTime == ef.runningTime)
@@ -62,7 +70,11 @@ public class EFController{
                 }
             }
         }
-	}
+        if (efList.Count > 0)
+            MagicCore.Instance.setFlag(ClickFlag.wait);
+        else
+            MagicCore.Instance.setFlag(ClickFlag.normal);
+    }
 
     /// <summary>
     /// 新建一个线特效
@@ -81,6 +93,39 @@ public class EFController{
         lineEffect.EFEnd += lineCreateEnd;
         lineEffect.lineEF += lineCreateRunning;
         efList.Add(lineEffect);
+    }
+
+    /// <summary>
+    /// 生产圆环的特效
+    /// </summary>
+    /// <param name="ring"></param>
+    /// <param name="delay"></param>
+    /// <param name="time"></param>
+    /// <param name="size"></param>
+    /// <param name="alpha"></param>
+    public void NewRingCreatAnimation(GameObject ring, int delay, int time, float size, float alpha)
+    {
+        ring.transform.localScale = Vector3.zero;
+        RingEffect ringEffect = new RingEffect(delay, time, EFType.RingEffect,ring, 0, size, 0, alpha, 0);
+        ringEffect.ringEF += ringCreateRunning;
+        ringEffect.EFStart += nothing;
+        ringEffect.EFEnd += nothing;
+        efList.Add(ringEffect);
+    }
+
+    /// <summary>
+    /// 生成花纹的特效
+    /// </summary>
+    /// <param name="f"></param>
+    /// <param name="delay"></param>
+    /// <param name="time"></param>
+    public void NewFigureCreateAnimation(GameObject f, int delay, int time)
+    {
+        FigureEffect figureEffect = new FigureEffect(delay, time, EFType.FigureEffect, f);
+        figureEffect.figureEF += figureCreateRunning;
+        figureEffect.EFStart += nothing;
+        figureEffect.EFEnd += nothing;
+        efList.Add(figureEffect);
     }
 
     void lineCreateRunning(GameObject sGO, GameObject eGO, GameObject line, float rate)
@@ -106,17 +151,41 @@ public class EFController{
         self.GetComponentInChildren<ParticleSystem>().Stop();
     }
 
-    public void nothing() { }
+    void ringCreateRunning(GameObject ring, float s1, float s2, float a1, float a2, float r, float rate)
+    {
+        float a = s1 - s2;
+        float b = -2*a;
+
+        float size = rate * rate * a + rate * b + s1;
+        float alpha = (a2 - a1) * rate;
+
+        ring.transform.localScale = new Vector3(size,size,1);
+        Color c = ring.GetComponent<SpriteRenderer>().color;
+        c.a = alpha + a1;
+        ring.GetComponent<SpriteRenderer>().color = c;
+        
+        ring.transform.Rotate(0, 0, r);
+    }
+
+    void figureCreateRunning(GameObject self, float rate)
+    {
+        self.GetComponent<SpriteRenderer>().material.SetFloat("_Rate", rate);
+    }
+
+    public void nothing(GameObject s) { }
 }
 
 public enum EFType
 {
     LineEffect = 0,
-    PointEffect = 2,
+    FigureEffect = 2,
+    RingEffect = 3,
+    count
 }
 
 class EffectBasic
 {
+
     public int delayFrame;
     public int runningTime;
     public int nowTime;
@@ -144,5 +213,43 @@ class LineEffect:EffectBasic
     public GameObject eGO;
 }
 
+class RingEffect : EffectBasic
+{
+    public RingEffect(int delay, int time, EFType t, GameObject r,float s1,float s2,float a1,float a2,float angel)
+    {
+        delayFrame = delay;
+        runningTime = time;
+        type = t;
+        selfGO = r;
+        sSize = s1;
+        eSize = s2;
+        sAlpha = a1;
+        eAlpha = a2;
+        TotalRotateAngle = angel;
+
+    }
+    public REF ringEF;
+
+    public float sSize;
+    public float eSize;
+    public float sAlpha;
+    public float eAlpha;
+    public float TotalRotateAngle;
+}
+
+class FigureEffect : EffectBasic
+{
+    public FigureEffect(int delay, int time, EFType t,GameObject l)
+    {
+        delayFrame = delay;
+        runningTime = time;
+        type = t;
+        selfGO = l;
+    }
+    public FEF figureEF;
+}
+
 delegate void LEF(GameObject sGO, GameObject eGO, GameObject line,float rate);
 delegate void EFDelegate(GameObject selfGO);
+delegate void REF(GameObject ring, float s1,float s2, float a1,float a2,float r,float rate);
+delegate void FEF(GameObject figure, float rate);

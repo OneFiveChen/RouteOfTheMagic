@@ -141,7 +141,7 @@ public class MagicCore {
         
 
         //首先正序判断一次=======================================================================================================
-        if (sdt == SkillDoType.oneWay || sdt == SkillDoType.twoWay)
+        if (sdt == SkillDoType.oneWay || sdt == SkillDoType.twoWay && mRoute.Count > 0)
         {
             int subRstart = -1;
             int subRend = -1;
@@ -186,7 +186,8 @@ public class MagicCore {
                     {
                         if (mPoint[mRoute[i].pEnd].color == require[0] && !mPoint[mRoute[i].pEnd].isBroken)
                         {
-                            subRend = i;
+                            if (i == mRoute.Count - 1)
+                                subRend = i;
                         }
                     }
                     if (subRend != -1)   //找到才添加
@@ -251,7 +252,8 @@ public class MagicCore {
             {
                 if (mPoint[mRoute[i].pEnd].color == require[require.Count - 1] && !mPoint[mRoute[i].pEnd].isBroken)
                 {
-                    subRend = i;
+                    if(i == mRoute.Count - 1)
+                        subRend = i;
                 }
             }
             if (subRend == -1) //如果终点判定不通过，退出
@@ -278,7 +280,7 @@ public class MagicCore {
             }
         }
         //如果要求无序的话===================================================================================
-        if (sdt == SkillDoType.unorder)
+        if (sdt == SkillDoType.unorder && mRoute.Count > 0)
         {
             int uoS = -1;
             int uoE = -1;
@@ -296,7 +298,7 @@ public class MagicCore {
                 }
 
                 //找头
-                for (int i = 0; i < mRoute.Count; ++i)
+                for (int i = 0; i < mRoute.Count - 1; ++i)
                 {
                     for (int j = 0; j < require.Count; ++j)
                         if (mPoint[mRoute[i].pEnd].color == require[j] && !mPoint[mRoute[i].pEnd].isBroken)
@@ -309,18 +311,15 @@ public class MagicCore {
                         break;
                 }
                 //找尾
-                for (int i = mRoute.Count - 1; i >= 0; --i)
-                {
-                    for (int j = 0; j < require.Count; ++j)
-                        if (mPoint[mRoute[i].pEnd].color == require[j] && !mPoint[mRoute[i].pEnd].isBroken)
-                        {
-                            require.RemoveAt(j);
-                            pE = i;
-                            break;
-                        }
-                    if (pE != -1)
+                for (int j = 0; j < require.Count; ++j)
+                    if (mPoint[mRoute[mRoute.Count - 1].pEnd].color == require[j] && !mPoint[mRoute[mRoute.Count - 1].pEnd].isBroken)
+                    {
+                        
+                        require.RemoveAt(j);
+                        pE = mRoute.Count - 1;
                         break;
-                }
+                    }
+                    
                
                 if (pS != -1 && pE != -1 && pE >= pS && require.Count > 0) //如果找到了合适的头尾点,并且还需要判断中间点
                 {
@@ -333,14 +332,16 @@ public class MagicCore {
                                 require.RemoveAt(j);
                             }
                     }
-                    if (require.Count == 0)
-                    {
-                        //完全符合条件
-                        uoS = pS;
-                        uoE = pE;
-                        isPos = 0;
-                        
-                    }
+                    
+                }
+
+                if (require.Count == 0)
+                {
+                    //完全符合条件
+                    uoS = pS;
+                    uoE = pE;
+                    isPos = 0;
+
                 }
             }
 
@@ -369,18 +370,16 @@ public class MagicCore {
                         break;
                 }
                 //找头
-                for (int i = 0; i < mRoute.Count; ++i)
-                {
-                    for (int j = 0; j < require.Count; ++j)
-                        if (mPoint[mRoute[i].pEnd].color == require[j] && !mPoint[mRoute[i].pEnd].isBroken)
-                        {
-                            require.RemoveAt(j);
-                            pS = i;
-                            break;
-                        }
-                    if (pS != -1)
+
+                for (int j = 0; j < require.Count; ++j)
+                    if (mPoint[mRoute[mRoute.Count - 1].pEnd].color == require[j] && !mPoint[mRoute[mRoute.Count - 1].pEnd].isBroken)
+                    {
+                        require.RemoveAt(j);
+                        pS = mRoute.Count - 1;
                         break;
-                }
+                    }
+              
+                
                 if (pS != -1 && pE != -1 && pE >= pS && require.Count > 0) //如果找到了合适的头尾点,并且还需要判断中间点
                 {
                     //识别中间点
@@ -392,14 +391,15 @@ public class MagicCore {
                                 require.RemoveAt(j);
                             }
                     }
-                    if (require.Count == 0)                        //完全符合条件
+                }
+
+                if (require.Count == 0)                        //完全符合条件
+                {
+                    if (pE - pS > uoE - uoS)         //并且长度较大
                     {
-                        if (pE - pS > uoE - uoS)         //并且长度较大
-                        {
-                            uoS = pS;
-                            uoE = pE;
-                            isPos = 1;
-                        }
+                        uoS = pS;
+                        uoE = pE;
+                        isPos = 1;
                     }
                 }
             }
@@ -450,7 +450,6 @@ public class MagicCore {
         }
         int pcID = 0;
 
-        Debug.Log(RStart);
         //恢复魔力
         for (int i = 0; i < RStart; ++i)
         {
@@ -1888,13 +1887,13 @@ public class MagicCore {
         p = new Point(9, PointColor.blue, PointType.normal, 3, new List<int> { 16, 17, 32, 33, 37 });
         r.Add(p);
 
-        p = new Point(10, PointColor.red, PointType.normal, 3, new List<int> { 18, 19 , 27, 28 });
+        p = new Point(10, PointColor.red, PointType.normal, 0, new List<int> { 18, 19 , 27, 28 });
         r.Add(p);
 
-        p = new Point(11, PointColor.yellow, PointType.normal, 3, new List<int> { 16, 17, 34, 35,38 });
+        p = new Point(11, PointColor.yellow, PointType.normal, 0, new List<int> { 16, 17, 34, 35,38 });
         r.Add(p);
 
-        p = new Point(12, PointColor.blue, PointType.normal, 3, new List<int> { 22, 23, 24, 29 });
+        p = new Point(12, PointColor.blue, PointType.normal, 0, new List<int> { 22, 23, 24, 29 });
         r.Add(p);
 
         p = new Point(13, PointColor.black, PointType.normal, 2, new List<int> { 24, 25, 36 });
@@ -1906,13 +1905,13 @@ public class MagicCore {
         p = new Point(15, PointColor.black, PointType.normal, 2, new List<int> { 28, 29, 38 });
         r.Add(p);
 
-        p = new Point(16, PointColor.white, PointType.normal, 3, new List<int> { 30, 35 });
+        p = new Point(16, PointColor.white, PointType.normal, 0, new List<int> { 30, 35 });
         r.Add(p);
 
-        p = new Point(17, PointColor.white, PointType.normal, 3, new List<int> { 31, 32 });
+        p = new Point(17, PointColor.white, PointType.normal, 0, new List<int> { 31, 32 });
         r.Add(p);
 
-        p = new Point(18, PointColor.white, PointType.normal, 3, new List<int> { 33, 34 });
+        p = new Point(18, PointColor.white, PointType.normal, 0, new List<int> { 33, 34 });
         r.Add(p);
 
         return r;
