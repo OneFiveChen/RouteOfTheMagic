@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace RouteOfTheMagic
 {
-    [RequireComponent(typeof(Monster))]
-    public class BigSpider : MonoBehaviour
+    public class BigSpider : Monster
     {
-        Monster monster;
+
         // Use this for initialization
         void Start()
         {
-            monster = GetComponent<Monster>();
+            
         }
 
         // Update is called once per frame
@@ -19,11 +18,16 @@ namespace RouteOfTheMagic
 
         }
 
-        public void attackTurn()
+
+
+        public override void SkillBox()
         {
-            monster.attackPlayer(Monster.AttackType.Random);
+            
+        }
+
+        public override void SpecialEffect()
+        {
             //****************add player 毒 buff 
-            return;         //补写攻击返回攻击点与攻击力
         }
     }
 }

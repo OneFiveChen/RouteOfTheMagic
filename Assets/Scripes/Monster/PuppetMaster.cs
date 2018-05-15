@@ -3,18 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace RouteOfTheMagic
 {
-    [RequireComponent(typeof(Monster))]
-    public class PuppetMaster : MonoBehaviour
+    public class PuppetMaster : Monster
     {
-        Monster monster;
         public GameObject puppet;
         List<GameObject> puppetList;
         int countNum;
         // Use this for initialization
-        void Start()
+        public override void Start()
         {
+            base.Start();
             //********check当前怪物空位多少，占满
-            monster = GetComponent<Monster>();
             countNum = 0;
             puppetList = new List<GameObject>();
             GameObject puppetone = Instantiate(puppet);
@@ -36,7 +34,7 @@ namespace RouteOfTheMagic
                 GameObject temppuppet = Instantiate(puppet);
                 puppetList.Add(temppuppet);
             }
-            monster.attackPlayer(Monster.AttackType.Random);
+        //    monster.attackPlayer(Monster.AttackType.Random);
             return;
         }
     }

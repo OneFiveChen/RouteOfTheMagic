@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace RouteOfTheMagic
 {
-    [RequireComponent(typeof(Monster))]
-    public class Boss_TurnMan : MonoBehaviour
+    public class Boss_TurnMan : Monster
     {
-        Monster monster;
+       
         // Use this for initialization
-        void Start()
+        public override void Start()
         {
-            monster = GetComponent<Monster>();
+            base.Start();
         }
 
         // Update is called once per frame

@@ -13,10 +13,19 @@ namespace RouteOfTheMagic
         public int attackValue;
         public AttackType attackType;
         public List<buff> buffList = new List<buff>();
+        public List<Point> panelPoint = new List<Point>();
+        public List<Line> panelLine = new List<Line>();
 
 
         [HideInInspector]
         public int dodgeValue;
+
+        public virtual void Start()
+        {
+            panelPoint = MagicCore.Instance.getPoint();
+            panelLine = MagicCore.Instance.getLine();
+
+        }
 
         /// <summary>
         /// Reduces the monster hp.
@@ -251,26 +260,21 @@ namespace RouteOfTheMagic
             /// </summary>
             Random = 0,
             /// <summary>
-            /// The out line of route.
-            /// </summary>
-            VLine = 1,
-            /// <summary>
-            /// The inside line.
-            /// </summary>
-            XLine = 2,
-            /// <summary>
             /// The circle line(Only for boss, rare skill).
             /// </summary>
-            OLine = 3,
+            OLine = 1,
             /// <summary>
             /// The middle core of all.
             /// </summary>
-            DoubleLine = 4,
+            DoubleLine = 2,
             /// <summary>
             /// The trible line.
             /// </summary>
-            TribleLine = 5,
-            PointLine = 6,
+            TribleLine = 3,
+            /// <summary>
+            /// The point line.
+            /// </summary>
+            PointLine = 4,
         }
 
         public struct buff
@@ -378,8 +382,6 @@ namespace RouteOfTheMagic
         /// <summary>
         /// Gets the add buff identifier from magic core.
         /// </summary>
-        /// <param name="buffid">Buffid.</param>
-
         public void playerGiveBuff(BuffConnection buff,int bufftime,int buffvalue)
         {
             switch (buff)
@@ -452,6 +454,7 @@ namespace RouteOfTheMagic
         public List<int> attackDeclaration()
         {
             List<int> tempValue = new List<int>();
+            List<int> tempLine = new List<int>();
             int tempAttackValue = attackValue;
             for (int i = 0; i < buffList.Count; i++)
             {
@@ -466,34 +469,29 @@ namespace RouteOfTheMagic
                     tempAttackValue -= buffList[i].buffValue;
                 }
             }
-            tempValue.Add(6);
-            tempValue.Add(11);
+            tempValue.Add(tempAttackValue);
+            
             if (attackType == AttackType.Random)
             {
-                //访问线的list
-                //tempValue.Add(line);
+                tempLine = GetRandomLine(1);
             }
-            if (attackType == AttackType.VLine)
+            if (attackType == AttackType.TribleLine)
             {
-
-            }
-            if (attackType == AttackType.XLine)
-            {
-
-            }
-            if (attackType == AttackType.OLine)
-            {
-
+                tempLine = GetTribleLine();
             }
             if (attackType == AttackType.DoubleLine)
             {
-
+                tempLine = GetDoubleLine();
             }
             if (attackType == AttackType.PointLine)
             {
-
+                tempLine = GetPointLine();
             }
-           // tempValue.Add(tempAttackValue);
+            for (int i = 0; i < tempLine.Count; i++)
+            {
+                tempValue.Add(tempLine[i]);
+            }
+           // tempValue.Add(11);
             return tempValue;   
         }
 
@@ -542,39 +540,110 @@ namespace RouteOfTheMagic
             }
         }
 
-        ///// <summary>
-        ///// Attacks the player line.
-        ///// </summary>
-        ///// <param name="attackType">Attack type presented by the enum AttackType.</param>
-        public void attackPlayer(AttackType attackType)
+        /// <summary>
+        /// Gets the random line.
+        /// </summary>
+        /// <returns>The random line.</returns>
+        /// <param name="randomNum">Random number.</param>
+        public List<int> GetRandomLine(int randomNum)
+        {
+            List<int> tempList = new List<int>();
+            List<Line> tempLine = new List<Line>();
+            List<int> haveChoosedLine = new List<int>();
+            tempLine = MagicCore.Instance.getLine();
+            while (tempList.Count<randomNum)
+            {
+                int tempLineNum = Random.Range(0, (tempLine.Count - 1));
+                if(!haveChoosedLine.Contains(tempLineNum))
+                {
+                    haveChoosedLine.Add(tempLineNum);
+                    tempList.Add(tempLine[tempLineNum].roateID);
+                }else{
+                    continue;
+                }
+            }
+            return tempList;
+        }
+
+        /// <summary>
+        /// Gets the double line.
+        /// </summary>
+        /// <returns>The double line num.</returns>
+        public List<int> GetDoubleLine()
+        {
+            List<int> tempList = new List<int>();
+            List<Line> tempLine = new List<Line>();
+            tempLine = MagicCore.Instance.getLine();
+            int tempLineNum = Random.Range(0, (tempLine.Count - 1));
+            tempList.Add(tempLine[tempLineNum].roateID);
+
+            Point jointPoint = MagicCore.Instance.getPoint(tempLine[tempLineNum].p1);
+            int tempLineNum2 = Random.Range(0,(jointPoint.line.Count-1));
+            while(tempLine[tempLineNum].roateID == jointPoint.line[tempLineNum2])
+            {
+                tempLineNum2 = Random.Range(0, (jointPoint.line.Count - 1));
+            }
+            tempList.Add(jointPoint.line[tempLineNum2]);
+            //Debug.Log("Num1+++" + tempLine[tempLineNum].roateID + "++Num2++" + jointPoint.line[tempLineNum2]);
+            return tempList;
+        }
+
+        /// <summary>
+        /// Gets the trible line.
+        /// </summary>
+        /// <returns>The trible line.</returns>
+        public List<int> GetTribleLine()
+        {
+            List<int> tempList = new List<int>();
+            List<Line> tempLine = new List<Line>();
+            tempLine = MagicCore.Instance.getLine();
+            int tempLineNum = Random.Range(0, (tempLine.Count - 1));
+            tempList.Add(tempLine[tempLineNum].roateID);
+
+            Point jointPoint = MagicCore.Instance.getPoint(tempLine[tempLineNum].p1);
+            int tempLineNum2 = Random.Range(0, (jointPoint.line.Count - 1));
+            while (tempLine[tempLineNum].roateID == jointPoint.line[tempLineNum2])
+            {
+                tempLineNum2 = Random.Range(0, (jointPoint.line.Count - 1));
+            }
+            tempList.Add(jointPoint.line[tempLineNum2]);
+
+            Point jointPoint2 = MagicCore.Instance.getPoint(tempLine[jointPoint.line[tempLineNum2]].p1);
+            int tempLineNum3 = Random.Range(0, (jointPoint2.line.Count - 1));
+            while (jointPoint.line[tempLineNum2] == jointPoint2.line[tempLineNum3])
+            {
+                tempLineNum3 = Random.Range(0, (jointPoint2.line.Count - 1));
+            }
+            tempList.Add(jointPoint2.line[tempLineNum3]);
+         //   Debug.Log("Num1+++" + tempLine[tempLineNum].roateID + "++Num2++" + jointPoint.line[tempLineNum2]+"++num3++"+jointPoint2.line[tempLineNum3]);
+            return tempList;
+        }
+
+        /// <summary>
+        /// Gets the point line.
+        /// </summary>
+        /// <returns>The point line.</returns>
+        public List<int> GetPointLine()
+        {
+            List<int> tempList = new List<int>();
+            List<Point> tempPointList = MagicCore.Instance.getPoint();
+            int tempPoint = Random.Range(0, tempPointList.Count - 1);
+            for (int i = 0; i < tempPointList[tempPoint].line.Count; i++)
+            {
+                tempList.Add(tempPointList[tempPoint].line[i]);
+             //   Debug.Log("TempPointLine+++"+tempPointList[tempPoint].line[i]);
+            }
+            return tempList;
+        }
+
+        public virtual void SkillBox()
         {
             
-            if (attackType == AttackType.Random)
-            {
+        }
 
-            }
-            if (attackType ==AttackType.VLine)
-            {
-
-            }
-            if (attackType == AttackType.XLine)
-            {
-
-            }
-            if (attackType == AttackType.OLine)
-            {
-
-            }
-            if(attackType == AttackType.DoubleLine)
-            {
-                
-            }
-            if(attackType == AttackType.PointLine)
-            {
-                
-            }
-
-    
+        public virtual void SpecialEffect()
+        {
+            
         }
     }
 }

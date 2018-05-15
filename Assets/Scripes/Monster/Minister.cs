@@ -3,16 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace RouteOfTheMagic
 {
-    [RequireComponent(typeof(Monster))]
-    public class Minister : MonoBehaviour
+    public class Minister : Monster
     {
-        Monster monster;
-        int countNum;
+        int countNum = 0;
         // Use this for initialization
-        void Start()
+        public override void Start()
         {
-            monster = GetComponent<Monster>();
-            countNum = 0;
+            base.Start();
         }
 
         // Update is called once per frame
@@ -21,14 +18,14 @@ namespace RouteOfTheMagic
 
         }
 
-        public void attackTurn()
+        public override void SkillBox()
         {
             if(countNum %3 == 0)    //3回合使用一次全体缓回buff
             {
                 SlowRecoveryBuff();
             }
             recoverySkill();
-            monster.attackPlayer(Monster.AttackType.Random);
+         //   monster.attackPlayer(Monster.AttackType.Random);
             countNum++;
             return;         //补写攻击返回攻击点与攻击力
         }
