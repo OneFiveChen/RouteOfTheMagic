@@ -65,6 +65,8 @@ public class EFController{
                 {
                     ef.EFEnd(ef.selfGO);
                     efList.Remove(ef);
+                    if(efList.Count == 0)
+                        MagicCore.Instance.setFlag(ClickFlag.normal);
                     --i;
                     continue;
                 }
@@ -72,8 +74,7 @@ public class EFController{
         }
         if (efList.Count > 0)
             MagicCore.Instance.setFlag(ClickFlag.wait);
-        else
-            MagicCore.Instance.setFlag(ClickFlag.normal);
+           
     }
 
     /// <summary>
