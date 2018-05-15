@@ -25,15 +25,16 @@ public class NodeControl : MonoBehaviour {
         //判断状态,确定节点是否显示，以及其魔力值等
         if (magic.getPoint(id).MaxMagic == 0)
         {
-
-           //spriteRenderer.sprite = null;
+            Color color = toPointColor(magic.getPointColor(id));
+            spriteRenderer.color = new Color(color.r, color.g, color.b, 0.5f);
         }
         else if (!magic.getPointBroked(id))
         {
+            spriteRenderer.color = toPointColor(magic.getPointColor(id));
             textMesh.text =magic.getPoint(id).MaxMagic.ToString();
         }
         //节点颜色初始化
-        spriteRenderer.color = toPointColor(magic.getPointColor(id));
+
        
     }
     private void LateUpdate()

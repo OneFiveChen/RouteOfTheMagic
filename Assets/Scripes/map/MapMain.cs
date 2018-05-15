@@ -269,7 +269,7 @@ namespace RouteOfTheMagic
                         color = Color.red;
 
 
-                    ButtonEx button = CreatButton(new Vector2(layerXNum + 100 * j, -250 + length * i), new Vector2(20, 20), sprite, color);
+                    ButtonEx button = CreatButton(new Vector2(layerXNum + 100 * j, -250 + length * i), new Vector2(50, 50), sprite, color);
                     map[i][j].button = button;
                     
                     button.onClick.AddListener(delegate ()

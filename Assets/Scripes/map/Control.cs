@@ -12,13 +12,15 @@ public class Control : MonoBehaviour {
     public GameObject lines;
     private List<GameObject> lineGameObjectlist;
     private GameObject instance;
-
+    List<Line> lineList;
+    List<Point> Plist;
     // Use this for initialization
     void Start () {
         magic = MagicCore.Instance;
         lineGameObjectlist = new List<GameObject>();
         instance = node;
-
+        lineList= magic.getLine();
+        Plist = magic.getPoint();
         //初始化节点位置
         InitPointPos();
 
@@ -28,8 +30,24 @@ public class Control : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
+        for (int i = 0; i < lineGameObjectlist.Count; ++i)
+        {
+            Line l = lineList[i];
+            //获取两端节点
+            int p1 = l.p1;
+            int p2 = l.p2;
+            if (Plist[p1].MaxMagic != 0 && Plist[p2].MaxMagic != 0)
+            {
+                lineGameObjectlist[i].GetComponent<LineRenderer>().startColor = new Color(0,0,0,1);
+                lineGameObjectlist[i].GetComponent<LineRenderer>().endColor = new Color(0, 0, 0, 1);
+            }
+            else
+            {
+                lineGameObjectlist[i].GetComponent<LineRenderer>().startColor = new Color(0, 0, 0, 0.5f);
+                lineGameObjectlist[i].GetComponent<LineRenderer>().endColor = new Color(0, 0, 0, 0.5f);
+            }
+        }
+    }
 
     public void InitPointPos()
     {
@@ -70,8 +88,7 @@ public class Control : MonoBehaviour {
 
     public void InitLine()
     {
-        List<Line> lineList = magic.getLine();
-        List<Point> Plist = magic.getPoint();
+        
         foreach (Line l in lineList)
         {
             //获取两端节点
@@ -98,4 +115,5 @@ public class Control : MonoBehaviour {
             //}
         }
     }
-    }
+
+}
