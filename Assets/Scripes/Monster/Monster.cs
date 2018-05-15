@@ -474,6 +474,7 @@ namespace RouteOfTheMagic
             if (attackType == AttackType.Random)
             {
                 tempLine = GetRandomLine(1);
+
             }
             if (attackType == AttackType.TribleLine)
             {
@@ -491,7 +492,8 @@ namespace RouteOfTheMagic
             {
                 tempValue.Add(tempLine[i]);
             }
-           // tempValue.Add(11);
+
+            tempValue[0] /= tempValue.Count - 1;
             return tempValue;   
         }
 
@@ -554,8 +556,9 @@ namespace RouteOfTheMagic
             while (tempList.Count<randomNum)
             {
                 int tempLineNum = Random.Range(0, (tempLine.Count - 1));
-                if(!haveChoosedLine.Contains(tempLineNum))
+                if(!haveChoosedLine.Contains(tempLineNum) && isLineExised(tempLineNum))
                 {
+                  
                     haveChoosedLine.Add(tempLineNum);
                     tempList.Add(tempLine[tempLineNum].roateID);
                 }else{
@@ -575,11 +578,11 @@ namespace RouteOfTheMagic
             List<Line> tempLine = new List<Line>();
             tempLine = MagicCore.Instance.getLine();
             int tempLineNum = Random.Range(0, (tempLine.Count - 1));
-            tempList.Add(tempLine[tempLineNum].roateID);
-
+            if(isLineExised(tempLineNum))
+                tempList.Add(tempLine[tempLineNum].roateID);
             Point jointPoint = MagicCore.Instance.getPoint(tempLine[tempLineNum].p1);
             int tempLineNum2 = Random.Range(0,(jointPoint.line.Count-1));
-            while(tempLine[tempLineNum].roateID == jointPoint.line[tempLineNum2])
+            while(tempLine[tempLineNum].roateID != jointPoint.line[tempLineNum2] && !isLineExised(tempLineNum2))
             {
                 tempLineNum2 = Random.Range(0, (jointPoint.line.Count - 1));
             }
@@ -634,6 +637,17 @@ namespace RouteOfTheMagic
              //   Debug.Log("TempPointLine+++"+tempPointList[tempPoint].line[i]);
             }
             return tempList;
+        }
+
+        bool isLineExised(int lineID)
+        {
+            bool r = false;
+            Line l = MagicCore.Instance.getLine()[lineID];
+            if (MagicCore.Instance.getPoint(l.p1).MaxMagic > 0 && MagicCore.Instance.getPoint(l.p2).MaxMagic > 0)
+            {
+                r = true;
+            }
+            return r;
         }
 
         public virtual void SkillBox()

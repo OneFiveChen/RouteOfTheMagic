@@ -42,7 +42,6 @@ public class MagicCore {
     protected int MaxATK;
     protected int MaxDEF;
     protected int ATK;                //攻击步数
-    protected int DEF;                //防御步数
     protected int mPos;               //当前位置
 
     protected int turn;               //当前回合数
@@ -657,7 +656,8 @@ public class MagicCore {
             if (m.monsterHP > 0)
             {
                 List<int> atkList = m.attackDeclaration();
-                int power = m.attackValue;
+                int power = atkList[0];
+                atkList.RemoveAt(0);
 
                 for (int i = 0; i < mLine.Count; ++i)
                 {
@@ -845,6 +845,18 @@ public class MagicCore {
         foreach (Skill skill in mSkill)
         {
             r += skill.usedTimeTurn;
+        }
+        return r;
+    }
+
+    bool isDefencable(int id)
+    {
+        bool r = false;
+        List<int> lineList = mPoint[id].line;
+        foreach (int i in lineList)
+        {
+            if (mPoint[mLine[i].p1].isDefence || mPoint[mLine[i].p2].isDefence || mLine[i].p1 == mPos || mLine[i].p2 == mPos)
+                r = true;
         }
         return r;
     }
@@ -1055,6 +1067,7 @@ public class MagicCore {
                     foreach (int s in ed.sorce)
                     {
                         doDamage(mMonster[s].attackValue, s);
+                        Debug.Log(ed.ID);
                         ed.sorce.Remove(s);
                         ed.damage -= mMonster[s].attackValue;
 
@@ -1162,10 +1175,13 @@ public class MagicCore {
         //选择防御节点
         if (cf == ClickFlag.defencer)
         {
-            if (!mPoint[locate].isBroken && (Adjacent(locate, mPos) != -1||locate == mPos) && DEF > 0)
+            if (!mPoint[locate].isBroken && ATK > 0 && !mPoint[locate].isDefence)
             {
-                mPoint[locate].isDefence = true;
-                --DEF;
+                if (isDefencable(locate))
+                {
+                    mPoint[locate].isDefence = true;
+                    --ATK;
+                }
             }
         }
         //保护节点
@@ -1335,8 +1351,11 @@ public class MagicCore {
         {
             foreach (Point p in mPoint)
             {
-                p.isDefence = false;
-                ++DEF;
+                if (p.isDefence)
+                {
+                    p.isDefence = false;
+                    ++ATK;
+                }
             }
         }
 
@@ -1447,7 +1466,6 @@ public class MagicCore {
 
         //回合开始========================================
         ATK = MaxATK;
-        DEF = MaxDEF;
         ++turn;
         cf = ClickFlag.normal;
         
@@ -1975,7 +1993,7 @@ public class MagicCore {
 
     public int getDEF()
     {
-        return DEF;
+        return 0;
     }
 
     public int getMaxATK()
@@ -1985,7 +2003,7 @@ public class MagicCore {
 
     public int getMaxDEF()
     {
-        return MaxDEF;
+        return 0;
     }
 
     public int getHP()
@@ -2152,7 +2170,7 @@ public class MagicCore {
 
     public void setDEF(int d)
     {
-        DEF = d;
+        
     }
 
     public void setHP(int hp)

@@ -516,12 +516,12 @@ public class SkillTool {
     }
 
     /// <summary>
-    /// 均衡之息，获得一点攻击和一点防御
+    /// 均衡之息，获得两点攻击,消去敌人一条攻击边点防御
     /// </summary>
     /// <param name="m"></param>
     void BalanceBreath(ref Magic m)
     {
-        magicCore.setDEF(magicCore.getDEF() + 1);
+        magicCore.delectMonsterATK(m.target);
         magicCore.setATK(magicCore.getATK() + 1);
     }
 
