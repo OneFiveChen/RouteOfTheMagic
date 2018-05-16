@@ -14,9 +14,13 @@ public class Clickcontrol : MonoBehaviour {
     public GameObject nodes;
     public GameObject lines;
     public GameObject linePerb;
+    public GameObject itemPerb;
+    public GameObject buffPerb;
     public GameObject monster0;
     public GameObject startButton;
     public GameObject showState;
+    public GameObject itemLists;
+    public GameObject buffLists;
     public GameObject detail;
     public GameObject gameOver;
     public GameObject drop;
@@ -36,10 +40,15 @@ public class Clickcontrol : MonoBehaviour {
     public Sprite tempSprite;
     public TextAsset Skilltext;
     public TextAsset Itemtext;
+    public TextAsset bufftext;
     private GameObject instance;
     private GameObject btnGameObject;
     private List<GameObject> lineGameObjectlist;
     private List<GameObject> pointGameObjectlist;
+    private List<GameObject> itemGameObjectlist;
+    private List<GameObject> buffGameObjectlist;
+    private List<ItemName> items;
+    private Dictionary<BuffName, int> buffs;
     ItemBuff Ibuff;
     ItemName it;
     Skill sklist;
@@ -53,13 +62,18 @@ public class Clickcontrol : MonoBehaviour {
     private float width;
     private float height;
     private int overCount;
+    private int itemCount;
+    private int buffCount;
     // Use this for initialization
     void Start () {
         width = showState.GetComponent<RectTransform>().rect.width;
         height = showState.GetComponent<RectTransform>().rect.height;
 
         magic = MagicCore.Instance;
-        
+
+        items = new List<ItemName>();
+        buffs = new Dictionary<BuffName, int>();
+
         it = (ItemName)Random.Range(0, (int)ItemName.count);
         while (magic.getItemHad(it))
         {
@@ -76,6 +90,8 @@ public class Clickcontrol : MonoBehaviour {
         mouse = new mouseevent();
         lineGameObjectlist = new List<GameObject>();
         pointGameObjectlist = new List<GameObject>();
+        itemGameObjectlist = new List<GameObject>();
+        buffGameObjectlist = new List<GameObject>();
         isDrag = false;
         isAttacking = false;
         isShow = false;
@@ -83,6 +99,8 @@ public class Clickcontrol : MonoBehaviour {
         instance = node;
         //四个结算物品
         overCount = 4;
+        //buff个数
+        buffCount = 0;
 
         magic.addMonster(monster0.GetComponent<Monster>());
         magic.startTurn();
@@ -154,6 +172,16 @@ public class Clickcontrol : MonoBehaviour {
 
         //控制特效刷新
         EFController.Instance.Update();
+
+        //道具信息消失
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+            GameObject.Find("itemDetail").transform.localScale=new Vector3 (0,0,0);
+
+        //道具查看与更新
+        itemupdate();
+        //更新buff
+        buffupdate();
+
     }
 
     //初始化
@@ -615,4 +643,147 @@ public class Clickcontrol : MonoBehaviour {
             }
         }
     }
+
+    //显示道具详细信息
+    public void itemshow()
+    {
+        GameObject.Find("itemDetail").transform.localScale = new Vector3(1, 1, 1);
+        btnGameObject = EventSystem.current.currentSelectedGameObject;
+        string[] lines = Itemtext.text.Split("\n"[0]);
+        for (int i = 0; i < lines.Length; ++i)
+        {
+            string[] parts = lines[i].Split(" "[0]);
+            if (parts[0] == btnGameObject.GetComponentInChildren<Text>().text)
+            {
+                GameObject.Find("itemDetail").GetComponentInChildren<Text>().text = parts[1];
+                break;
+            }
+        }
+    }
+
+    //道具查看与更新
+    public void itemupdate()
+    {
+        bool upD = true;
+        for (int i = 0; i < magic.getItemList().Count; ++i)
+        {
+            if (i < items.Count)
+            {
+                if (items[i] != magic.getItemList()[i])
+                {
+                    upD = false;
+                    break;
+                }
+            }
+            else
+            {
+                upD = false;
+                break;
+            }
+
+        }
+        if (!upD)
+        {
+
+            //删
+            for (int i = 0; i < itemGameObjectlist.Count; ++i)
+            {
+                GameObject.Destroy(itemGameObjectlist[i]);
+            }
+            itemGameObjectlist.Clear();
+            //修
+            items.Clear();
+            for (int i = 0; i < magic.getItemList().Count; ++i)
+            {
+                items.Add(magic.getItemList()[i]);
+            }
+
+            //新建
+            itemLists.GetComponent<RectTransform>().sizeDelta = new Vector2(120 * items.Count, 100);
+            for (itemCount = 0; itemCount < items.Count; ++itemCount)
+            {
+                GameObject item = GameObject.Instantiate(itemPerb, itemLists.transform);
+                itemGameObjectlist.Add(item);
+                if (items.Count % 2 == 0)
+                {
+                    item.transform.localPosition = new Vector3(120 * itemCount - 60, 0, 0);
+                }
+                else
+                    item.transform.localPosition = new Vector3(120 * itemCount - 120, 0, 0);
+
+                item.GetComponentInChildren<Text>().text = items[itemCount].ToString();
+                item.transform.localScale = new Vector3(1, 1, 1);
+            }
+        }
+    }
+
+    //buff更新
+    public void buffupdate()
+    {
+
+        bool bupd = true;
+        List<BuffName> mbf = new List<BuffName>(magic.GetBuffList().Keys);
+        List<BuffName> bf = new List<BuffName>(buffs.Keys);
+        for (int i = 0; i < magic.GetBuffList().Count; ++i)
+        {
+            if (i < buffs.Count)
+            {
+                if (bf[i] != mbf[i])
+                {
+                    bupd = false;
+                    break;
+                }
+            }
+            else
+            {
+                bupd = false;
+                break;
+            }
+
+        }
+        if (!bupd)
+        {
+            
+            //删
+            for (int i = 0; i < buffGameObjectlist.Count; ++i)
+            {
+                GameObject.Destroy(buffGameObjectlist[i]);
+            }
+            buffGameObjectlist.Clear();
+            //修
+            buffs.Clear();
+            foreach(KeyValuePair <BuffName, int> child in magic.GetBuffList())
+            {
+                buffs.Add(child.Key, child.Value);
+            }
+            //新建
+            bf = new List<BuffName>(buffs.Keys);
+            List<int> bflevel = new List<int>(buffs.Values); 
+            for (buffCount = 0; buffCount < buffs.Count; ++buffCount)
+            {
+                GameObject buff = GameObject.Instantiate(buffPerb, buffLists.transform);
+                buffGameObjectlist.Add(buff);
+                buff.transform.localPosition = new Vector3(-200+100*(buffCount%5), -25 + 50 * (buffCount / 5), 0);
+                string[] lines = bufftext.text.Split("\n"[0]);
+                for (int i = 0; i < lines.Length; ++i)
+                {
+                    string[] parts = lines[i].Split(" "[0]);
+                    if (parts[0] == bf[buffCount].ToString())
+                    {
+                        foreach (Transform child in buff.transform)
+                        {
+                            if (child.name == "state")
+                                child.GetComponentInChildren<Text>().text = parts[1];
+                            if (child.name == "bufflevel")
+                                child.GetComponent<Text>().text = bflevel[buffCount].ToString();
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+
+    
 }
