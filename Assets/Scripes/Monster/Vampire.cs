@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace RouteOfTheMagic
 {
-    [RequireComponent(typeof(Monster))]
-    public class Vampire : MonoBehaviour
+    public class Vampire : Monster
     {
-        Monster monster;
         bool StageOne;
         bool StageTwo;
         // Use this for initialization
-        void Start()
+        public override void Start()
         {
-            monster = GetComponent<Monster>();
+            base.Start();
             StageOne = true;
             StageTwo = true;
         }
@@ -23,25 +21,22 @@ namespace RouteOfTheMagic
             
         }
 
-        void attackTurn()
+
+        public override void SkillBox()
         {
-            
-            if (monster.monsterHP <= 0.7f * monster.maxMonsterHP && monster.monsterHP > 0.3f * monster.maxMonsterHP && StageOne)
+            if (monsterHP <= 0.7f * maxMonsterHP && monsterHP > 0.3f * maxMonsterHP && StageOne)
             {
-                //加buff特效
-                monster.addBuff(4, 0, 0, 1, 10, 2);
-                StageOne = false;
+                addBuff(4, 0, 0, 1, 10, 2);
             }
-            if (monster.monsterHP <= 0.3f * monster.maxMonsterHP && StageTwo)
+            if (monsterHP <= 0.3f * maxMonsterHP && StageTwo)
             {
-                //加buff特效
-                monster.addBuff(4, 0, 0, 1, 10, 2);
-                StageTwo = false;
+                addBuff(4, 0, 0, 1, 10, 2);
             }
-            //攻击特效
-            monster.attackPlayer(Monster.AttackType.Random);
-            //回血特效
-            monster.restoreMonsterHP(monster.attackValue);          //***********获取最终伤害值并以一定比例回复
+        }
+
+        public override void SpecialEffect()
+        {
+            restoreMonsterHP(attackValue);//***********获取最终伤害值并以一定比例回复
         }
 
     }

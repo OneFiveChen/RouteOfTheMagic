@@ -537,7 +537,7 @@ public class Clickcontrol : MonoBehaviour {
                     if (child.name == "Damage")
                     {
                         child.position = new Vector3((pos1.x + pos2.x) / 2, (pos1.y + pos2.y) / 2, -4);
-                            child.GetComponent<TextMesh>().text = "";// ed.damage.ToString();    
+                            child.GetComponent<TextMesh>().text = ed.damage.ToString();    
                     }
                    
                 }

@@ -21,7 +21,7 @@ namespace RouteOfTheMagic
 
         public void attackTurn()
         {
-            monster.attackPlayer(Monster.AttackType.Random);
+        //    monster.attackPlayer(Monster.AttackType.Random);
             return;         //补写攻击返回攻击点与攻击力
         }
 

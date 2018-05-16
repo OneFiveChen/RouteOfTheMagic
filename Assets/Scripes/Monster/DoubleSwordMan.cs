@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace RouteOfTheMagic
 {
-    [RequireComponent(typeof(Monster))]
-    public class DoubleSwordMan : MonoBehaviour
+    public class DoubleSwordMan : Monster
     {
-        Monster monster;
+       
         // Use this for initialization
-        void Start()
+        public override void Start()
         {
-            monster = GetComponent<Monster>();
+            base.Start();
         }
 
         // Update is called once per frame
@@ -22,8 +21,8 @@ namespace RouteOfTheMagic
         public void attackTurn()
         {
             //攻击两次两个地方
-            monster.attackPlayer(Monster.AttackType.Random);
-            monster.attackPlayer(Monster.AttackType.Random);
+ //           monster.attackPlayer(Monster.AttackType.Random);
+//            monster.attackPlayer(Monster.AttackType.Random);
             return;         //补写攻击返回攻击点与攻击力
         }
 
