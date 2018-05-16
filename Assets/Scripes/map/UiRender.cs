@@ -41,7 +41,7 @@ namespace RouteOfTheMagic
             vh.Clear();
             foreach (var item in line)
             {
-                vh.AddUIVertexQuad(GetQuad(item.x, item.y, Color.red));
+                vh.AddUIVertexQuad(GetQuad(item.x, item.y, Color.white));
             }
 
         }

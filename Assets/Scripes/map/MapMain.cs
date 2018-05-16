@@ -51,7 +51,20 @@ namespace RouteOfTheMagic
 
             set
             {
-                button.GetComponent<Image>().color +=new Color(0.5f, 0.5f, 0.5f);
+                //button.GetComponent<Image>().color +=new Color(0.5f, 0.5f, 0.5f);
+                Sprite nowSprite;
+                if (nodeType == NodeType.fight)
+                {
+                    nowSprite = LoadResources.Instance.fight.normal;
+                }
+                else if (nodeType == NodeType.shop)
+                {
+                    nowSprite = LoadResources.Instance.shop.normal;
+                }
+                else
+                    nowSprite = LoadResources.Instance.random.normal;
+                button.GetComponent<Image>().sprite = nowSprite;
+
                 button.fatherIsPass = value;
                 fatherIsPass = value;
 
@@ -74,6 +87,12 @@ namespace RouteOfTheMagic
         private MagicCore magicCore;
         static MapMain instance;
         MapNode currentMapNode;
+        //UI的高度
+        float mapHight = 1500;
+        float width = 200;
+
+        float buttonWidth = 74;
+
 
         public static MapMain Instance
         {
@@ -246,30 +265,39 @@ namespace RouteOfTheMagic
             }
 
             ///绘制
-            int length = 500 / layerCount;
+            float length = mapHight / layerCount;
             for (int i = 0; i < map.Count; i++)
             {
                 for (int j = 0; j < map[i].Count; j++)
                 {
-                    int layerXNum = map[i].Count * -50 + 50;
-                    int layerYNum = 0;
+                    float layerXNum = map[i].Count * -(width/2) + (width / 2);
+                    float layerYNum = 0;
                     if (i == map.Count - 1)
                         layerYNum = 0;
                     else
-                        layerYNum = map[i + 1].Count * -50 + 50;
+                        layerYNum = map[i + 1].Count * -(width / 2) + (width / 2);
                     MapNode mapNode = map[i][j];
                     Color color;
-                    if (mapNode.nodeType==NodeType.fight)
+                    Sprite nowSprite;
+                    if (mapNode.nodeType == NodeType.fight)
                     {
                         color = Color.green;
+                        nowSprite = LoadResources.Instance.fight.disable;
                     }
-                    else if(mapNode.nodeType == NodeType.shop)
+                    else if (mapNode.nodeType == NodeType.shop)
+                    {
                         color = Color.blue;
+                        nowSprite = LoadResources.Instance.shop.disable;
+                    }
                     else
+                    {
                         color = Color.red;
+                        nowSprite = LoadResources.Instance.random.disable;
+                    }
+                    //color = Color.red;
 
 
-                    ButtonEx button = CreatButton(new Vector2(layerXNum + 100 * j, -250 + length * i), new Vector2(50, 50), sprite, color);
+                    ButtonEx button = CreatButton(new Vector2(layerXNum + width * j, -(mapHight-buttonWidth)/2 + length * i), new Vector2(buttonWidth, buttonWidth), nowSprite, Color.white);
                     map[i][j].button = button;
                     
                     button.onClick.AddListener(delegate ()
@@ -288,11 +316,11 @@ namespace RouteOfTheMagic
                         int num = map[i][j].child[m];
                         mapLine li = new mapLine();
 
-                        li.x = new Vector2(layerXNum + 100 * j, -250 + length * i);
+                        li.x = new Vector2(layerXNum + width * j, -(mapHight /2- buttonWidth) + length * i);
                         //if(i==map.Count-1)
                         //li.y = new Vector2(0, -260 + length * (i+1));
                         //else
-                        li.y = new Vector2(layerYNum + 100 * num, -260 + length * (i + 1));
+                        li.y = new Vector2(layerYNum + width * num, -(mapHight/2)+ length * (i + 1));
                         render.addLine(li);
 
                     }
@@ -343,8 +371,8 @@ namespace RouteOfTheMagic
             //return go;
             go.AddComponent<CanvasRenderer>();
             Image img = go.AddComponent<Image>();
-            //img.color = Color.white;
-            img.color = color -new Color(0.5f,0.5f,0.5f,0);
+            img.color = Color.white;
+            //img.color = color -new Color(0.5f,0.5f,0.5f,0);
             img.fillCenter = true;
             img.raycastTarget = true;
             img.sprite = sprite;
@@ -386,6 +414,19 @@ namespace RouteOfTheMagic
             //Debug.Log("gameOver");
             int layer = currentMapNode.layer;
             currentMapNode.button.interactable = false;
+            Sprite nowSprite;
+            if (currentMapNode.nodeType == NodeType.fight)
+            {
+                nowSprite = LoadResources.Instance.fight.unable;
+            }
+            else if (currentMapNode.nodeType == NodeType.shop)
+            {
+                nowSprite = LoadResources.Instance.shop.unable;
+            }
+            else
+                nowSprite = LoadResources.Instance.random.unable;
+            currentMapNode.button.GetComponent<Image>().sprite = nowSprite;
+
             if (istrue)
                 foreach (var item in currentMapNode.child)
                 {

@@ -73,7 +73,7 @@ public class MagicCore {
 
     //全局变量
     public int skillPoint; //剩余技能点数
-    public int Money=30;      //金钱
+    public int Money=60;      //金钱
 
     private static MagicCore instance;
 
