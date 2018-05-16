@@ -26,6 +26,8 @@ public class MagicCore {
         mMonsterAttack = new List<EDamage>();
            
         addBuff(itemTool.getItem(ItemName.即死领悟), -1);
+        addBuff(itemTool.getItem(ItemName.万用节点), -1);
+
         MaxHp = 100;
         MaxATK = 10;
         MaxDEF = 1;
