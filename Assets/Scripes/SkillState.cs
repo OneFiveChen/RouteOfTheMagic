@@ -40,5 +40,12 @@ public class SkillState : MonoBehaviour {
                 break;
             }
         }
+        //iTween.MoveTo(panel, new Vector3(panel.transform.position.x, panel.transform.position.y - 80, panel.transform.position.z),2f);
+    }
+    public void hide()
+    {
+        //iTween.MoveTo(panel, new Vector3(panel.transform.position.x, panel.transform.position.y + 80, panel.transform.position.z), 2f);
+
+        //panel.SetActive(false);
     }
 }

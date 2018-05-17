@@ -59,15 +59,11 @@ public class Clickcontrol : MonoBehaviour {
     public bool isShow;
     private bool isAttacking;
     private bool isDrop;
-    private float width;
-    private float height;
     private int overCount;
     private int itemCount;
     private int buffCount;
     // Use this for initialization
     void Start () {
-        width = showState.GetComponent<RectTransform>().rect.width;
-        height = showState.GetComponent<RectTransform>().rect.height;
 
         magic = MagicCore.Instance;
 
@@ -145,11 +141,6 @@ public class Clickcontrol : MonoBehaviour {
             startButton.GetComponent<Image>().color = Color.red;
         }
 
-        //说明框位置跟随
-        //showState.transform.position = 
-        //    new Vector3((int)Input.mousePosition.x - (int)width*showState.transform.localScale.x / 2+0.1f, 
-        //    (int)Input.mousePosition.y + (int)height * showState.transform.localScale.y / 2+0.1f, 0);
-
         //检测怪物是否活着
         for(int i=0;i<4;++i)
         {
@@ -157,8 +148,28 @@ public class Clickcontrol : MonoBehaviour {
                 break;
             if (i == 3&&!isShow)
             {
+                Sprite nowSprite = new Sprite();
+                string[] lines = Itemtext.text.Split("\n"[0]);
+                string englishName = null;
+                for (int j = 0; j < lines.Length; ++j)
+                {
+                    string[] parts = lines[j].Split(" "[0]);
+                    if (parts[1] == Ibuff.iName.ToString())
+                    {
+                        englishName = parts[0];
+                        break;
+                    }
+                }
+                foreach (Sprite sp in LoadResources.Instance.itemSp.itemSprite)
+                {
+                    if (sp.name == englishName)
+                    {
+                        nowSprite = sp;
+                    }
+                }
                 gameOver.SetActive(true);
                 GameObject.Find("tool").GetComponentInChildren<Text>().text = Ibuff.iName.ToString();
+                GameObject.Find("tool (1)").GetComponent<Image>().sprite = nowSprite;
                 GameObject.Find("skill").GetComponentInChildren<Text>().text = sklist.name.ToString();
                 isShow = true;
             }
@@ -636,9 +647,9 @@ public class Clickcontrol : MonoBehaviour {
         for (int i = 0; i < lines.Length; ++i)
         {
             string[] parts = lines[i].Split(" "[0]);
-            if (parts[0] == GameObject.Find("tool").GetComponentInChildren<Text>().text)
+            if (parts[1] == GameObject.Find("tool").GetComponentInChildren<Text>().text)
             {
-                detail.GetComponentInChildren<Text>().text = parts[1];
+                detail.GetComponentInChildren<Text>().text = parts[2];
                 break;
             }
         }
@@ -653,9 +664,9 @@ public class Clickcontrol : MonoBehaviour {
         for (int i = 0; i < lines.Length; ++i)
         {
             string[] parts = lines[i].Split(" "[0]);
-            if (parts[0] == btnGameObject.GetComponentInChildren<Text>().text)
+            if (parts[1] == btnGameObject.name)
             {
-                GameObject.Find("itemDetail").GetComponentInChildren<Text>().text = parts[1];
+                GameObject.Find("itemDetail").GetComponentInChildren<Text>().text = parts[2];
                 break;
             }
         }
@@ -699,6 +710,7 @@ public class Clickcontrol : MonoBehaviour {
             }
 
             //新建
+            Sprite nowSprite=new Sprite ();
             itemLists.GetComponent<RectTransform>().sizeDelta = new Vector2(120 * items.Count, 100);
             for (itemCount = 0; itemCount < items.Count; ++itemCount)
             {
@@ -711,7 +723,27 @@ public class Clickcontrol : MonoBehaviour {
                 else
                     item.transform.localPosition = new Vector3(120 * itemCount - 120, 0, 0);
 
-                item.GetComponentInChildren<Text>().text = items[itemCount].ToString();
+                item.name = items[itemCount].ToString();
+
+                string[] lines = Itemtext.text.Split("\n"[0]);
+                string englishName=null;
+                for (int i = 0; i < lines.Length; ++i)
+                {
+                    string[] parts = lines[i].Split(" "[0]);
+                    if (parts[1] == item.name)
+                    {
+                        englishName = parts[0];
+                        break;
+                    }
+                }
+                foreach (Sprite sp in LoadResources.Instance.itemSp.itemSprite)
+                {
+                    if (sp.name == englishName)
+                    {
+                        nowSprite = sp;
+                    }
+                }
+                item.GetComponent<Image>().sprite = nowSprite;
                 item.transform.localScale = new Vector3(1, 1, 1);
             }
         }

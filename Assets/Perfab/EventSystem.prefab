@@ -76,12 +76,13 @@ MonoBehaviour:
   lines: {fileID: 0}
   linePerb: {fileID: 1768600077517898, guid: 6af2a6018f7f0784c895ff16d8fefe1e, type: 2}
   itemPerb: {fileID: 1805570300893206, guid: 3b7742109e8ede146816e1463eecdd75, type: 2}
+  buffPerb: {fileID: 0}
   monster0: {fileID: 0}
   startButton: {fileID: 0}
   showState: {fileID: 0}
   itemLists: {fileID: 0}
+  buffLists: {fileID: 0}
   detail: {fileID: 0}
-  itemDetail: {fileID: 0}
   gameOver: {fileID: 0}
   drop: {fileID: 0}
   canvas: {fileID: 0}
@@ -101,7 +102,8 @@ MonoBehaviour:
   - {fileID: 0}
   tempSprite: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
   Skilltext: {fileID: 4900000, guid: 3ed040d5bcdef7b4fa8eda3daf7ba7ae, type: 3}
-  Itemtext: {fileID: 4900000, guid: bb31c22a9bc67664482db7b139102f29, type: 3}
+  Itemtext: {fileID: 4900000, guid: 578667ed9b37fe54181967ba22def389, type: 3}
+  bufftext: {fileID: 0}
   isShow: 0
 --- !u!114 &114897708098484466
 MonoBehaviour:
