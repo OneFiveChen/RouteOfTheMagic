@@ -5,11 +5,17 @@ namespace RouteOfTheMagic
 {
     public class Slime : Monster
     {
-        
-        // Use this for initialization
-        void Start()
+        enum SlimeType
         {
+            normal = 1,
+            angry = 2,
+        }
 
+        SlimeType st;
+        // Use this for initialization
+        public override void Start()
+        {
+            base.Start();
         }
 
         // Update is called once per frame
@@ -20,6 +26,8 @@ namespace RouteOfTheMagic
 
         public override void SkillBox()
         {
+            if (st == SlimeType.normal) return;
+
             if(monsterHP <= 0.3*maxMonsterHP)
             {
                 attackType = AttackType.DoubleLine;

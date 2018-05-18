@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace RouteOfTheMagic
 {
-    [RequireComponent(typeof(Monster))]
-    public class Puppet : MonoBehaviour
+    public class Puppet : Monster
     {
-        Monster monster;
         // Use this for initialization
-        void Start()
+        public override void Start()
         {
-            monster = GetComponent<Monster>();
+            base.Start();
         }
 
         // Update is called once per frame

@@ -7,9 +7,9 @@ namespace RouteOfTheMagic
     {
 
         // Use this for initialization
-        void Start()
+        public override void Start()
         {
-            
+            base.Start();
         }
 
         // Update is called once per frame
@@ -27,7 +27,7 @@ namespace RouteOfTheMagic
 
         public override void SpecialEffect()
         {
-            //****************add player 毒 buff 
+            MagicCore.Instance.addBuff(BuffName.中毒);
         }
     }
 }

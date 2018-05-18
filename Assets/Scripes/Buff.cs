@@ -68,6 +68,14 @@ public class CharactorBuffTool {
         buff = new Buff(BuffName.毒雾, 100, BuffType.sBuffTurn, -1, false);
         buff.NE += PoisonFroge;
         buffs.Add(buff);
+
+        buff = new Buff(BuffName.中毒, 1, BuffType.sBuffTurn, -1, false);
+        buff.NE += Poison;
+        buffs.Add(buff);
+
+        buff = new Buff(BuffName.流血, 1, BuffType.sBuffTurn, -1, false);
+        buff.NE += blood;
+        buffs.Add(buff);
         //示例item：名字：例子 ，执行类型：全局移动时触发，计数器个数3（如果不需要计数器，这里设置成1就行）
         ItemBuff iBuff = new ItemBuff(ItemName.炼金阵, BuffType.sBuffMove, 3);
         iBuff.ME += Simple;//添加事件函数，函数本体在最下边
@@ -252,6 +260,18 @@ public class CharactorBuffTool {
                 doingBuff.turn -= 1;
             }
         }
+    }
+
+    //中毒:debuff，每回合掉层数的生命值
+    void Poison()
+    {
+        magic.setHP(magic.getHP() - doingBuff.turn);
+    }
+
+    //流血：debuff,每回合攻击力下降层数
+    void blood()
+    {
+        magic.setATK(magic.getHP() - 1);
     }
 
     void Unstopable(Damage dam)
