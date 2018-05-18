@@ -110,6 +110,8 @@ namespace RouteOfTheMagic
         附加伤害 = 11,
         无敌 = 12,
         毒雾 = 13,
+        中毒 = 14,
+        流血 = 15,
         count
     }
 
