@@ -27,7 +27,7 @@ namespace RouteOfTheMagic
 
         public override void SpecialEffect()
         {
-            //****************add player 毒 buff 
+            MagicCore.Instance.addBuff(BuffName.中毒);
         }
     }
 }

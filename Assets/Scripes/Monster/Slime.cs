@@ -5,7 +5,13 @@ namespace RouteOfTheMagic
 {
     public class Slime : Monster
     {
-        
+        enum SlimeType
+        {
+            normal = 1,
+            angry = 2,
+        }
+
+        SlimeType st;
         // Use this for initialization
         public override void Start()
         {
@@ -20,6 +26,8 @@ namespace RouteOfTheMagic
 
         public override void SkillBox()
         {
+            if (st == SlimeType.normal) return;
+
             if(monsterHP <= 0.3*maxMonsterHP)
             {
                 attackType = AttackType.DoubleLine;

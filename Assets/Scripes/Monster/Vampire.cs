@@ -26,19 +26,20 @@ namespace RouteOfTheMagic
         {
             if (monsterHP <= 0.7f * maxMonsterHP && monsterHP > 0.3f * maxMonsterHP && StageOne)
             {
-                addBuff(4, 0, 0, 1, 10, 2);
+                addBuff(4, BuffConnection.AddAttackValue, BuffLastType.Forever, 1, 10, 2);
                 StageOne = false;
             }
             if (monsterHP <= 0.3f * maxMonsterHP && StageTwo)
             {
-                addBuff(4, 0, 0, 1, 10, 2);
+                addBuff(4, BuffConnection.AddAttackValue, BuffLastType.Forever, 1, 10, 2);
                 StageTwo = false;
             }
         }
 
         public override void SpecialEffect()
         {
-            restoreMonsterHP(attackValue);//***********获取最终伤害值并以一定比例回复
+            
+            restoreMonsterHP((int)(lastAttackValue*0.5f));//***********获取最终伤害值并以一定比例回复
         }
 
     }

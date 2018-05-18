@@ -1459,11 +1459,24 @@ public class MagicCore {
                 break;
         }
 
+
+
+
         //添加子道具
         if (buff.GetType() == typeof(ItemBuff) && ((ItemBuff)buff).subItemName != ItemName.count)
         {
             addBuff(itemTool.getItem(((ItemBuff)buff).subItemName),-1);
         }
+    }
+
+    public void addBuff(BuffName bn)
+    {
+        addBuff(skillTool.buffTool.getBuff(bn), -1);
+    }
+
+    public void addItem(ItemName itName)
+    {
+        addBuff(itemTool.getItem(itName), -1);
     }
 
     public void startTurn()

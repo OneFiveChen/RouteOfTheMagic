@@ -16,6 +16,7 @@ namespace RouteOfTheMagic
         public List<Point> panelPoint = new List<Point>();
         public List<Line> panelLine = new List<Line>();
 
+        public int lastAttackValue = 0;
 
         [HideInInspector]
         public int dodgeValue;
@@ -275,11 +276,9 @@ namespace RouteOfTheMagic
             /// The point line.
             /// </summary>
             PointLine = 4,
-            /// <summary>
-            /// The boss random.
-            /// </summary>
-            BossRandom = 5,
         }
+
+        public int randomNum =1;
 
         public struct buff
         {
@@ -354,11 +353,11 @@ namespace RouteOfTheMagic
         /// <param name="buffTime">Buff time.</param>
         /// <param name="tempBuffValue">Temp buff value.</param>
         /// <param name="buffOverlapType">Buff overlap type.</param>
-        public void addBuff(int buffID, BuffConnection buffTypeNum, int buffLastTypeNum, int buffTime, int tempBuffValue, int buffOverlapType)
+        public void addBuff(int buffID, BuffConnection buffTypeNum, BuffLastType buffLastTypeNum, int buffTime, int tempBuffValue, int buffOverlapType)
         {
             buff tempbuff = new buff(buffID,
                                      buffTypeNum,
-                                     (BuffLastType)buffLastTypeNum,
+                                     buffLastTypeNum,
                                      buffTime,
                                      tempBuffValue,
                                      (BuffOverlapType)buffOverlapType);
@@ -406,13 +405,13 @@ namespace RouteOfTheMagic
                     //addBuff(5, 1, 1, bufftime, buffvalue, 2);
                     //break;
                 case BuffConnection.Poison: //毒
-                    addBuff(6, BuffConnection.Poison, 1, bufftime, buffvalue, 2);
+                    addBuff(6, BuffConnection.Poison, BuffLastType.TimeLimit, bufftime, buffvalue, 2);
                     break;
                 case BuffConnection.EasilyInjured: //易伤
-                    addBuff(7, BuffConnection.EasilyInjured, 1, bufftime, 5, 1);
+                    addBuff(7, BuffConnection.EasilyInjured, BuffLastType.TimeLimit, bufftime, 5, 1);
                     break;
                 case BuffConnection.Weak: //虚弱
-                    addBuff(8, BuffConnection.Weak, 1, bufftime, 1, 1);
+                    addBuff(8, BuffConnection.Weak, BuffLastType.TimeLimit, bufftime, 1, 1);
                     break;
                 default:
                     break;
@@ -477,7 +476,7 @@ namespace RouteOfTheMagic
             
             if (attackType == AttackType.Random)
             {
-                tempLine = GetRandomLine(1);
+                tempLine = GetRandomLine(randomNum);
             }
             if (attackType == AttackType.TribleLine)
             {
@@ -490,10 +489,6 @@ namespace RouteOfTheMagic
             if (attackType == AttackType.PointLine)
             {
                 tempLine = GetPointLine();
-            }
-            if(attackType == AttackType.BossRandom)
-            {
-                tempLine = GetRandomLine(5);
             }
             for (int i = 0; i < tempLine.Count; i++)
             {
@@ -665,6 +660,11 @@ namespace RouteOfTheMagic
         public virtual void SpecialEffect()
         {
             
+        }
+
+        public void LastFinalAttackValue(int attackValue)
+        {
+            lastAttackValue = attackValue;
         }
     }
 }

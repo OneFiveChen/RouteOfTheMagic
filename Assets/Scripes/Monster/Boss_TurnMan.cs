@@ -5,12 +5,13 @@ namespace RouteOfTheMagic
 {
     public class Boss_TurnMan : Monster
     {
-       
+        int countNum = 0;
         // Use this for initialization
         public override void Start()
         {
             base.Start();
-            attackType = AttackType.BossRandom;
+            attackType = AttackType.Random;
+            randomNum = 5;
         }
 
         // Update is called once per frame
@@ -30,12 +31,21 @@ namespace RouteOfTheMagic
         public override void SkillBox()
         {
             base.SkillBox();
+            if(countNum%3 == 0 && countNum !=0)
+            {
+                randomNum = 10;
+            }else{
+                randomNum = 5;
+            }
         }
 
         public override void SpecialEffect()
         {
             base.SpecialEffect();
-            turnCore();
+            if (countNum % 2 == 0)
+            {
+                turnCore();
+            }
         }
     }
 }
