@@ -128,11 +128,9 @@ namespace RouteOfTheMagic
         寒霜之心 = 10,
         雷霆之心 = 11,
         即死领悟 = 12,
-        DeathEnd2 = 13,
-        连击法杖 = 14,
-        例子=15,
-        SageStone2 = 16,
-        Fourimagearrays = 17,
+        连击法杖 = 13,
+        SageStone2 = 14,
+        Fourimagearrays = 15,
         count
     }
 
@@ -340,9 +338,11 @@ namespace RouteOfTheMagic
             turn = 1;
             maxCount = max;
             count = 0;
+            subItemName = ItemName.count;
         }
 
         public ItemName iName;
+        public ItemName subItemName;
     }
 
     /// <summary>

@@ -40,6 +40,7 @@ public class ItemTool {
 
         ib = new ItemBuff(ItemName.四象阵, BuffType.sBuffTurn, -1);
         ib.NE += Fourimagearray;
+        ib.subItemName = ItemName.Fourimagearrays;
         itemList.Add(ib);
 
         ib = new ItemBuff(ItemName.Fourimagearrays, BuffType.sBuffSkill, 2);
@@ -53,6 +54,7 @@ public class ItemTool {
 
         ib = new ItemBuff(ItemName.贤者之石, BuffType.sBuffTurn, -1);
         ib.NE += SageStone1;
+        ib.subItemName = ItemName.SageStone2;
         itemList.Add(ib);
 
         ib = new ItemBuff(ItemName.SageStone2, BuffType.sBuffMove, -1);
@@ -73,10 +75,6 @@ public class ItemTool {
 
         ib = new ItemBuff(ItemName.即死领悟, BuffType.sBuffDamage, 1);
         ib.DE += DeathEnd1;
-        itemList.Add(ib);
-
-        ib = new ItemBuff(ItemName.DeathEnd2, BuffType.sBuffStart, 1);
-        ib.NE += DeathEnd2;
         itemList.Add(ib);
 
         ib = new ItemBuff(ItemName.连击法杖, BuffType.sBuffSkill, 1);
@@ -115,19 +113,8 @@ public class ItemTool {
 
     public void TheUniversalnode()
     {
-        int t = magiccore.getTurn();
-        int pos;
-        Point p;
-        pos = magiccore.getPos();
-        p = magiccore.getPoint(pos);
-
-        if (doingbuff.count == t - 1)
-        {
-            p.magic += 1;
-            magiccore.getPoint(pos).magic = p.magic;
-            doingbuff.count += 1;
-        }
-
+        int t = magiccore.getPos();
+        magiccore.getPoint(t).magic += 1;
     }//万用节点,可用
 
     public void HotGem(Move m)
@@ -198,23 +185,18 @@ public class ItemTool {
         int atk = magiccore.getATK();
         atk++;
         magiccore.setATK(atk);
-        //释放两个技能后回合强制结束
-        
     } //四圣阵      
 
     public void Fourimagearrays(ref Magic m)
     {
-
-            doingbuff.count += 1;
-            Debug.Log(doingbuff.count);
+        doingbuff.count += 1;
+        Debug.Log(doingbuff.count);
         
         if (doingbuff.count == doingbuff.maxCount)
         {
             magiccore.endTurn();
             doingbuff.count = 0;
         }
- 
-  
     }
 
     public void SageStone1()
@@ -223,6 +205,7 @@ public class ItemTool {
         atk+=3;
         magiccore.setATK(atk);
     }//贤者之石1，可用
+
     public void SageStone2(Move m)
     {
         if (magiccore.getPoint(m.pEnd) != magiccore.getPoint(m.pStart))
@@ -295,24 +278,18 @@ public class ItemTool {
                 magiccore.addBuff(magiccore.skillTool.buffTool.getBuff(BuffName.无敌),-1);                
                 magiccore.setHP(hp);
                 doingbuff.count += 1;
+                magiccore.addBuff(magiccore.skillTool.buffTool.getBuff(BuffName.ATK上升),-1);
             }           
         }
         else
         { }
         
     }
-    public void DeathEnd2()
-    {
-        int atk = magiccore.getATK();
-        atk+=5;
-        magiccore.setATK(atk);
-    } //即死领悟
 
     public void BatterStaff()
     {
         int rd;
         Point p;
-        Debug.Log("游泳");
         rd = Random.Range(0, 31);
         p = magiccore.getPoint(rd);
         p.magic++;

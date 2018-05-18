@@ -1458,6 +1458,12 @@ public class MagicCore {
                 }
                 break;
         }
+
+        //添加子道具
+        if (buff.GetType() == typeof(ItemBuff) && ((ItemBuff)buff).subItemName != ItemName.count)
+        {
+            addBuff(itemTool.getItem(((ItemBuff)buff).subItemName),-1);
+        }
     }
 
     public void startTurn()
@@ -1619,6 +1625,12 @@ public class MagicCore {
                 buffList.RemoveAt(i);
             }
         }
+
+        mRoute.Clear();
+
+        FreshSkillActivity();
+
+        mPos = 0;
 
         //清除计数器
         turn = 0;
