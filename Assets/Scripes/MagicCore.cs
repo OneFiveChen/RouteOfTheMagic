@@ -1526,7 +1526,6 @@ public class MagicCore {
 
     public void endTurn()
     {
-
         //回复魔力
         foreach (Move m in mRoute)
         {
@@ -2204,7 +2203,12 @@ public class MagicCore {
 
             mPoint[lightID[id2]].color = p1c;
             mPoint[lightID[id2]].magic = magic1;
+
+            lightID.RemoveAt(id1);
+            lightID.RemoveAt(id2);
         }
+
+        
     }
 
     public List<Monster> getMonsterList()
