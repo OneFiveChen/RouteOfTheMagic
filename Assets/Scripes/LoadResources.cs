@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using UnityEngine;
 
 namespace RouteOfTheMagic
@@ -18,12 +20,44 @@ namespace RouteOfTheMagic
     }
     public class ItemSprite
     {
-        public List<Sprite> itemSprite = new List<Sprite>();
+       // public List<Sprite> itemSprite = new List<Sprite>();
+        
+        public Dictionary<string, Sprite> itemSprite = new Dictionary<string, Sprite>();
         public void load(string name)
         {
-            itemSprite.Add(Resources.Load<Sprite>("itemIcon/" + name));
-        } 
+            //itemSprite.Add(Resources.Load<Sprite>("itemIcon/" + name));
+            itemSprite.Add(name, Resources.Load<Sprite>("itemIcon/" + name));
+        }
+        public Sprite nameToSprite(int name)
+        {
+
+            return itemSprite[((ItemEngLishName)name).ToString()];
+        }
+        public Sprite nameToSprite(string name)
+        {
+
+            return itemSprite[name];
+        }
+        public TextAsset itemText;
+
+        public string nameToText(string name)
+        {
+            string result = "";
+            string[] lines = itemText.text.Split("\n"[0]);
+            for (int i = 0; i < lines.Length; ++i)
+            {
+                string[] parts = lines[i].Split(" "[0]);
+                if (parts[1] == name)
+                {
+                    result = parts[2];
+                    break;
+                }
+            }
+            return result;
+        }
+
     }
+
     public class LoadResources
     {
         static LoadResources instance;
@@ -40,6 +74,23 @@ namespace RouteOfTheMagic
         public ThreeSprite fight = new ThreeSprite();
         public ThreeSprite random = new ThreeSprite();
         public ItemSprite itemSp = new ItemSprite();
+        public TextAsset skillText;
+
+        public string skillNameToText(string name)
+        {
+            string result = "";
+            string[] lines = skillText.text.Split("\n"[0]);
+            for (int i = 0; i < lines.Length; ++i)
+            {
+                string[] parts = lines[i].Split(" "[0]);
+                if (parts[0] == name)
+                {
+                    result = parts[1];
+                    break;
+                }
+            }
+            return result;
+        }
         public LoadResources()
         {
             if (instance == null)
@@ -47,6 +98,8 @@ namespace RouteOfTheMagic
             fight.load("fight-af", "fight-po", "fight-un");
             shop.load("shop-af", "shop-po", "shop-un");
             random.load("random-af", "random-po", "random-un");
+            itemSp.itemText = Resources.Load<TextAsset>("Item");
+            skillText=Resources.Load<TextAsset>("Skill");
             itemSp.load("Alchemy");
             itemSp.load("Avalon");
             itemSp.load("BatterStaff");

@@ -130,9 +130,31 @@ namespace RouteOfTheMagic
         即死领悟 = 12,
         DeathEnd2 = 13,
         连击法杖 = 14,
-        例子=15,
-        SageStone2 = 16,
-        Fourimagearrays = 17,
+        //例子=15,
+        SageStone2 ,
+        Fourimagearrays ,
+        count
+    }
+    public enum ItemEngLishName
+    {
+        Alchemy = 0,
+        Universalnode = 1,
+        HotGem = 2,
+        Pocketwatches = 3,
+        Avalon = 4,
+        ShadowChains = 5,
+        Fourimagearray = 6,
+        SageStone = 7,
+        DoubleedgedStaff = 8,
+        FlameHeart = 9,
+        IceHeart = 10,
+        ThunderHeart = 11,
+        DeathEnd = 12,
+        DeathEnd2 = 13,
+        BatterStaff = 14,
+       // 例子 = 15,
+        SageStone2,
+        Fourimagearrays,
         count
     }
 

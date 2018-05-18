@@ -4,8 +4,8 @@ using System.IO;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
-//namespace RouteOfTheMagic
-//{
+namespace RouteOfTheMagic
+{
     /// <summary>
     /// 脚本挂在Item按钮上
     /// </summary>
@@ -42,9 +42,8 @@ using UnityEngine.UI;
         (int)Input.mousePosition.y + (int)height * panel.transform.localScale.y / 2 + 10f, 0);
             //Debug.Log(panel.transform.position);
         }
-    public void show()
+        public void show()
         {
-        Debug.Log("Adasd");
             string[] lines = itemTextGlobal.text.Split("\n"[0]);
             for (int i = 0; i < lines.Length; ++i)
             {
@@ -57,5 +56,6 @@ using UnityEngine.UI;
                 }
             }
         }
+
     }
-//}
+}

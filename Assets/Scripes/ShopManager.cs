@@ -10,6 +10,7 @@ namespace RouteOfTheMagic
         public Text moneyText;
 
         public Button[] items;
+        public GameObject[] itemsPanel;
         int[] itemsPrice;
 
         public Button skillPoint;
@@ -20,11 +21,35 @@ namespace RouteOfTheMagic
         int skillPrice;
         public Button[] skills;
         public GameObject skillsRoot;
+        public Sprite tempSprite;
+
+        public RectTransform panel;
+        float startX = 0;
+        float endX = 0;
+        float width = 0;
+        public void Left()
+        {
+            panel.position = new Vector3(panel.position.x - width, panel.position.y, panel.position.z);
+            if(panel.position.x<endX)
+                panel.position = new Vector3(endX, panel.position.y, panel.position.z);
+            // if()
+        }
+        public void Right()
+        {
+            panel.position = new Vector3(panel.position.x + width, panel.position.y, panel.position.z);
+            if (panel.position.x < endX)
+                panel.position = new Vector3(startX, panel.position.y, panel.position.z);
+        }
 
 
         // Use this for initialization
         void Start()
         {
+            //左右移动的初始位置
+            startX = panel.position.x;
+            endX = panel.position.x-panel.rect.width;
+            width = panel.rect.width / 4;
+
             //TODO 按钮没有手动赋值需要自动复制，所有都没做异常处理
             itemsPrice = new int[items.Length];
             mc = MagicCore.Instance;
@@ -33,22 +58,23 @@ namespace RouteOfTheMagic
 
             //
             skillPoint.onClick.AddListener(SkillPoint);
-            skillPoint.GetComponentInChildren<Text>().text = "增加一个技能点\n价格：" + 10;
+            skillPoint.GetComponentInChildren<Text>().text = "" + 10;
             skillPointPrice = 10;
 
             SkillName skillName = (SkillName)Random.Range(0, (int)SkillName.count);
+            Skill s = mc.skillTool.getSkill((int)skillName);
             skill.onClick.AddListener(delegate ()
             {
                 CostMoney(skillPrice);
                 skill.interactable = false;
-                skill.GetComponentInChildren<Text>().text = "已购买，无法再次购买";
-            //测试代码
+                skill.GetComponentInChildren<Text>().text = "XXX";
+                //测试代码
                 //skillsRoot.SetActive(true);
                 //skill.interactable = false;
                 //SkillSpawn(null);
-                
-            Skill s = mc.skillTool.getSkill((int)skillName);
-            if(!mc.addSKill(s))
+
+              //  Skill s = mc.skillTool.getSkill((int)skillName);
+            if (!mc.addSKill(s))
             {
                 //产生三个按钮
                 skillsRoot.SetActive(true);
@@ -57,7 +83,8 @@ namespace RouteOfTheMagic
             }
             //skill.gameObject.SetActive(false);
         });
-            skill.GetComponentInChildren<Text>().text = skillName+"\n价格：" + 30;
+            skillContent(skill.transform, s);
+            skill.GetComponentInChildren<Text>().text ="" + 30;
             skillPrice = 30;
 
             ButtonCheck();
@@ -89,17 +116,84 @@ namespace RouteOfTheMagic
                     mc.replaceSkill(s, num);
                 //TODO技能替换代码
                 });
-                skill.GetComponentInChildren<Text>().text = skillOld.name+"";
+                skillContent(skill.transform, skillOld);
+                //skill.GetComponentInChildren<Text>().text = skillOld.name+"";
             }
         }
+        /// <summary>
+        /// 设置技能按钮的参数
+        /// </summary>
+        /// <param name="skillButton"></param>
+        /// <param name="skill"></param>
+        public void skillContent(Transform skillButton,Skill skill)
+        {
+     
+                foreach (Transform child in skillButton)
+                {
+                    List<PointColor> skColor = skill.mRequire;
+                if (child.name == "Name")
+                    child.GetComponent<Text>().text = skill.name.ToString();
+                else if (child.name == "Content")
+                    child.GetComponent<Text>().text = LoadResources.Instance.skillNameToText(skill.name.ToString());//skill.damage.ToString();
+                else if (child.name == "Type")
+                {
+                    switch (skill.skillDoType)
+                    {
+                        case SkillDoType.oneWay:
 
+                            break;
+                        case SkillDoType.twoWay:
+
+                            break;
+                        default:
+
+                            break;
+                    }
+                    for (int i = 0; i < child.transform.childCount; ++i)
+                    {
+                        if (int.Parse(child.GetChild(i).name) < skColor.Count)
+                            child.GetChild(i).GetComponent<Image>().color = toPointColor(skColor[i]);
+                        else
+                            child.GetChild(i).GetComponent<Image>().sprite = tempSprite;
+                    }
+                }
+                //else if (child.name == "Money")
+                    //;
+                }
+
+        }
+        public Color toPointColor(PointColor pointC)
+        {
+            Color color = new Color();
+            switch (pointC)
+            {
+                case PointColor.black:
+                    color = new Color(0.1f, 0.11f, 0.12f);
+                    break;
+                case PointColor.blue:
+                    color = new Color(0.4f, 0.6f, 0.9f);
+                    break;
+                case PointColor.red:
+                    color = new Color(0.9f, 0.4f, 0.4f);
+                    break;
+                case PointColor.white:
+                    color = new Color(0.83f, 0.85f, 0.87f);
+                    break;
+                case PointColor.yellow:
+                    color = new Color(0.9f, 0.9f, 0.5f);
+                    break;
+            }
+            return color;
+        }
         void ItemsSpawn()
         {
             for (int i = 0; i < items.Length; i++)
             {
                 Button item = items[i];
+                GameObject itemP = itemsPanel[i];
                 //随机种类
-                ItemName itemName = (ItemName)Random.Range(0, (int)ItemName.count);
+                //todo 技能贴图不足
+                ItemName itemName = (ItemName)Random.Range(0, 9/*(int)ItemName.count*/);
                 //随机价格
                 int price = Random.Range(20, 30);
 
@@ -109,7 +203,24 @@ namespace RouteOfTheMagic
                 {
                     this.Item(itemName, price);
                 });
-                item.GetComponentInChildren<Text>().text = itemName + "\n" + "价钱：" + price;
+                item.GetComponentInChildren<Text>().text = "" + price;
+                 foreach(Transform child in itemP.transform)
+                {
+                    switch (child.name)
+                    {
+                        case "Sprite":
+                            child.GetComponent<Image>().sprite = LoadResources.Instance.itemSp.nameToSprite((int)itemName);
+                            break;
+                        case "Title":
+                            child.GetComponent<Text>().text = itemName.ToString();
+                            break;
+                        case "Content":
+                            child.GetComponent<Text>().text = LoadResources.Instance.itemSp.nameToText(itemName.ToString());
+                            break;
+                        default:
+                            break;
+                    }
+                }
             }
         }
         /// <summary>
@@ -122,13 +233,13 @@ namespace RouteOfTheMagic
             CostMoney(skillPointPrice);
             if (clickTime == 1)
             {
-                skillPoint.GetComponentInChildren<Text>().text = "增加一个技能点\n价格：" + 15;
+                skillPoint.GetComponentInChildren<Text>().text = "" + 15;
                 skillPointPrice = 15;
 
             }
             else if (clickTime == 2)
             {
-                skillPoint.GetComponentInChildren<Text>().text = "增加一个技能点\n价格：" + 20;
+                skillPoint.GetComponentInChildren<Text>().text = "" + 20;
                 skillPointPrice = 20;
                 //mc.skillPoint += 1;
             }
@@ -166,7 +277,7 @@ namespace RouteOfTheMagic
             if (mc.Money < skillPrice)
                 skill.interactable = false;
             if (moneyText)
-                moneyText.text = "余额：" + mc.Money;
+                moneyText.text = "" + mc.Money;
             Debug.Log(mc.Money);
         }
 

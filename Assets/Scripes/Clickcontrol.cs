@@ -160,13 +160,14 @@ public class Clickcontrol : MonoBehaviour {
                         break;
                     }
                 }
-                foreach (Sprite sp in LoadResources.Instance.itemSp.itemSprite)
-                {
-                    if (sp.name == englishName)
-                    {
-                        nowSprite = sp;
-                    }
-                }
+                //foreach (Sprite sp in LoadResources.Instance.itemSp.itemSprite)
+                //{
+                //    if (sp.name == englishName)
+                //    {
+                //        nowSprite = sp;
+                //    }
+                //}
+                nowSprite = LoadResources.Instance.itemSp.nameToSprite(englishName);
                 gameOver.SetActive(true);
                 GameObject.Find("tool").GetComponentInChildren<Text>().text = Ibuff.iName.ToString();
                 GameObject.Find("tool (1)").GetComponent<Image>().sprite = nowSprite;
@@ -736,13 +737,14 @@ public class Clickcontrol : MonoBehaviour {
                         break;
                     }
                 }
-                foreach (Sprite sp in LoadResources.Instance.itemSp.itemSprite)
-                {
-                    if (sp.name == englishName)
-                    {
-                        nowSprite = sp;
-                    }
-                }
+                //foreach (Sprite sp in LoadResources.Instance.itemSp.itemSprite)
+                //{
+                //    if (sp.name == englishName)
+                //    {
+                //        nowSprite = sp;
+                //    }
+                //}
+                nowSprite = LoadResources.Instance.itemSp.nameToSprite(englishName);
                 item.GetComponent<Image>().sprite = nowSprite;
                 item.transform.localScale = new Vector3(1, 1, 1);
             }
