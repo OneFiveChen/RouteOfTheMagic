@@ -81,12 +81,15 @@ namespace RouteOfTheMagic
             for (int i = 0; i < skills.Length; i++)
             {
                 Button skill = skills[i];
+                Skill skillOld=mc.getSkill(i);
+                int num = i;
                 skill.onClick.AddListener(delegate ()
                 {
                     skillsRoot.SetActive(false);
+                    mc.replaceSkill(s, num);
                 //TODO技能替换代码
-            });
-                skill.GetComponentInChildren<Text>().text = "什么技能";
+                });
+                skill.GetComponentInChildren<Text>().text = skillOld.name+"";
             }
         }
 

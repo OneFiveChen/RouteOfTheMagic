@@ -26,6 +26,8 @@ public class MagicCore {
         mMonsterAttack = new List<EDamage>();
            
         addBuff(itemTool.getItem(ItemName.即死领悟), -1);
+        addBuff(itemTool.getItem(ItemName.万用节点), -1);
+
         MaxHp = 100;
         MaxATK = 10;
         MaxDEF = 1;
@@ -73,7 +75,7 @@ public class MagicCore {
 
     //全局变量
     public int skillPoint; //剩余技能点数
-    public int Money=30;      //金钱
+    public int Money=60;      //金钱
 
     private static MagicCore instance;
 
