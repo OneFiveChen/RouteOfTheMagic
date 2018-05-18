@@ -1044,8 +1044,9 @@ public class MagicCore {
 
     public void doDefence()
     {
-        foreach (EDamage ed in mMonsterAttack)
+        for (int edid =0;edid <mMonsterAttack.Count;++edid)
         {
+            EDamage ed = mMonsterAttack[edid];
             if (ed.damage != 0)
             {
                 int i = ed.ID;
