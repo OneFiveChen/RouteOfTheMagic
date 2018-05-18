@@ -110,6 +110,8 @@ namespace RouteOfTheMagic
         附加伤害 = 11,
         无敌 = 12,
         毒雾 = 13,
+        中毒 = 14,
+        流血 = 15,
         count
     }
 
@@ -353,19 +355,22 @@ namespace RouteOfTheMagic
         public bool time;    //技能的有效期是按照回合计算还是使用次数计算
     }
 
-    public class ItemBuff:BuffBasic
+    public class ItemBuff : BuffBasic
     {
-        public ItemBuff(ItemName it,BuffType bt,int max)
+        public ItemBuff(ItemName it, BuffType bt, int max)
         {
             iName = it;
             type = bt;
             turn = 1;
             maxCount = max;
             count = 0;
+            subItemName = ItemName.count;
         }
 
         public ItemName iName;
+        public ItemName subItemName;
     }
+
 
     /// <summary>
     /// 移动事件
