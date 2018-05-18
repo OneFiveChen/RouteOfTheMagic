@@ -10,6 +10,7 @@ namespace RouteOfTheMagic
         public override void Start()
         {
             base.Start();
+            randomNum = 2;
         }
 
         // Update is called once per frame
@@ -17,15 +18,5 @@ namespace RouteOfTheMagic
         {
 
         }
-
-        public void attackTurn()
-        {
-            //攻击两次两个地方
- //           monster.attackPlayer(Monster.AttackType.Random);
-//            monster.attackPlayer(Monster.AttackType.Random);
-            return;         //补写攻击返回攻击点与攻击力
-        }
-
-
     }
 }

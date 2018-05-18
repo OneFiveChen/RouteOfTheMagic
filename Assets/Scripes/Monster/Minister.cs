@@ -20,12 +20,11 @@ namespace RouteOfTheMagic
 
         public override void SkillBox()
         {
-            if(countNum %3 == 0)    //3回合使用一次全体缓回buff
+            if(countNum %3 == 0 && countNum!=0)    //3回合使用一次全体缓回buff
             {
                 SlowRecoveryBuff();
             }
             recoverySkill();
-         //   monster.attackPlayer(Monster.AttackType.Random);
             countNum++;
             return;         //补写攻击返回攻击点与攻击力
         }
