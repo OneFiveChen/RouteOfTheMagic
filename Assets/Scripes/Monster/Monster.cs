@@ -275,6 +275,10 @@ namespace RouteOfTheMagic
             /// The point line.
             /// </summary>
             PointLine = 4,
+            /// <summary>
+            /// The boss random.
+            /// </summary>
+            BossRandom = 5,
         }
 
         public struct buff
@@ -474,7 +478,6 @@ namespace RouteOfTheMagic
             if (attackType == AttackType.Random)
             {
                 tempLine = GetRandomLine(1);
-
             }
             if (attackType == AttackType.TribleLine)
             {
@@ -487,6 +490,10 @@ namespace RouteOfTheMagic
             if (attackType == AttackType.PointLine)
             {
                 tempLine = GetPointLine();
+            }
+            if(attackType == AttackType.BossRandom)
+            {
+                tempLine = GetRandomLine(5);
             }
             for (int i = 0; i < tempLine.Count; i++)
             {

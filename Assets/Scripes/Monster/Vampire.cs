@@ -27,10 +27,12 @@ namespace RouteOfTheMagic
             if (monsterHP <= 0.7f * maxMonsterHP && monsterHP > 0.3f * maxMonsterHP && StageOne)
             {
                 addBuff(4, 0, 0, 1, 10, 2);
+                StageOne = false;
             }
             if (monsterHP <= 0.3f * maxMonsterHP && StageTwo)
             {
                 addBuff(4, 0, 0, 1, 10, 2);
+                StageTwo = false;
             }
         }
 
