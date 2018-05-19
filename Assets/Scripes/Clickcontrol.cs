@@ -20,6 +20,7 @@ public class Clickcontrol : MonoBehaviour {
     public GameObject monster0;
     public GameObject startButton;
     public GameObject showState;
+    public GameObject showPanel;
     public GameObject itemLists;
     public GameObject buffLists;
     public GameObject detail;
@@ -27,7 +28,6 @@ public class Clickcontrol : MonoBehaviour {
     public GameObject drop;
     public GameObject canvas;
     public GameObject ATK;
-    public GameObject DEF;
     public GameObject HP;
 
     public GameObject figure0;
@@ -65,6 +65,7 @@ public class Clickcontrol : MonoBehaviour {
     
 
     public static bool isDrag;
+    public static string skillName;
     public bool isShow;
     private bool isAttacking;
     private bool isDrop;
@@ -106,7 +107,7 @@ public class Clickcontrol : MonoBehaviour {
         overCount = 4;
         //buff个数
         buffCount = 0;
-
+        
         magic.addMonster(monster0.GetComponent<Monster>());
         magic.startTurn();
 
@@ -205,10 +206,6 @@ public class Clickcontrol : MonoBehaviour {
 
         //控制特效刷新
         EFController.Instance.Update();
-
-        //道具信息消失
-        if (Input.GetKeyDown(KeyCode.Mouse0)&& GameObject.Find("itemDetail"))
-            GameObject.Find("itemDetail").transform.localScale=new Vector3 (0,0,0);
 
         //道具查看与更新
         itemupdate();
@@ -449,16 +446,19 @@ public class Clickcontrol : MonoBehaviour {
     //点击技能触发
     public void toSkill()
     {
-        btnGameObject = EventSystem.current.currentSelectedGameObject;
-        int skillID = int.Parse(btnGameObject.name);
+        //btnGameObject = EventSystem.current.currentSelectedGameObject;
+        
+        int skillID = int.Parse(skillName);
+        
         if (isDrop)
         {
             magic.setSkill(magic.skillTool.getSkill(sk),skillID);
             foreach (GameObject go in skillList)
             {
-                go.GetComponent<Button>().interactable = false;
-                go.GetComponent<Image>().color = Color.white;
+                go.GetComponent<Image>().color = Color.gray;
             }
+            showState.GetComponent<Button>().interactable = false;
+            skillclose();
             GameObject.Find("skill").SetActive(false);
             GameObject.Find("skill (1)").SetActive(false);
             drop.SetActive(false);
@@ -466,8 +466,9 @@ public class Clickcontrol : MonoBehaviour {
             overCount--;
         }
         else
-        { 
+        {
             magic.LclickS(skillID);
+            showPanel.transform.localScale = new Vector3(0, 0, 0);
         }
     }
 
@@ -536,11 +537,17 @@ public class Clickcontrol : MonoBehaviour {
         {
             if (!magic.getSkillActivity(int.Parse(sk.name)) && !isDrop)
             {
-                sk.GetComponent<Button>().interactable = false;
+                //showState.GetComponent<Button>().interactable = false;
+                sk.GetComponent<Image>().color = Color.gray;
             }
-            else
+            else if (!isDrop)
             {
-                sk.GetComponent<Button>().interactable = true;
+                showState.GetComponent<Button>().interactable = true;
+                sk.GetComponent<Image>().color = Color.white;
+            }
+            else if (isDrop)
+            {
+                sk.GetComponent<Image>().color = Color.red;
             }
             if (int.Parse(sk.name) + 1 > magic.getSkillCap())
             {
@@ -623,10 +630,7 @@ public class Clickcontrol : MonoBehaviour {
             }
             GameObject.Find("skill").GetComponent<Image>().color = Color.red;
             isDrop = true;
-            foreach (GameObject go in skillList)
-            {
-                go.GetComponent<Button>().interactable = true;
-            }
+            showState.GetComponent<Button>().interactable = true;
         }
         else
         {
@@ -682,6 +686,7 @@ public class Clickcontrol : MonoBehaviour {
     public void itemshow()
     {
         GameObject.Find("itemDetail").transform.localScale = new Vector3(1, 1, 1);
+        skillclose();
         btnGameObject = EventSystem.current.currentSelectedGameObject;
         string[] lines = Itemtext.text.Split("\n"[0]);
         for (int i = 0; i < lines.Length; ++i)
@@ -689,10 +694,23 @@ public class Clickcontrol : MonoBehaviour {
             string[] parts = lines[i].Split(" "[0]);
             if (parts[1] == btnGameObject.name)
             {
-                GameObject.Find("itemDetail").GetComponentInChildren<Text>().text = parts[2];
+                
+                GameObject.Find("Content").GetComponent<Text>().text = parts[2];
                 break;
             }
         }
+    }
+
+    //道具信息关闭
+    public void itemclose()
+    {
+        GameObject.Find("itemDetail").transform.localScale = new Vector3(0, 0, 0);
+    } 
+
+    //技能信息关闭
+    public void skillclose()
+    {
+        GameObject.Find("DescriptionPanel").transform.localScale = new Vector3(0, 0, 0);
     }
 
     //道具查看与更新

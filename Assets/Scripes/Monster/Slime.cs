@@ -5,13 +5,13 @@ namespace RouteOfTheMagic
 {
     public class Slime : Monster
     {
-        enum SlimeType
+        public enum SlimeType
         {
             normal = 1,
             angry = 2,
         }
 
-        SlimeType st;
+        public SlimeType st;
         // Use this for initialization
         public override void Start()
         {
