@@ -25,7 +25,7 @@ namespace RouteOfTheMagic
         /// </summary>
         void turnCore()
         {
-            //call 魔法盘控制，封锁珠子
+            MagicCore.Instance.randomPoint();
         }
 
         public override void SkillBox()

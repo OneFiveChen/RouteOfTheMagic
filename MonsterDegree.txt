@@ -3,8 +3,8 @@ Slime:1
 AngrySlime:1.5
 DoubleSwordMan:2
 BigSpider:3
-Minister:3
+//Minister:3
 Vampire:5
-Ghoul:5
+//Ghoul:5
 BossOne20
 
