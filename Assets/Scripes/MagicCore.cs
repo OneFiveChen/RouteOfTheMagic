@@ -1084,6 +1084,7 @@ public class MagicCore {
                     foreach (int s in ed.sorce)
                     {
                         doDamage(mMonster[s].attackValue, s);
+                        mMonster[s].LastFinalAttackValue(mMonster[s].attackValue);
                         Debug.Log(ed.ID);
                         ed.sorce.Remove(s);
                         ed.damage -= mMonster[s].attackValue;
@@ -1507,13 +1508,30 @@ public class MagicCore {
         //挨打
         doDefence();
 
+        for (int i = 0; i < 4; ++i)
+        {
+            if (isMonsterLive(i))
+            {
+                mMonster[i].SpecialEffect();
+            }
+        }
+
         cf = ClickFlag.normal;
 
         //回合开始========================================
         ATK = MaxATK;
+
         ++turn;
+
         cf = ClickFlag.normal;
 
+        for (int i = 0; i < 4; ++i)
+        {
+            if (isMonsterLive(i))
+            {
+                mMonster[i].SkillBox();
+            }
+        }
 
         //存入初始路径
         Move m;
