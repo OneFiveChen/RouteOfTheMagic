@@ -28,7 +28,7 @@ public class MagicCore {
         addBuff(itemTool.getItem(ItemName.即死领悟), -1);
         addBuff(itemTool.getItem(ItemName.万用节点), -1);
 
-        MaxHp = 100;
+        MaxHp = 1;
         MaxATK = 10;
         MaxDEF = 1;
         Hp = MaxHp;
@@ -1418,6 +1418,11 @@ public class MagicCore {
         mLine = lList;
 
         //moveEvent.Add(HAhaha, 1);
+    }
+
+    public void initMagic()
+    {
+        instance = new MagicCore();
     }
 
     public void addBuff(BuffBasic buff, int pl)

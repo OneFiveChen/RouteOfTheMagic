@@ -122,9 +122,8 @@ public class Clickcontrol : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        //显示ATK和DEF
+        //显示ATK
         ATK.GetComponent<Text>().text = "ATK: "+ magic.getATK().ToString();
-        DEF.GetComponent<Text>().text = "DEF: "+ magic.getDEF().ToString();
         HP.GetComponent<Text>().text = "HP:" + magic.getHP().ToString();
         //测试monster，获取血量等
         monster0.GetComponentInChildren<Text>().text = monster0.GetComponent<Monster>().monsterHP.ToString();
@@ -193,6 +192,17 @@ public class Clickcontrol : MonoBehaviour {
             MapMain.Instance.SceneEnd(true);
             canvas.SetActive(false);
         }
+
+
+        //检测人物是否活着
+        if (magic.getHP() <= 0)
+        {
+            GameObject.Find("Death").transform.localScale = new Vector3(1, 1, 1);
+            Destroy(GameObject.Find("Canvas"));
+            magic.initMagic();
+        }
+        else
+            GameObject.Find("Death").transform.localScale = new Vector3(0, 0, 0);
 
         //控制特效刷新
         EFController.Instance.Update();
