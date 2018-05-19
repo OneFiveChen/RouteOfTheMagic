@@ -785,7 +785,7 @@ public class MagicCore {
             if (mRoute.Count > 0 && mRoute[0].moveLine != -1)
             {
                 mLine[mRoute[0].moveLine].isPassed = false;
-                GameObject.Find("EventSystem").GetComponent<Clickcontrol>().newLineTransfer(false, false, pc , 5, (count - 1) * 5);
+                GameObject.Find("MagicEventSystem").GetComponent<Clickcontrol>().newLineTransfer(false, false, pc , 5, (count - 1) * 5);
             }
             mRoute.RemoveAt(0);
             --i;
@@ -1158,7 +1158,7 @@ public class MagicCore {
                     for (int i = 0; i <= Loc; ++i)
                     {
                         if(mRoute[0].moveLine != -1)
-                            GameObject.Find("EventSystem").GetComponent<Clickcontrol>().newLineTransfer(false, false, PointColor.white, 5, (count-1) * 5);
+                            GameObject.Find("MagicEventSystem").GetComponent<Clickcontrol>().newLineTransfer(false, false, PointColor.white, 5, (count-1) * 5);
                         recoverMagic(mRoute[0].pEnd);
                         if (mRoute[0].moveLine != -1)
                             mLine[mRoute[0].moveLine].isPassed = false;
@@ -1667,7 +1667,7 @@ public class MagicCore {
             if (mRoute.Count > 0 && mRoute[0].moveLine != -1)
             {
                 mLine[mRoute[0].moveLine].isPassed = false;
-                GameObject.Find("EventSystem").GetComponent<Clickcontrol>().newLineTransfer(false, false, pc, 5, (i - 1) * 5);
+                GameObject.Find("MagicEventSystem").GetComponent<Clickcontrol>().newLineTransfer(false, false, pc, 5, (i - 1) * 5);
             }
             mRoute.RemoveAt(0);
 

@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 114249737818660222}
   - component: {fileID: 114591867336599182}
   m_Layer: 0
-  m_Name: EventSystem
+  m_Name: MagicEventSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -75,6 +75,7 @@ MonoBehaviour:
   nodes: {fileID: 0}
   lines: {fileID: 0}
   linePerb: {fileID: 1768600077517898, guid: 6af2a6018f7f0784c895ff16d8fefe1e, type: 2}
+  lineLightPerb: {fileID: 0}
   itemPerb: {fileID: 1805570300893206, guid: 3b7742109e8ede146816e1463eecdd75, type: 2}
   buffPerb: {fileID: 0}
   monster0: {fileID: 0}
@@ -95,6 +96,12 @@ MonoBehaviour:
   SpFigure0: {fileID: 1127486290602200, guid: 9ab811597805f504eac0df8bfde067c9, type: 2}
   SpFigure1: {fileID: 1880751768732458, guid: cd00166eb742ef549a04642e87a9ac30, type: 2}
   SpFigure2: {fileID: 1690029379925316, guid: 4efa728b6da01d34f935f42113acf315, type: 2}
+  blackSkilLine: {fileID: 0}
+  whiteSkillLine: {fileID: 0}
+  redSkillLine: {fileID: 0}
+  blueSKillLine: {fileID: 0}
+  yellowSkillLine: {fileID: 0}
+  mPosDetect: {fileID: 0}
   skillList:
   - {fileID: 0}
   - {fileID: 0}
