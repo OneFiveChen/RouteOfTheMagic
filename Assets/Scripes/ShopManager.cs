@@ -24,21 +24,31 @@ namespace RouteOfTheMagic
         public Sprite tempSprite;
 
         public RectTransform panel;
+        public Button LeftButton;
+        public Button RightButton;
         float startX = 0;
         float endX = 0;
         float width = 0;
         public void Left()
         {
             panel.position = new Vector3(panel.position.x - width, panel.position.y, panel.position.z);
-            if(panel.position.x<endX)
+            RightButton.interactable = true;
+            Debug.Log(panel.position.x + "," + startX+","+(endX+width));
+            if (panel.position.x<= endX+1+width)
+            {
                 panel.position = new Vector3(endX, panel.position.y, panel.position.z);
-            // if()
+                LeftButton.interactable = false;
+            }
         }
         public void Right()
         {
             panel.position = new Vector3(panel.position.x + width, panel.position.y, panel.position.z);
-            if (panel.position.x < endX)
-                panel.position = new Vector3(startX, panel.position.y, panel.position.z);
+            LeftButton.interactable = true;
+            if (panel.position.x >= startX-1)
+            {
+                RightButton.interactable = false;
+                panel.position = new Vector3(startX+width, panel.position.y, panel.position.z);
+            }       
         }
 
 
