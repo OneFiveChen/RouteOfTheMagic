@@ -1143,7 +1143,9 @@ MonoBehaviour:
   maxMonsterHP: 10
   attackValue: 20
   attackType: 0
+  lastAttackValue: 0
   dodgeValue: 0
+  randomNum: 1
 --- !u!1 &257198017
 GameObject:
   m_ObjectHideFlags: 0
@@ -4409,7 +4411,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.0000041501876, y: -0.000011444092}
+  m_AnchoredPosition: {x: -0.0000064880737, y: -0.000011444092}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1319932351
@@ -4779,6 +4781,22 @@ Prefab:
       propertyPath: Itemtext
       value: 
       objectReference: {fileID: 4900000, guid: 578667ed9b37fe54181967ba22def389, type: 3}
+    - target: {fileID: 114591867336599182, guid: c2c797358531d014793081b58da1d686,
+        type: 2}
+      propertyPath: mLineNormal
+      value: 
+      objectReference: {fileID: 2100000, guid: 4e2b6d92c8db6af4699bb5d8d3874bd9, type: 2}
+    - target: {fileID: 114591867336599182, guid: c2c797358531d014793081b58da1d686,
+        type: 2}
+      propertyPath: mLineLight
+      value: 
+      objectReference: {fileID: 2100000, guid: 86725d6b1278a864394b44622aca8cec, type: 2}
+    - target: {fileID: 114591867336599182, guid: c2c797358531d014793081b58da1d686,
+        type: 2}
+      propertyPath: lineLightPerb
+      value: 
+      objectReference: {fileID: 1336802530362702, guid: eb0f9a105b008534f859f5450d93e410,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c2c797358531d014793081b58da1d686, type: 2}
   m_IsPrefabParent: 0

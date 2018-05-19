@@ -3,11 +3,14 @@
 	Properties
 	{
 		_MainTex ("Texture", 2D) = "white" {}
+		_ScrollSpeed("ScrollSpeed",float) = 0
+		
 	}
 	SubShader
 	{
-		Tags { "RenderType"="Opaque" }
+		Tags { "RenderType"="Transparent" }
 		LOD 100
+		Blend SrcAlpha OneMinusSrcAlpha
 
 		Pass
 		{
@@ -34,21 +37,24 @@
 
 			sampler2D _MainTex;
 			float4 _MainTex_ST;
+			float _ScrollSpeed;
 			
 			v2f vert (appdata v)
 			{
 				v2f o;
 				o.vertex = UnityObjectToClipPos(v.vertex);
-				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+				float2 uvScrolled = float2(_ScrollSpeed * _Time.y, 0);
+				o.uv = TRANSFORM_TEX(v.uv + uvScrolled, _MainTex);
 				return o;
 			}
 			
 			fixed4 frag (v2f i) : SV_Target
 			{
+			    
 				// sample the texture
 				fixed4 col = tex2D(_MainTex, i.uv);
 
-				return float4(1,1,1,1);
+				return col;
 			}
 			ENDCG
 		}

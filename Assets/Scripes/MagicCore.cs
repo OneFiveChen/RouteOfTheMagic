@@ -746,6 +746,8 @@ public class MagicCore {
 
     void doSkill()
     {
+        //执行技能前置事件
+        skillReady.skill.beforeDo(ref skillReady);
         //消耗魔力
         cosumeMagic(skillReady);
         detectPointBroken();
@@ -756,7 +758,6 @@ public class MagicCore {
         {
             mPoint[mRoute[i].pEnd].isActivity = false;
         }
-        skillReady.skill.beforeDo(ref skillReady);
         skillReady.skill.skillDo(ref skillReady);
         skillReady.skill.damage = 0;
         //释放技能攻击效果
@@ -771,11 +772,18 @@ public class MagicCore {
         skillReady.skill.addcount = 0;
         skillReady.skill.addpower = 0;
         //更新mRoute
-        for (int i = 0; i <= skillReady.magicRoute[1]; ++i)
+        for (int i = 0; i < mRoute.Count; ++i)
         {
-            if (mRoute[0].moveLine != -1)
+            //获取技能属性
+            PointColor pc = skillReady.skill.mRequire[0];
+
+            if (mRoute.Count > 0 && mRoute[0].moveLine != -1)
+            {
                 mLine[mRoute[0].moveLine].isPassed = false;
+                GameObject.Find("EventSystem").GetComponent<Clickcontrol>().newLineTransfer(false, false, pc , 5, (i - 1) * 5);
+            }
             mRoute.RemoveAt(0);
+
         }
         if (mRoute.Count > 0)
         {
@@ -1156,20 +1164,14 @@ public class MagicCore {
                         m.moveLine = -1;
                         mRoute[0] = m;
                     }
-                    else
-                    {
-                        Move m = new Move();
-                        m.pStart = mPos;
-                        m.pEnd = mPos;
-                        m.moveLine = -1;
-                        mRoute.Add(m);
-                    }
 
                     foreach (Move m in mRoute)
                     {
                         if (m.pEnd == locate)
                             mPoint[locate].isActivity = true;
                     }
+
+                    
                 }
             }
 
@@ -1271,10 +1273,10 @@ public class MagicCore {
         }
     }
 
-    public void drag(int locate)                //将当前位置节点拖动到其他节点时会发生的事件
+    public bool drag(int locate)                //将当前位置节点拖动到其他节点时会发生的事件
     {
         int roadID = Adjacent(locate, mPos);
-
+        bool r = false;
         if (ATK > 0 &&                            //只有攻击大于0才能移动
             roadID != -1 &&                       //只有相邻才能移动
             !mLine[roadID].isUnpassable &&        //只有连接路可以通过才能移动
@@ -1308,29 +1310,33 @@ public class MagicCore {
                 m.pEnd = locate;
                 m.moveLine = -1;
             }
+            mRoute.Add(m);
             DragDoc.Add(m);
 
+            paceCount += DragDoc.Count;
+
+            FreshSkillActivity();
             mPos = locate;
-
-
+            r = true;
         }
+        return r;
     }
 
     public void dragLoose()                     //松开拖动时的事件
     {
-        //依次存入路径
-        for (int i = 0; i < DragDoc.Count; ++i)
-        {
-            mRoute.Add(DragDoc[i]);
-            ++pointUsedCount;
-            doBuff(DragDoc[i]);
-        }
+        ////依次存入路径
+        //for (int i = 0; i < DragDoc.Count; ++i)
+        //{
+        //    mRoute.Add(DragDoc[i]);
+        //    ++pointUsedCount;
+        //    doBuff(DragDoc[i]);
+        //}
 
 
 
-        paceCount += DragDoc.Count;
+        
         DragDoc.Clear();
-        FreshSkillActivity();
+        
     }
 
     public void RclickP(int locate)             //鼠标右击时会发生的事件    
@@ -1638,7 +1644,19 @@ public class MagicCore {
             }
         }
 
-        mRoute.Clear();
+        for (int i = 0; i < mRoute.Count; ++i)
+        {
+            //获取技能属性
+            PointColor pc = skillReady.skill.mRequire[0];
+
+            if (mRoute.Count > 0 && mRoute[0].moveLine != -1)
+            {
+                mLine[mRoute[0].moveLine].isPassed = false;
+                GameObject.Find("EventSystem").GetComponent<Clickcontrol>().newLineTransfer(false, false, pc, 5, (i - 1) * 5);
+            }
+            mRoute.RemoveAt(0);
+
+        }
 
         FreshSkillActivity();
 

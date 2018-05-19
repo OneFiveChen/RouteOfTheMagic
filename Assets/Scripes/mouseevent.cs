@@ -60,7 +60,13 @@ public class mouseevent : MonoBehaviour {
     void OnMouseOver()
     {
         if (Clickcontrol.isDrag)
-            magic.drag(int.Parse(this.tag));
+        {
+            if (magic.drag(int.Parse(this.tag)))
+            {
+                //添加转换特效
+                GameObject.Find("EventSystem").GetComponent<Clickcontrol>().newLineTransfer(true);
+            }
+        }
         if (Input.GetMouseButton(1))
             magic.RclickP(int.Parse(this.tag));
     }
