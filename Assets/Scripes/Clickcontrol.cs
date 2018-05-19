@@ -37,6 +37,14 @@ public class Clickcontrol : MonoBehaviour {
     public GameObject SpFigure1;
     public GameObject SpFigure2;
 
+    public GameObject blackSkilLine;
+    public GameObject whiteSkillLine;
+    public GameObject redSkillLine;
+    public GameObject blueSKillLine;
+    public GameObject yellowSkillLine;
+
+    public GameObject mPosDetect;
+
     public List<GameObject> skillList;
     public Sprite tempSprite;
     public TextAsset Skilltext;
@@ -131,6 +139,9 @@ public class Clickcontrol : MonoBehaviour {
 
         //检查线上的信息
         lineStatus();
+
+        //设定节点位置指示器
+        mPosDetect.transform.position = pointGameObjectlist[magic.getPos()].transform.position;
         
         //监听函数
         if (magic.getFlag()==ClickFlag.defencer)
@@ -844,8 +855,28 @@ public class Clickcontrol : MonoBehaviour {
             int pe = route[0].pEnd;
             int l = route[0].moveLine;
 
-            GameObject normal = Instantiate(linePerb, lines.transform);
+            GameObject normal = new GameObject();
             //修改粒子系统参数
+            GameObject newParSys = new GameObject();
+            ParticleSystem pSys = lineGameObjectlist[l].GetComponentInChildren<ParticleSystem>();
+            switch (skillColor)
+            {
+                case PointColor.black:
+                    normal = Instantiate(blackSkilLine, lines.transform);
+                    break;
+                case PointColor.white:
+                    normal = Instantiate(whiteSkillLine, lines.transform);
+                    break;
+                case PointColor.yellow:
+                    normal = Instantiate(yellowSkillLine, lines.transform);
+                    break;
+                case PointColor.blue:
+                    normal = Instantiate(blueSKillLine, lines.transform);
+                    break;
+                case PointColor.red:
+                    normal = Instantiate(redSkillLine, lines.transform);
+                    break;
+            }
             
 
             EFController.Instance.RoadTransfer(lineGameObjectlist[l], normal, pointGameObjectlist[ps], pointGameObjectlist[pe], delay, time,isPara);
