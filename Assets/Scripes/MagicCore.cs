@@ -1170,9 +1170,11 @@ public class MagicCore {
                     {
                         Move m = mRoute[0];
                         m.pStart = m.pEnd;
+                        GameObject.Find("MagicEventSystem").GetComponent<Clickcontrol>().newLineTransfer(false, false, PointColor.white, 5, (count - 1) * 5);
                         mLine[m.moveLine].isPassed = false;
                         m.moveLine = -1;
                         mRoute[0] = m;
+
                     }
 
                     foreach (Move m in mRoute)
