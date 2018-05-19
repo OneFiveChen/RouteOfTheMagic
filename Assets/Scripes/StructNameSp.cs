@@ -130,10 +130,10 @@ namespace RouteOfTheMagic
         寒霜之心 = 10,
         雷霆之心 = 11,
         即死领悟 = 12,
-        DeathEnd2 = 13,
-        连击法杖 = 14,
+        连击法杖 = 13,
         //例子=15,
         SageStone2 ,
+        DeathEnd2,
         Fourimagearrays ,
         count
     }
