@@ -14,6 +14,7 @@ public class Clickcontrol : MonoBehaviour {
     public GameObject nodes;
     public GameObject lines;
     public GameObject linePerb;
+    public GameObject lineLightPerb;
     public GameObject itemPerb;
     public GameObject buffPerb;
     public GameObject monster0;
@@ -35,6 +36,14 @@ public class Clickcontrol : MonoBehaviour {
     public GameObject SpFigure0;
     public GameObject SpFigure1;
     public GameObject SpFigure2;
+
+    public GameObject blackSkilLine;
+    public GameObject whiteSkillLine;
+    public GameObject redSkillLine;
+    public GameObject blueSKillLine;
+    public GameObject yellowSkillLine;
+
+    public GameObject mPosDetect;
 
     public List<GameObject> skillList;
     public Sprite tempSprite;
@@ -130,6 +139,9 @@ public class Clickcontrol : MonoBehaviour {
 
         //检查线上的信息
         lineStatus();
+
+        //设定节点位置指示器
+        mPosDetect.transform.position = pointGameObjectlist[magic.getPos()].transform.position;
         
         //监听函数
         if (magic.getFlag()==ClickFlag.defencer)
@@ -243,25 +255,25 @@ public class Clickcontrol : MonoBehaviour {
         {
             InitPoint(1.8f, 120 - i * 60);
             pointGameObjectlist[pointGameObjectlist.Count - 1].transform.GetChild(0).localPosition = 0.09f * (pointGameObjectlist[pointGameObjectlist.Count - 1].transform.localPosition - pos0);
-            EFController.Instance.NewRingCreatAnimation(pointGameObjectlist[pointGameObjectlist.Count - 1], 30, 10, 2, 1);
+            EFController.Instance.NewRingCreatAnimation(pointGameObjectlist[pointGameObjectlist.Count - 1], 30, 10, 3, 1);
         }
         for (int i = 0; i < 6; ++i)
         {
             InitPoint(1.8f * Mathf.Sqrt(3), 90 - i * 60);
             pointGameObjectlist[pointGameObjectlist.Count - 1].transform.GetChild(0).localPosition = -0.06f * (pointGameObjectlist[pointGameObjectlist.Count - 1].transform.localPosition - pos0);
-            EFController.Instance.NewRingCreatAnimation(pointGameObjectlist[pointGameObjectlist.Count - 1], 65, 10, 2, 1);
+            EFController.Instance.NewRingCreatAnimation(pointGameObjectlist[pointGameObjectlist.Count - 1], 65, 10, 3, 1);
         }
         for (int i = 0; i < 3; ++i)
         {
             InitPoint(5.4f, 90 - i * 120);
             pointGameObjectlist[pointGameObjectlist.Count - 1].transform.GetChild(0).localPosition = 0.04f * (pointGameObjectlist[pointGameObjectlist.Count - 1].transform.localPosition - pos0);
-            EFController.Instance.NewRingCreatAnimation(pointGameObjectlist[pointGameObjectlist.Count - 1], 95, 10, 2, 1);
+            EFController.Instance.NewRingCreatAnimation(pointGameObjectlist[pointGameObjectlist.Count - 1], 95, 10, 3, 1);
         }
         for (int i = 0; i < 3; ++i)
         {
             InitPoint(5.4f, 150 - i * 120);
             pointGameObjectlist[pointGameObjectlist.Count - 1].transform.GetChild(0).localPosition = 0.04f * (pointGameObjectlist[pointGameObjectlist.Count - 1].transform.localPosition - pos0);
-            EFController.Instance.NewRingCreatAnimation(pointGameObjectlist[pointGameObjectlist.Count - 1], 95, 10, 2, 1);
+            EFController.Instance.NewRingCreatAnimation(pointGameObjectlist[pointGameObjectlist.Count - 1], 95, 10, 3, 1);
         }
     }
 
@@ -313,8 +325,8 @@ public class Clickcontrol : MonoBehaviour {
         }
 
         EFController.Instance.NewRingCreatAnimation(nodes.transform.GetChild(0).gameObject, 105, 25, 0.95f, 0.8f);
-        if(magic.getPoint(16).MaxMagic > 0 || magic.getPoint(17).MaxMagic > 0 || magic.getPoint(18).MaxMagic > 0)
-            EFController.Instance.NewRingCreatAnimation(nodes.transform.GetChild(1).gameObject, 100, 25, 2.4f, 0.8f);
+        //if(magic.getPoint(16).MaxMagic > 0 || magic.getPoint(17).MaxMagic > 0 || magic.getPoint(18).MaxMagic > 0)
+        EFController.Instance.NewRingCreatAnimation(nodes.transform.GetChild(1).gameObject, 100, 25, 2.4f, 0.8f);
     }
 
     public void InitFigure()
@@ -463,9 +475,10 @@ public class Clickcontrol : MonoBehaviour {
     {
         for (int i = 0; i < lineGameObjectlist.Count; ++i)
         {
-            Color temp = toLineColor(magic.getLineState(i));
-            lineGameObjectlist[i].GetComponent<LineRenderer>().startColor = temp;
-            lineGameObjectlist[i].GetComponent<LineRenderer>().endColor = temp;
+            //Color temp = toLineColor(magic.getLineState(i));
+
+            //lineGameObjectlist[i].GetComponent<LineRenderer>().startColor = temp;
+            //lineGameObjectlist[i].GetComponent<LineRenderer>().endColor = temp;
         }
     }
 
@@ -818,6 +831,56 @@ public class Clickcontrol : MonoBehaviour {
         }
     }
 
+    //创建新的路径转变特效
+    public void newLineTransfer(bool isLight,bool isPara = true,PointColor skillColor = PointColor.white,int time = 12,int delay = 0)
+    {
+        if (isLight)
+        {
+            List<Move> route = magic.getRoute();
+            int ps = route[route.Count - 1].pStart;
+            int pe = route[route.Count - 1].pEnd;
+            int l = route[route.Count - 1].moveLine;
 
+            GameObject light = Instantiate(lineLightPerb, lines.transform);
+
+            //生成新特效
+            EFController.Instance.RoadTransfer(lineGameObjectlist[l], light, pointGameObjectlist[ps], pointGameObjectlist[pe], delay, time,isPara);
+            lineGameObjectlist[l] = light;
+        }
+        else
+        {
+            //消去mRoute中的第一条路
+            List<Move> route = magic.getRoute();
+            int ps = route[0].pStart;
+            int pe = route[0].pEnd;
+            int l = route[0].moveLine;
+
+            GameObject normal = new GameObject();
+            //修改粒子系统参数
+            GameObject newParSys = new GameObject();
+            switch (skillColor)
+            {
+                case PointColor.black:
+                    normal = Instantiate(blackSkilLine, lines.transform);
+                    break;
+                case PointColor.white:
+                    normal = Instantiate(whiteSkillLine, lines.transform);
+                    break;
+                case PointColor.yellow:
+                    normal = Instantiate(yellowSkillLine, lines.transform);
+                    break;
+                case PointColor.blue:
+                    normal = Instantiate(blueSKillLine, lines.transform);
+                    break;
+                case PointColor.red:
+                    normal = Instantiate(redSkillLine, lines.transform);
+                    break;
+            }
+            
+
+            EFController.Instance.RoadTransfer(lineGameObjectlist[l], normal, pointGameObjectlist[ps], pointGameObjectlist[pe], delay, time,isPara);
+            lineGameObjectlist[l] = normal;
+        }
+    }
     
 }

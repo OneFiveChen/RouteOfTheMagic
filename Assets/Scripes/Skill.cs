@@ -20,13 +20,13 @@ public class SkillTool {
         Skill s = new Skill(0, SkillName.魔法飞弹, new List<PointColor> { PointColor.white, PointColor.white }, new List<int> { 0, 0 }, SkillType.singleE, SkillDoType.unorder, 1.5f, 0,1);
         skillList.Add(s);
 
-        s = new Skill(1, SkillName.火球术, new List<PointColor> { PointColor.red, PointColor.white }, new List<int> { 0, 1 }, SkillType.singleE, SkillDoType.unorder, 2.5f, 0,1);
+        s = new Skill(1, SkillName.火球术, new List<PointColor> { PointColor.red, PointColor.white }, new List<int> { 0, 0 }, SkillType.singleE, SkillDoType.unorder, 2.5f, 0,1);
         skillList.Add(s);
 
-        s = new Skill(2, SkillName.火焰风暴, new List<PointColor> { PointColor.red, PointColor.white, PointColor.yellow }, new List<int> { 1, 1, 1 }, SkillType.allE, SkillDoType.unorder, 1.0f, 0, 3);
+        s = new Skill(2, SkillName.火焰风暴, new List<PointColor> { PointColor.red, PointColor.white, PointColor.yellow }, new List<int> { 0, 0, 0 }, SkillType.allE, SkillDoType.unorder, 1.0f, 0, 3);
         skillList.Add(s);
 
-        s = new Skill(3, SkillName.火焰缠绕, new List<PointColor> { PointColor.red }, new List<int> { 1 }, SkillType.self, SkillDoType.single, 0.0f, 0,0);
+        s = new Skill(3, SkillName.火焰缠绕, new List<PointColor> { PointColor.red }, new List<int> { 0 }, SkillType.self, SkillDoType.single, 0.0f, 0,0);
         s.skillDo += sS5;
         skillList.Add(s); 
 
@@ -38,7 +38,7 @@ public class SkillTool {
         s.skillDo += sS7;
         skillList.Add(s);
 
-        s = new Skill(6, SkillName.燃烧潜能, new List<PointColor> { PointColor.red, PointColor.white, PointColor.red }, new List<int> { 0, 1, 0 }, SkillType.self, SkillDoType.unorder, 0.0f, 0,0);
+        s = new Skill(6, SkillName.燃烧潜能, new List<PointColor> { PointColor.red, PointColor.white, PointColor.red }, new List<int> { 0, 0, 0 }, SkillType.self, SkillDoType.unorder, 0.0f, 0,0);
         s.skillDo += sS8;
         skillList.Add(s);
 
@@ -50,7 +50,7 @@ public class SkillTool {
         s.skillDo += sS10;
         skillList.Add(s);
 
-        s = new Skill(9, SkillName.融甲术, new List<PointColor> { PointColor.red, PointColor.white, PointColor.red }, new List<int> { 1, 1, 1 }, SkillType.singleE, SkillDoType.unorder, 0.0f, 0,1);
+        s = new Skill(9, SkillName.融甲术, new List<PointColor> { PointColor.red, PointColor.white, PointColor.red }, new List<int> { 0, 0, 0 }, SkillType.singleE, SkillDoType.unorder, 0.0f, 0,1);
  //=====加事件
         skillList.Add(s);
 
@@ -58,26 +58,26 @@ public class SkillTool {
         s.skillDo += quickAttack;
         skillList.Add(s);
 
-        s = new Skill(11, SkillName.混沌魔弹, new List<PointColor> {  PointColor.red, PointColor.white,  PointColor.red }, new List<int> {  1, 2, 1 }, SkillType.singleE, SkillDoType.unorder, 5.0f, 0, 1);
+        s = new Skill(11, SkillName.混沌魔弹, new List<PointColor> {  PointColor.red, PointColor.white,  PointColor.red }, new List<int> {  0, 0, 0 }, SkillType.singleE, SkillDoType.unorder, 5.0f, 0, 1);
         skillList.Add(s);
 
-        s = new Skill(12, SkillName.冰弹, new List<PointColor> { PointColor.blue, PointColor.white }, new List<int> { 1, 1 }, SkillType.singleE, SkillDoType.unorder, 1.0f, 0, 1);
+        s = new Skill(12, SkillName.冰弹, new List<PointColor> { PointColor.blue, PointColor.white }, new List<int> { 0, 0 }, SkillType.singleE, SkillDoType.unorder, 1.0f, 0, 1);
         s.skillDo += iceBall;
         skillList.Add(s);
 
-        s = new Skill(13, SkillName.碎冰甲, new List<PointColor> { PointColor.blue }, new List<int> { 1 }, SkillType.self, SkillDoType.single, 0, 0, 0);
+        s = new Skill(13, SkillName.碎冰甲, new List<PointColor> { PointColor.blue }, new List<int> { 0 }, SkillType.self, SkillDoType.single, 0, 0, 0);
         s.skillDo += BrokenIceArmor;
         skillList.Add(s);
 
-        s = new Skill(14, SkillName.冰封装甲, new List<PointColor> { PointColor.blue, PointColor.white }, new List<int> { 2, 1 }, SkillType.self, SkillDoType.unorder, 0, 0, 0);
+        s = new Skill(14, SkillName.冰封装甲, new List<PointColor> { PointColor.blue, PointColor.white }, new List<int> { 0, 0 }, SkillType.self, SkillDoType.unorder, 0, 0, 0);
         s.skillDo += FrostArmor;
         skillList.Add(s);
 
-        s = new Skill(15, SkillName.毒雾, new List<PointColor> { PointColor.blue, PointColor.yellow }, new List<int> { 2, 1 }, SkillType.self, SkillDoType.unorder, 0, 0, 0);
+        s = new Skill(15, SkillName.毒雾, new List<PointColor> { PointColor.blue, PointColor.yellow }, new List<int> { 0, 0 }, SkillType.self, SkillDoType.unorder, 0, 0, 0);
         s.skillDo += PoisonForge;
         skillList.Add(s);
 
-        s = new Skill(16, SkillName.冰风暴, new List<PointColor> { PointColor.blue, PointColor.white, PointColor.blue }, new List<int> { 0, 1, 0 }, SkillType.singleE, SkillDoType.unorder, 1.0f, 0, 3);
+        s = new Skill(16, SkillName.冰风暴, new List<PointColor> { PointColor.blue, PointColor.white, PointColor.blue }, new List<int> { 0, 0, 0 }, SkillType.singleE, SkillDoType.unorder, 1.0f, 0, 3);
         s.skillDo += IceStrom;
         skillList.Add(s);
 
@@ -93,7 +93,7 @@ public class SkillTool {
         s.skillDo += recover;
         skillList.Add(s);
 
-        s = new Skill(20, SkillName.变形术, new List<PointColor> { PointColor.blue, PointColor.white}, new List<int> { 1, 0 }, SkillType.singleE, SkillDoType.unorder, 0, 0, 0);
+        s = new Skill(20, SkillName.变形术, new List<PointColor> { PointColor.blue, PointColor.white}, new List<int> { 0, 0 }, SkillType.singleE, SkillDoType.unorder, 0, 0, 0);
         s.skillDo += transformer;
         skillList.Add(s);
 
@@ -102,22 +102,22 @@ public class SkillTool {
         s.skillDo += PoisonBomb;
         skillList.Add(s);
 
-        s = new Skill(22, SkillName.冰封节点, new List<PointColor> { PointColor.blue }, new List<int> { 1 }, SkillType.selfP, SkillDoType.single, 0, 0, 0);
+        s = new Skill(22, SkillName.冰封节点, new List<PointColor> { PointColor.blue }, new List<int> { 0 }, SkillType.selfP, SkillDoType.single, 0, 0, 0);
         s.skillDo += lockPoint;
         skillList.Add(s);
 
         s = new Skill(23, SkillName.充能弹, new List<PointColor> { PointColor.yellow, PointColor.white }, new List<int> { 0, 0 }, SkillType.randomE, SkillDoType.unorder, 0.5f, 0, 5);
         skillList.Add(s);
 
-        s = new Skill(24, SkillName.连锁闪电 ,new List<PointColor> { PointColor.red, PointColor.white, PointColor.yellow }, new List<int> { 0, 1, 0 }, SkillType.randomE, SkillDoType.unorder, 1.0f, 0, 3);
+        s = new Skill(24, SkillName.连锁闪电 ,new List<PointColor> { PointColor.yellow, PointColor.white, PointColor.red }, new List<int> { 0, 0, 0 }, SkillType.randomE, SkillDoType.unorder, 1.0f, 0, 3);
         s.beforeDo += ThunderChain;
         skillList.Add(s);
 
-        s = new Skill(25, SkillName.御风术, new List<PointColor> { PointColor.yellow }, new List<int> { 1 }, SkillType.self, SkillDoType.single, 0, 0, 0);
+        s = new Skill(25, SkillName.御风术, new List<PointColor> { PointColor.yellow }, new List<int> { 0 }, SkillType.self, SkillDoType.single, 0, 0, 0);
         s.skillDo += windMaster;
         skillList.Add(s);
 
-        s = new Skill(26, SkillName.传送, new List<PointColor> { PointColor.yellow, PointColor.white }, new List<int> { 1, 2 }, SkillType.selfP, SkillDoType.unorder, 0, 0, 0);
+        s = new Skill(26, SkillName.传送, new List<PointColor> { PointColor.yellow, PointColor.white }, new List<int> { 0, 0 }, SkillType.selfP, SkillDoType.unorder, 0, 0, 0);
         s.skillDo += transport;
         skillList.Add(s);
 
@@ -137,7 +137,7 @@ public class SkillTool {
         s.skillDo += capacitance;
         skillList.Add(s);
 
-        s = new Skill(31, SkillName.风暴前夕, new List<PointColor> { PointColor.yellow, PointColor.yellow, PointColor.white, PointColor.red, PointColor.blue },new List<int> {0,0,1,0,0} ,SkillType.self, SkillDoType.unorder, 0, 0, 0 );
+        s = new Skill(31, SkillName.风暴前夕, new List<PointColor> { PointColor.yellow, PointColor.yellow, PointColor.white, PointColor.red, PointColor.blue },new List<int> {0,0,0,0,0} ,SkillType.self, SkillDoType.unorder, 0, 0, 0 );
         s.skillDo += StormComing;
         skillList.Add(s);
 
@@ -149,7 +149,7 @@ public class SkillTool {
         s.skillDo += Flame;
         skillList.Add(s);
 
-        s = new Skill(34, SkillName.节点修复, new List<PointColor> { PointColor.white, PointColor.blue, PointColor.white }, new List<int> { 2, 1, 2 }, SkillType.selfP, SkillDoType.unorder, 0, 0, 0);
+        s = new Skill(34, SkillName.节点修复, new List<PointColor> { PointColor.white, PointColor.blue, PointColor.white }, new List<int> { 0, 0, 0 }, SkillType.selfP, SkillDoType.unorder, 0, 0, 0);
         s.skillDo += fixPoint;
         skillList.Add(s);
 
@@ -169,7 +169,7 @@ public class SkillTool {
         s.skillDo += pointBomb;
         skillList.Add(s);
 
-        s = new Skill(39, SkillName.重力, new List<PointColor> { PointColor.black, PointColor.black, PointColor.black, PointColor.black, PointColor.black }, new List<int> { 1, 1, 1, 1, 1 }, SkillType.singleE, SkillDoType.unorder, 0, 0, 1);
+        s = new Skill(39, SkillName.重力, new List<PointColor> { PointColor.black, PointColor.black, PointColor.black, PointColor.black, PointColor.black }, new List<int> { 0, 0, 0, 0, 0 }, SkillType.singleE, SkillDoType.unorder, 0, 0, 1);
         s.beforeDo += Gravity;
         skillList.Add(s);
 
@@ -180,7 +180,7 @@ public class SkillTool {
         foreach (Skill skill in skillList)
         {
             skill.skillDo += doDamage;
-            skill.beforeDo += doNull;
+            skill.beforeDo += CalculateDMG;
         }
     }
 
@@ -652,12 +652,29 @@ public class SkillTool {
 
     void doDamage(ref Magic magic)
     {
+       
+        //统计伤害值
+        int allcount = magic.skill.count + magic.skill.addcount;
+
+        if (magic.skill.skillType == SkillType.singleE)
+            magicCore.doAttackToMonster(magic.target, allcount, (int)magic.Damage);
+        else if (magic.skill.skillType == SkillType.allE)
+        {
+            magicCore.doAOEToMonster(allcount, (int)magic.Damage);
+        }
+        else if (magic.skill.skillType == SkillType.randomE)
+        {
+            magicCore.doRandomToMonster(allcount, (int)magic.Damage);
+        }
+    }
+
+    void CalculateDMG(ref Magic magic)
+    {
         List<Point> point = magicCore.getPoint();
         List<Move> route = magicCore.getRoute();
-        //统计伤害值
+
         int pStart = magic.magicRoute[0];
         int pEnd = magic.magicRoute[1];
-
 
         int atk = 0;
         for (int i = pStart; i <= pEnd; ++i)
@@ -668,22 +685,5 @@ public class SkillTool {
         atk = (int)Mathf.Ceil(atk * (magic.skill.power + magic.skill.addpower)) + (int)magic.skill.basic + (int)magic.skill.addbasic;
 
         magic.Damage = atk;
-        int allcount = magic.skill.count + magic.skill.addcount;
-
-        if (magic.skill.skillType == SkillType.singleE)
-            magicCore.doAttackToMonster(magic.target, allcount, (int)atk);
-        else if (magic.skill.skillType == SkillType.allE)
-        {
-            magicCore.doAOEToMonster(allcount, (int)atk);
-        }
-        else if (magic.skill.skillType == SkillType.randomE)
-        {
-            magicCore.doRandomToMonster(allcount, (int)atk);
-        }
-    }
-
-    void doNull(ref Magic m)
-    {
- 
     }
 }
