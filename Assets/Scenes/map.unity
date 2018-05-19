@@ -157,7 +157,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 50
+  orthographic size: 15
   m_Depth: 10
   m_CullingMask:
     serializedVersion: 2
@@ -358,7 +358,7 @@ GameObject:
   - component: {fileID: 310289017}
   - component: {fileID: 310289020}
   m_Layer: 8
-  m_Name: EventSystem
+  m_Name: EventSystem1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
