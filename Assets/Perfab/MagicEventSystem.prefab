@@ -9,19 +9,19 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1611770993972672}
+  m_RootGameObject: {fileID: 1321959857304202}
   m_IsPrefabParent: 1
---- !u!1 &1611770993972672
+--- !u!1 &1321959857304202
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4330346221407082}
-  - component: {fileID: 114897708098484466}
-  - component: {fileID: 114249737818660222}
-  - component: {fileID: 114591867336599182}
+  - component: {fileID: 4039011058120664}
+  - component: {fileID: 114702703059881880}
+  - component: {fileID: 114846155799899548}
+  - component: {fileID: 114718363375231346}
   m_Layer: 0
   m_Name: MagicEventSystem
   m_TagString: Untagged
@@ -29,12 +29,12 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4330346221407082
+--- !u!4 &4039011058120664
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1611770993972672}
+  m_GameObject: {fileID: 1321959857304202}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -42,30 +42,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114249737818660222
+--- !u!114 &114702703059881880
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1611770993972672}
+  m_GameObject: {fileID: 1321959857304202}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1077351063, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: -619905303, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_HorizontalAxis: Horizontal
-  m_VerticalAxis: Vertical
-  m_SubmitButton: Submit
-  m_CancelButton: Cancel
-  m_InputActionsPerSecond: 10
-  m_RepeatDelay: 0.5
-  m_ForceModuleActive: 0
---- !u!114 &114591867336599182
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 5
+--- !u!114 &114718363375231346
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1611770993972672}
+  m_GameObject: {fileID: 1321959857304202}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2bb0c15bcb9c651418f85fdc0fec9305, type: 3}
@@ -75,9 +71,10 @@ MonoBehaviour:
   nodes: {fileID: 0}
   lines: {fileID: 0}
   linePerb: {fileID: 1768600077517898, guid: 6af2a6018f7f0784c895ff16d8fefe1e, type: 2}
-  lineLightPerb: {fileID: 0}
+  lineLightPerb: {fileID: 1336802530362702, guid: eb0f9a105b008534f859f5450d93e410,
+    type: 2}
   itemPerb: {fileID: 1805570300893206, guid: 3b7742109e8ede146816e1463eecdd75, type: 2}
-  buffPerb: {fileID: 0}
+  buffPerb: {fileID: 1541907114480896, guid: e673d41699d5cb043865c41ba13d1624, type: 2}
   monster0: {fileID: 0}
   startButton: {fileID: 0}
   showState: {fileID: 0}
@@ -96,11 +93,16 @@ MonoBehaviour:
   SpFigure0: {fileID: 1127486290602200, guid: 9ab811597805f504eac0df8bfde067c9, type: 2}
   SpFigure1: {fileID: 1880751768732458, guid: cd00166eb742ef549a04642e87a9ac30, type: 2}
   SpFigure2: {fileID: 1690029379925316, guid: 4efa728b6da01d34f935f42113acf315, type: 2}
-  blackSkilLine: {fileID: 0}
-  whiteSkillLine: {fileID: 0}
-  redSkillLine: {fileID: 0}
-  blueSKillLine: {fileID: 0}
-  yellowSkillLine: {fileID: 0}
+  blackSkilLine: {fileID: 1583620554799466, guid: 194940f15c44edd42a6840d5ac400911,
+    type: 2}
+  whiteSkillLine: {fileID: 1616800895477126, guid: afb21a47ad12d9d49a04710b4f6aaffd,
+    type: 2}
+  redSkillLine: {fileID: 1238792778982510, guid: a8054e8c15a076846bf390ee68c21928,
+    type: 2}
+  blueSKillLine: {fileID: 1836216049175236, guid: e208633d7ff1b454a9002a16b2668b63,
+    type: 2}
+  yellowSkillLine: {fileID: 1696842858326486, guid: bace02e936c3a3940b57eb7170634ab8,
+    type: 2}
   mPosDetect: {fileID: 0}
   skillList:
   - {fileID: 0}
@@ -110,19 +112,23 @@ MonoBehaviour:
   tempSprite: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
   Skilltext: {fileID: 4900000, guid: 3ed040d5bcdef7b4fa8eda3daf7ba7ae, type: 3}
   Itemtext: {fileID: 4900000, guid: 578667ed9b37fe54181967ba22def389, type: 3}
-  bufftext: {fileID: 0}
+  bufftext: {fileID: 4900000, guid: 01f31bb29476089449471aaba54787cd, type: 3}
   isShow: 0
---- !u!114 &114897708098484466
+--- !u!114 &114846155799899548
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1611770993972672}
+  m_GameObject: {fileID: 1321959857304202}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -619905303, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 1077351063, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
-  m_sendNavigationEvents: 1
-  m_DragThreshold: 5
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
