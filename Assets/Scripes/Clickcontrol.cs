@@ -57,6 +57,7 @@ public class Clickcontrol : MonoBehaviour {
     private List<GameObject> itemGameObjectlist;
     private List<GameObject> buffGameObjectlist;
     private List<ItemName> items;
+    private List<MonsterMatch> monsterDegreeList;
     private Dictionary<BuffName, int> buffs;
     ItemBuff Ibuff;
     ItemName it;
@@ -72,6 +73,8 @@ public class Clickcontrol : MonoBehaviour {
     private int overCount;
     private int itemCount;
     private int buffCount;
+    private int currentLevel;
+
     // Use this for initialization
     void Start () {
 
@@ -107,8 +110,14 @@ public class Clickcontrol : MonoBehaviour {
         overCount = 4;
         //buff个数
         buffCount = 0;
-        
-        magic.addMonster(monster0.GetComponent<Monster>());
+
+
+        currentLevel = MapMain.Instance.CurrentLevel();
+        MonsterMatch currentMatch = ChooseMonster();
+        InitializeMonster(currentMatch.monster1);
+        InitializeMonster(currentMatch.monster2);
+        InitializeMonster(currentMatch.monster3);
+        //magic.addMonster(monster0.GetComponent<Monster>());
         magic.startTurn();
 
         //初始化节点位置
@@ -907,6 +916,91 @@ public class Clickcontrol : MonoBehaviour {
 
             EFController.Instance.RoadTransfer(lineGameObjectlist[l], normal, pointGameObjectlist[ps], pointGameObjectlist[pe], delay, time,isPara);
             lineGameObjectlist[l] = normal;
+        }
+    }
+
+    void InitializeMonsterDegreeList()
+    {
+        monsterDegreeList = new List<MonsterMatch>();
+        MonsterMatch newcomer = new MonsterMatch(MonsterType.Empty, MonsterType.Slime,MonsterType.Empty);
+        MonsterMatch triSlime = new MonsterMatch(MonsterType.Slime, MonsterType.Slime,MonsterType.Slime);
+        MonsterMatch SwordMan = new MonsterMatch(MonsterType.Slime, MonsterType.DoubleSwordMan,MonsterType.Slime);
+        MonsterMatch swordManUnion = new MonsterMatch(MonsterType.DoubleSwordMan,MonsterType.DoubleSwordMan,MonsterType.DoubleSwordMan);
+        MonsterMatch bigSpider1 = new MonsterMatch(MonsterType.Slime,MonsterType.BigSpider,MonsterType.DoubleSwordMan);
+        MonsterMatch bigSpider2 = new MonsterMatch(MonsterType.Slime, MonsterType.BigSpider, MonsterType.Slime);
+        MonsterMatch bigSpider3 = new MonsterMatch(MonsterType.DoubleSwordMan, MonsterType.BigSpider,MonsterType.Slime);
+        MonsterMatch bigSpiderUnion = new MonsterMatch(MonsterType.BigSpider, MonsterType.BigSpider, MonsterType.BigSpider);
+        MonsterMatch vampire1 = new MonsterMatch(MonsterType.Slime, MonsterType.Vampire, MonsterType.Slime);
+        MonsterMatch vampire2 = new MonsterMatch(MonsterType.Slime, MonsterType.Vampire, MonsterType.DoubleSwordMan);
+        MonsterMatch vampire3 = new MonsterMatch(MonsterType.Slime, MonsterType.Vampire, MonsterType.BigSpider);
+        MonsterMatch vampire4 = new MonsterMatch(MonsterType.Slime, MonsterType.Vampire, MonsterType.BigSpider);
+
+
+        monsterDegreeList.Add(newcomer);
+        monsterDegreeList.Add(triSlime);
+        monsterDegreeList.Add(SwordMan);
+        monsterDegreeList.Add(swordManUnion);
+        monsterDegreeList.Add(bigSpider1);
+        monsterDegreeList.Add(bigSpider2);
+        monsterDegreeList.Add(bigSpider3);
+        monsterDegreeList.Add(bigSpiderUnion);
+        monsterDegreeList.Add(vampire1);
+        monsterDegreeList.Add(vampire2);
+        monsterDegreeList.Add(vampire3);
+        monsterDegreeList.Add(vampire4);
+    }
+
+    MonsterMatch ChooseMonster()
+    {
+        MonsterMatch temp = new MonsterMatch();
+        if (currentLevel == 0)
+        {
+            temp = monsterDegreeList[0];
+        }
+        if(currentLevel <=3 && currentLevel>0)
+        {
+            temp = monsterDegreeList[Random.Range(1, 2)];
+        }
+        if(currentLevel <=7 && currentLevel >3)
+        {
+            temp = monsterDegreeList[Random.Range(3, 6)];
+        }
+        if(currentLevel<=10 && currentLevel>7)
+        {
+            temp = monsterDegreeList[Random.Range(7, 11)];
+        }
+        return temp;
+    }
+
+    void InitializeMonster(MonsterType m)
+    {
+        if (m == MonsterType.Empty)
+        {
+            return;
+        }
+        if (m == MonsterType.Slime)
+        {
+            Slime temp = new Slime();
+            Monster tempMonster = temp;
+            magic.addMonster(tempMonster);
+        }
+        if (m == MonsterType.DoubleSwordMan)
+        {
+            DoubleSwordMan temp = new DoubleSwordMan();
+            Monster tempMonster = temp;
+            magic.addMonster(tempMonster);
+        }
+        if (m == MonsterType.BigSpider)
+        {
+            BigSpider temp = new BigSpider();
+            Monster tempMonster = temp;
+            magic.addMonster(tempMonster);
+        }
+        if (m== MonsterType.Vampire)
+        {
+            Vampire temp = new Vampire();
+            Monster tempMonster = temp;
+            magic.addMonster(tempMonster);
         }
     }
     

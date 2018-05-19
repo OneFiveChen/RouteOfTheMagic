@@ -210,6 +210,30 @@ namespace RouteOfTheMagic
         count
     }
 
+    public enum MonsterType
+    {
+        Empty = 0,
+        Slime = 1,
+        AngrySlime =2,
+        DoubleSwordMan = 3,
+        BigSpider = 4,
+        Vampire = 5,
+        Boss_TurnMan = 101,
+    }
+
+    public struct MonsterMatch
+    {
+        public MonsterType monster1;
+        public MonsterType monster2;
+        public MonsterType monster3;
+        public MonsterMatch(MonsterType m1, MonsterType m2, MonsterType m3)
+        {
+            monster1 = m1;
+            monster2 = m2;
+            monster3 = m3;
+        }
+    }
+
     /// <summary>
     /// 节点对象的结构
     /// </summary>
