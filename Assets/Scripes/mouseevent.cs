@@ -64,7 +64,7 @@ public class mouseevent : MonoBehaviour {
             if (magic.drag(int.Parse(this.tag)))
             {
                 //添加转换特效
-                GameObject.Find("EventSystem").GetComponent<Clickcontrol>().newLineTransfer(true);
+                GameObject.Find("MagicEventSystem").GetComponent<Clickcontrol>().newLineTransfer(true);
             }
         }
         if (Input.GetMouseButton(1))

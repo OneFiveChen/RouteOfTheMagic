@@ -79,10 +79,10 @@ public class Clickcontrol : MonoBehaviour {
         items = new List<ItemName>();
         buffs = new Dictionary<BuffName, int>();
 
-        it = (ItemName)Random.Range(0, (int)ItemName.count);
+        it = (ItemName)Random.Range(0, 13);
         while (magic.getItemHad(it))
         {
-            it = (ItemName)Random.Range(0, (int)ItemName.count);
+            it = (ItemName)Random.Range(0, 13);
         }
         sk = (SkillName)Random.Range(0, (int)SkillName.count);
         while (magic.getSKillHad(sk))
@@ -201,14 +201,13 @@ public class Clickcontrol : MonoBehaviour {
             Destroy(GameObject.Find("Canvas"));
             magic.initMagic();
         }
-        else
-            GameObject.Find("Death").transform.localScale = new Vector3(0, 0, 0);
+        
 
         //控制特效刷新
         EFController.Instance.Update();
 
         //道具信息消失
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Mouse0)&& GameObject.Find("itemDetail"))
             GameObject.Find("itemDetail").transform.localScale=new Vector3 (0,0,0);
 
         //道具查看与更新

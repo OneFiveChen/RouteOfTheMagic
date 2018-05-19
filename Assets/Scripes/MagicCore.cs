@@ -785,7 +785,7 @@ public class MagicCore {
             if (mRoute.Count > 0 && mRoute[0].moveLine != -1)
             {
                 mLine[mRoute[0].moveLine].isPassed = false;
-                GameObject.Find("EventSystem").GetComponent<Clickcontrol>().newLineTransfer(false, false, pc , 5, (count - 1) * 5);
+                GameObject.Find("MagicEventSystem").GetComponent<Clickcontrol>().newLineTransfer(false, false, pc , 5, (count - 1) * 5);
             }
             mRoute.RemoveAt(0);
             --i;
@@ -1084,6 +1084,7 @@ public class MagicCore {
                     foreach (int s in ed.sorce)
                     {
                         doDamage(mMonster[s].attackValue, s);
+                        mMonster[s].LastFinalAttackValue(mMonster[s].attackValue);
                         Debug.Log(ed.ID);
                         ed.sorce.Remove(s);
                         ed.damage -= mMonster[s].attackValue;
@@ -1158,7 +1159,7 @@ public class MagicCore {
                     for (int i = 0; i <= Loc; ++i)
                     {
                         if(mRoute[0].moveLine != -1)
-                            GameObject.Find("EventSystem").GetComponent<Clickcontrol>().newLineTransfer(false, false, PointColor.white, 5, (count-1) * 5);
+                            GameObject.Find("MagicEventSystem").GetComponent<Clickcontrol>().newLineTransfer(false, false, PointColor.white, 5, (count-1) * 5);
                         recoverMagic(mRoute[0].pEnd);
                         if (mRoute[0].moveLine != -1)
                             mLine[mRoute[0].moveLine].isPassed = false;
@@ -1170,9 +1171,11 @@ public class MagicCore {
                     {
                         Move m = mRoute[0];
                         m.pStart = m.pEnd;
+                        GameObject.Find("MagicEventSystem").GetComponent<Clickcontrol>().newLineTransfer(false, false, PointColor.white, 5, (count - 1) * 5);
                         mLine[m.moveLine].isPassed = false;
                         m.moveLine = -1;
                         mRoute[0] = m;
+
                     }
 
                     foreach (Move m in mRoute)
@@ -1505,13 +1508,30 @@ public class MagicCore {
         //挨打
         doDefence();
 
+        for (int i = 0; i < 4; ++i)
+        {
+            if (isMonsterLive(i))
+            {
+                mMonster[i].SpecialEffect();
+            }
+        }
+
         cf = ClickFlag.normal;
 
         //回合开始========================================
         ATK = MaxATK;
+
         ++turn;
+
         cf = ClickFlag.normal;
 
+        for (int i = 0; i < 4; ++i)
+        {
+            if (isMonsterLive(i))
+            {
+                mMonster[i].SkillBox();
+            }
+        }
 
         //存入初始路径
         Move m;
@@ -1667,7 +1687,7 @@ public class MagicCore {
             if (mRoute.Count > 0 && mRoute[0].moveLine != -1)
             {
                 mLine[mRoute[0].moveLine].isPassed = false;
-                GameObject.Find("EventSystem").GetComponent<Clickcontrol>().newLineTransfer(false, false, pc, 5, (i - 1) * 5);
+                GameObject.Find("MagicEventSystem").GetComponent<Clickcontrol>().newLineTransfer(false, false, pc, 5, (i - 1) * 5);
             }
             mRoute.RemoveAt(0);
 
