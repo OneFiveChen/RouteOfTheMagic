@@ -4472,8 +4472,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-
-  m_AnchoredPosition: {x: 0.00002081282, y: -0.000011444092}
+  m_AnchoredPosition: {x: 0.000012964853, y: -0.000011444092}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1319932351
@@ -6017,7 +6016,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-<<<<<<< HEAD
 --- !u!114 &1890502459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6029,13 +6027,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91fe85aacfe5c62499ccecec6e0759e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-=======
 --- !u!1 &1897288267 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1562618367640446, guid: 7e2f5a3bdaa65b543b0e0115d40b58c4,
     type: 2}
   m_PrefabInternal: {fileID: 1123585713}
->>>>>>> 4c6ad0217aeb26dd8b4f9b0b3da359a83fee1ef7
 --- !u!1 &1913115031
 GameObject:
   m_ObjectHideFlags: 0
