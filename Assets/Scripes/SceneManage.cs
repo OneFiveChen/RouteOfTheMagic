@@ -19,4 +19,9 @@ public class SceneManage : MonoBehaviour {
     {
         SceneManager.LoadScene("map");
     }
+    //点击切换start界面
+    public void toStart()
+    {
+        SceneManager.LoadScene("start");
+    }
 }
