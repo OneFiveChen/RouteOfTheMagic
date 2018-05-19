@@ -78,14 +78,15 @@ MonoBehaviour:
   monster0: {fileID: 0}
   startButton: {fileID: 0}
   showState: {fileID: 0}
+  showPanel: {fileID: 0}
   itemLists: {fileID: 0}
+  itemdetail: {fileID: 0}
   buffLists: {fileID: 0}
   detail: {fileID: 0}
   gameOver: {fileID: 0}
   drop: {fileID: 0}
   canvas: {fileID: 0}
   ATK: {fileID: 0}
-  DEF: {fileID: 0}
   HP: {fileID: 0}
   figure0: {fileID: 1660972359296648, guid: dd392375b26a52b4fba55636cf924cd6, type: 2}
   figure1: {fileID: 1622404057849082, guid: bec28c564f4d7d5448b5d3f832e866be, type: 2}
