@@ -42,11 +42,11 @@ public class mouseevent : MonoBehaviour {
 
         if (magic.getFlag() != ClickFlag.wait)
         {
-            //当前节点变大
-            if (magic.getPos() == int.Parse(this.tag))
-                this.transform.localScale = new Vector3(3, 3, 0);
-            else
-                this.transform.localScale = new Vector3(2, 2, 0);
+            ////当前节点变大
+            //if (magic.getPos() == int.Parse(this.tag))
+            //    this.transform.localScale = new Vector3(3, 3, 0);
+            //else
+            //    this.transform.localScale = new Vector3(2, 2, 0);
         }
 
         //空白处按右键，取消所有操作

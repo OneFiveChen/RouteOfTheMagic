@@ -454,8 +454,8 @@ public class MagicCore {
         //恢复魔力
         for (int i = 0; i < RStart; ++i)
         {
+           
             recoverMagic(mRoute[i].pEnd);
-
         }
 
         //如果没有要求，就啥都不做
@@ -634,6 +634,9 @@ public class MagicCore {
             mPoint[id].magic += 1;
         //取消激活
         mPoint[id].isActivity = false;
+       
+
+
         //魔力放出伤害
         //执行回复魔力事件
     }
@@ -772,17 +775,20 @@ public class MagicCore {
         skillReady.skill.addcount = 0;
         skillReady.skill.addpower = 0;
         //更新mRoute
+        int count = 0;
         for (int i = 0; i < mRoute.Count; ++i)
         {
             //获取技能属性
             PointColor pc = skillReady.skill.mRequire[0];
+            count += 1;
 
             if (mRoute.Count > 0 && mRoute[0].moveLine != -1)
             {
                 mLine[mRoute[0].moveLine].isPassed = false;
-                GameObject.Find("EventSystem").GetComponent<Clickcontrol>().newLineTransfer(false, false, pc , 5, (i - 1) * 5);
+                GameObject.Find("EventSystem").GetComponent<Clickcontrol>().newLineTransfer(false, false, pc , 5, (count - 1) * 5);
             }
             mRoute.RemoveAt(0);
+            --i;
 
         }
         if (mRoute.Count > 0)
@@ -1148,12 +1154,16 @@ public class MagicCore {
                 }
                 if (Loc != -1)
                 {
+                    int count = 0;
                     for (int i = 0; i <= Loc; ++i)
                     {
+                        if(mRoute[0].moveLine != -1)
+                            GameObject.Find("EventSystem").GetComponent<Clickcontrol>().newLineTransfer(false, false, PointColor.white, 5, (count-1) * 5);
                         recoverMagic(mRoute[0].pEnd);
                         if (mRoute[0].moveLine != -1)
                             mLine[mRoute[0].moveLine].isPassed = false;
                         mRoute.RemoveAt(0);
+                        count += 1;
                     }
 
                     if (mRoute.Count != 0)
@@ -1302,7 +1312,7 @@ public class MagicCore {
                 Line l = mLine[roadID];
                 l.isPassed = true;
                 mLine[roadID] = l;
-
+                r = true;
             }
             else
             {
@@ -1317,7 +1327,7 @@ public class MagicCore {
 
             FreshSkillActivity();
             mPos = locate;
-            r = true;
+            
         }
         return r;
     }
