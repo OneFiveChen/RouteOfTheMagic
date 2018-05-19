@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 114846155799899548}
   - component: {fileID: 114718363375231346}
   m_Layer: 0
-  m_Name: EventSystem
+  m_Name: MagicEventSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

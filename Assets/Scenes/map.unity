@@ -358,7 +358,7 @@ GameObject:
   - component: {fileID: 310289017}
   - component: {fileID: 310289020}
   m_Layer: 8
-  m_Name: MagicEventSystem
+  m_Name: EventSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
