@@ -255,25 +255,25 @@ public class Clickcontrol : MonoBehaviour {
         {
             InitPoint(1.8f, 120 - i * 60);
             pointGameObjectlist[pointGameObjectlist.Count - 1].transform.GetChild(0).localPosition = 0.09f * (pointGameObjectlist[pointGameObjectlist.Count - 1].transform.localPosition - pos0);
-            EFController.Instance.NewRingCreatAnimation(pointGameObjectlist[pointGameObjectlist.Count - 1], 30, 10, 2, 1);
+            EFController.Instance.NewRingCreatAnimation(pointGameObjectlist[pointGameObjectlist.Count - 1], 30, 10, 3, 1);
         }
         for (int i = 0; i < 6; ++i)
         {
             InitPoint(1.8f * Mathf.Sqrt(3), 90 - i * 60);
             pointGameObjectlist[pointGameObjectlist.Count - 1].transform.GetChild(0).localPosition = -0.06f * (pointGameObjectlist[pointGameObjectlist.Count - 1].transform.localPosition - pos0);
-            EFController.Instance.NewRingCreatAnimation(pointGameObjectlist[pointGameObjectlist.Count - 1], 65, 10, 2, 1);
+            EFController.Instance.NewRingCreatAnimation(pointGameObjectlist[pointGameObjectlist.Count - 1], 65, 10, 3, 1);
         }
         for (int i = 0; i < 3; ++i)
         {
             InitPoint(5.4f, 90 - i * 120);
             pointGameObjectlist[pointGameObjectlist.Count - 1].transform.GetChild(0).localPosition = 0.04f * (pointGameObjectlist[pointGameObjectlist.Count - 1].transform.localPosition - pos0);
-            EFController.Instance.NewRingCreatAnimation(pointGameObjectlist[pointGameObjectlist.Count - 1], 95, 10, 2, 1);
+            EFController.Instance.NewRingCreatAnimation(pointGameObjectlist[pointGameObjectlist.Count - 1], 95, 10, 3, 1);
         }
         for (int i = 0; i < 3; ++i)
         {
             InitPoint(5.4f, 150 - i * 120);
             pointGameObjectlist[pointGameObjectlist.Count - 1].transform.GetChild(0).localPosition = 0.04f * (pointGameObjectlist[pointGameObjectlist.Count - 1].transform.localPosition - pos0);
-            EFController.Instance.NewRingCreatAnimation(pointGameObjectlist[pointGameObjectlist.Count - 1], 95, 10, 2, 1);
+            EFController.Instance.NewRingCreatAnimation(pointGameObjectlist[pointGameObjectlist.Count - 1], 95, 10, 3, 1);
         }
     }
 
@@ -858,7 +858,6 @@ public class Clickcontrol : MonoBehaviour {
             GameObject normal = new GameObject();
             //修改粒子系统参数
             GameObject newParSys = new GameObject();
-            ParticleSystem pSys = lineGameObjectlist[l].GetComponentInChildren<ParticleSystem>();
             switch (skillColor)
             {
                 case PointColor.black:
