@@ -222,11 +222,12 @@ public class Clickcontrol : MonoBehaviour {
         buffupdate();
 
         //刷新怪物血量
-        foreach(Transform child in monsterList.transform)
+        for (int i=0;i<monsterList.transform.childCount;++i)
         {
-            child.GetComponentInChildren<Text>().text= "MonsterHP=" + magic.getMonsterList()[int.Parse(child.name)].monsterHP;
+            if (magic.isMonsterLive(i))
+            monsterList.transform.GetChild(i).GetComponentInChildren<Text>().text =
+                magic.getMonsterList()[int.Parse(monsterList.transform.GetChild(i).name)].monsterHP.ToString();
         }
-
     }
 
     //初始化
@@ -492,7 +493,6 @@ public class Clickcontrol : MonoBehaviour {
     {
         btnGameObject = EventSystem.current.currentSelectedGameObject;
         int monsterID = int.Parse(btnGameObject.name);
-        Debug.Log(monsterID);
         MagicCore.Instance.LclickM(monsterID);
     }
 
@@ -1024,7 +1024,7 @@ public class Clickcontrol : MonoBehaviour {
             {
                 GameObject m = GameObject.Instantiate(monsterPerb, monsterList.transform);
                 m.name = i.ToString();
-                m.GetComponentInChildren<Text>().text = "MonsterHP=" + magic.getMonsterList()[i].monsterHP;
+                m.GetComponentInChildren<Text>().text = magic.getMonsterList()[i].monsterHP.ToString();
                 if (magic.getMonsterList().Count == 1)
                 {
                     m.transform.localPosition = new Vector3(0, -100, 0);
