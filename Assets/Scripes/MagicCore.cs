@@ -25,12 +25,9 @@ public class MagicCore {
         mMonster = new List<Monster>();
         mMonsterAttack = new List<EDamage>();
 
-        addBuff(itemTool.getItem(ItemName.即死领悟), -1);
-        addBuff(itemTool.getItem(ItemName.万用节点), -1);
-
-        MaxHp = 1;
-        MaxATK = 10;
-        MaxDEF = 1;
+        MaxHp = 100;
+        MaxATK = 5;
+        MaxDEF = 0;
         Hp = MaxHp;
         mPos = 0;
 
@@ -1085,6 +1082,7 @@ public class MagicCore {
 
                     foreach (int s in ed.sorce)
                     {
+
                         doDamage(mMonster[s].attackValue, s);
                         Debug.Log(ed.ID);
                         ed.sorce.Remove(s);
@@ -1262,7 +1260,8 @@ public class MagicCore {
             Skill s = mSkill[skillNum];
             if (s.useable == true)
             {
-                
+                skillReady.skill = s;
+                skillReady.magicRoute = getSuitRoute(s.mRequire, s.skillDoType);
 
                 if (s.skillType == SkillType.singleE)
                 {
@@ -1964,13 +1963,13 @@ public class MagicCore {
         p = new Point(6, PointColor.black, PointType.normal, 2, new List<int> { 5, 10, 11, 21, 22 });
         r.Add(p);
 
-        p = new Point(7, PointColor.red, PointType.normal, 3, new List<int> { 12, 13, 30, 31, 36 });
+        p = new Point(7, PointColor.red, PointType.normal, 0, new List<int> { 12, 13, 30, 31, 36 });
         r.Add(p);
 
-        p = new Point(8, PointColor.yellow, PointType.normal, 3, new List<int> { 14, 15, 25, 26 });
+        p = new Point(8, PointColor.yellow, PointType.normal, 0, new List<int> { 14, 15, 25, 26 });
         r.Add(p);
 
-        p = new Point(9, PointColor.blue, PointType.normal, 3, new List<int> { 16, 17, 32, 33, 37 });
+        p = new Point(9, PointColor.blue, PointType.normal, 0, new List<int> { 16, 17, 32, 33, 37 });
         r.Add(p);
 
         p = new Point(10, PointColor.red, PointType.normal, 0, new List<int> { 18, 19, 27, 28 });
@@ -2234,36 +2233,42 @@ public class MagicCore {
     {
         skillReady.skill = mSkill[i];               //保存准备释放的技能对象
         skillReady.magicRoute = getSuitRoute(mSkill[i].mRequire, mSkill[i].skillDoType);   //获取技能的子路径
-        mSkill[i].beforeDo(ref skillReady);
+        if (skillReady.magicRoute.Count > 0 )
+        {
+            mSkill[i].beforeDo(ref skillReady);
 
-        //生成转变动画
-        for (int id = 1; id < skillReady.magicRoute[0]; ++id)
-        {
-            //节点恢复变成绿色
-            GameObject.Find("MagicEventSystem").GetComponent<Clickcontrol>().LineColorChange(mRoute[id].moveLine,mRoute[id].pStart,mRoute[id].pEnd,new Color(0,1,0,1),(id - 1)*10);
-        }
-        if (skillReady.skill.skillDoType != SkillDoType.norequire)
-        {
-            for (int id = skillReady.magicRoute[0]; id <= skillReady.magicRoute[1]; ++id)
+            //生成转变动画
+            if (skillReady.magicRoute[0] > 1)
             {
-                //节点恢复变成技能的颜色
-                Color c = new Color(1,1,1);
-                switch (skillReady.skill.mRequire[0])
+                for (int id = 1; id < skillReady.magicRoute[0]; ++id)
                 {
-                    case PointColor.black:
-                        c = new Color(0.5f, 0, 0.5f);
-                        break;
-                    case PointColor.blue:
-                        c = new Color(0, 0, 0.5f);
-                        break;
-                    case PointColor.red:
-                        c = new Color(0.5f, 0, 0);
-                        break;
-                    case PointColor.yellow:
-                        c = new Color(0.5f, 0.5f, 0);
-                        break;
+                    //节点恢复变成绿色
+                    GameObject.Find("MagicEventSystem").GetComponent<Clickcontrol>().LineColorChange(mRoute[id].moveLine, mRoute[id].pStart, mRoute[id].pEnd, new Color(0, 1, 0, 1), (id - 1) * 10);
                 }
-                GameObject.Find("MagicEventSystem").GetComponent<Clickcontrol>().LineColorChange(mRoute[id].moveLine, mRoute[id].pStart, mRoute[id].pEnd, new Color(0, 1, 0, 1), (id - 1) * 10);
+            }
+            if (skillReady.skill.skillDoType != SkillDoType.norequire)
+            {
+                for (int id = skillReady.magicRoute[0]; id <= skillReady.magicRoute[1]; ++id)
+                {
+                    //节点恢复变成技能的颜色
+                    Color c = new Color(1, 1, 1);
+                    switch (skillReady.skill.mRequire[0])
+                    {
+                        case PointColor.black:
+                            c = new Color(0.5f, 0, 0.5f);
+                            break;
+                        case PointColor.blue:
+                            c = new Color(0, 0, 0.5f);
+                            break;
+                        case PointColor.red:
+                            c = new Color(0.5f, 0, 0);
+                            break;
+                        case PointColor.yellow:
+                            c = new Color(0.5f, 0.5f, 0);
+                            break;
+                    }
+                    GameObject.Find("MagicEventSystem").GetComponent<Clickcontrol>().LineColorChange(mRoute[id].moveLine, mRoute[id].pStart, mRoute[id].pEnd, c, (id - 1) * 10);
+                }
             }
         }
     }
@@ -2274,10 +2279,13 @@ public class MagicCore {
         skillReady.skill.addcount = 0;
         skillReady.skill.addpower = 0;
 
-        for (int id = 1; id < mRoute.Count; ++id)
+        if (skillReady.skill.skillDoType != SkillDoType.norequire)
         {
-            //节点恢复变成绿色
-            GameObject.Find("MagicEventSystem").GetComponent<Clickcontrol>().LineColorChange(mRoute[id].moveLine, mRoute[id].pStart, mRoute[id].pEnd, new Color(1, 1, 1, 1), (id - 1) * 10);
+            for (int id = 1; id < mRoute.Count; ++id)
+            {
+                //节点恢复变成绿色
+                GameObject.Find("MagicEventSystem").GetComponent<Clickcontrol>().LineColorChange(mRoute[id].moveLine, mRoute[id].pStart, mRoute[id].pEnd, new Color(1, 1, 1, 1), (id - 1) * 10);
+            }
         }
     }
 

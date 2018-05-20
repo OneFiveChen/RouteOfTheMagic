@@ -560,10 +560,10 @@ namespace RouteOfTheMagic
                 int tempLineNum = Random.Range(0, (tempLine.Count - 1));
                 if(!haveChoosedLine.Contains(tempLineNum) && isLineExised(tempLineNum))
                 {
-                  
                     haveChoosedLine.Add(tempLineNum);
                     tempList.Add(tempLine[tempLineNum].roateID);
-                }else{
+                }else
+                {
                     continue;
                 }
             }
