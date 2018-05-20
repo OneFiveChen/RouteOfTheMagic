@@ -32,7 +32,7 @@ namespace RouteOfTheMagic
         }
         public string RandomTwo()
         {
-            int num = Random.Range(0, onClickOneEvents.Count);
+            int num = Random.Range(0, onClickTwoEvents.Count);
             onClickTwoEvents[num].Invoke();
             return twoThings[num];
         }
