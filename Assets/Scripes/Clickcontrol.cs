@@ -17,12 +17,13 @@ public class Clickcontrol : MonoBehaviour {
     public GameObject lineLightPerb;
     public GameObject itemPerb;
     public GameObject buffPerb;
-    public GameObject monster0;
+    public GameObject monsterPerb;
     public GameObject startButton;
     public GameObject showState;
     public GameObject showPanel;
     public GameObject itemLists;
     public GameObject buffLists;
+    public GameObject monsterList;
     public GameObject detail;
     public GameObject gameOver;
     public GameObject drop;
@@ -125,7 +126,8 @@ public class Clickcontrol : MonoBehaviour {
         //初始化花纹
         InitFigure();
 
-
+        //初始化怪物
+        Initmonster();
     }
 	
 	// Update is called once per frame
@@ -211,6 +213,12 @@ public class Clickcontrol : MonoBehaviour {
         itemupdate();
         //更新buff
         buffupdate();
+
+        //刷新怪物血量
+        foreach(Transform child in monsterList.transform)
+        {
+            child.GetComponentInChildren<Text>().text= "MonsterHP=" + magic.getMonsterList()[int.Parse(child.name)].monsterHP;
+        }
 
     }
 
@@ -477,7 +485,8 @@ public class Clickcontrol : MonoBehaviour {
     {
         btnGameObject = EventSystem.current.currentSelectedGameObject;
         int monsterID = int.Parse(btnGameObject.name);
-        magic.LclickM(monsterID);
+        Debug.Log(monsterID);
+        MagicCore.Instance.LclickM(monsterID);
     }
 
     //绘制连线颜色
@@ -973,29 +982,55 @@ public class Clickcontrol : MonoBehaviour {
         {
             Slime temp = new Slime();
             temp.Start();
-            Debug.Log("MonsterHP++++" + temp.monsterHP);
             Monster tempMonster = temp;
             magic.addMonster(tempMonster);
         }
         if (m == MonsterType.DoubleSwordMan)
         {
             DoubleSwordMan temp = new DoubleSwordMan();
+            temp.Start();
             Monster tempMonster = temp;
             magic.addMonster(tempMonster);
         }
         if (m == MonsterType.BigSpider)
         {
             BigSpider temp = new BigSpider();
+            temp.Start();
             Monster tempMonster = temp;
             magic.addMonster(tempMonster);
         }
         if (m == MonsterType.Vampire)
         {
             Vampire temp = new Vampire();
+            temp.Start();
             Monster tempMonster = temp;
             magic.addMonster(tempMonster);
         }
     }
 
-
+    public void Initmonster()
+    {
+        for (int i = 0; i < 3; ++i)
+        {
+            if (magic.isMonsterLive(i))
+            {
+                GameObject m = GameObject.Instantiate(monsterPerb, monsterList.transform);
+                m.name = i.ToString();
+                m.GetComponentInChildren<Text>().text = "MonsterHP=" + magic.getMonsterList()[i].monsterHP;
+                if (magic.getMonsterList().Count == 1)
+                {
+                    m.transform.localPosition = new Vector3(0, -100, 0);
+                }
+                else if (magic.getMonsterList().Count == 2)
+                {
+                    m.transform.localPosition = new Vector3(200 * i-100, -100, 0);
+                }
+                else if (magic.getMonsterList().Count == 3)
+                {
+                    m.transform.localPosition = new Vector3(200 * i - 200, -100, 0);
+                }
+                   
+            }
+        }
+    }
 }

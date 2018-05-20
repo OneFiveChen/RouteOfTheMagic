@@ -20,7 +20,7 @@ public class mouseevent : MonoBehaviour {
         magic = MagicCore.Instance;
         pList = magic.getPoint();
 
-        pointStatus();
+        
         //判断状态,确定节点是否显示，以及其魔力值等
         if (magic.getPoint(int.Parse(this.tag)).MaxMagic == 0)
         {
@@ -32,7 +32,7 @@ public class mouseevent : MonoBehaviour {
             magic.getPoint(int.Parse(this.tag)).magic + "";
             this.GetComponent<SpriteRenderer>().sprite = oldSprite;
         }
-
+        pointStatus();
         //节点颜色初始化
         this.GetComponent<SpriteRenderer>().color = toPointColor(magic.getPointColor(int.Parse(this.tag)));
         if (magic.isDefencer(int.Parse(this.tag)))
@@ -125,7 +125,7 @@ public class mouseevent : MonoBehaviour {
     {
         if (magic.getPointBroked(int.Parse(this.tag)))
         {
-            this.GetComponent<SpriteRenderer>().sprite = mySprite;
+            //this.GetComponent<SpriteRenderer>().sprite = mySprite;
             this.GetComponentInChildren<TextMesh>().text = null;
         }
     }
