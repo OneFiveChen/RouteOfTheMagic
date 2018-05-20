@@ -83,7 +83,7 @@ namespace RouteOfTheMagic
         public GameObject[] Root;
         private UiRender render;
         public int layerCount = 5;
-        public Button addAtk;
+        //public Button addAtk;
         private MagicCore magicCore;
         static MapMain instance;
         MapNode currentMapNode;
@@ -141,7 +141,7 @@ namespace RouteOfTheMagic
             magicCore = MagicCore.Instance;
             render = mapRoot.transform.GetChild(0).GetComponent<UiRender>();
             Init();
-            addAtk.onClick.AddListener(AddAtk);
+            //addAtk.onClick.AddListener(AddAtk);
 
             DontDestroyOnLoad(this.gameObject);
 
@@ -434,11 +434,11 @@ namespace RouteOfTheMagic
 
         void Update()
         {
-            //测试用代码
-            if (magicCore.skillPoint > 2)
-                addAtk.interactable = true;
-            else
-                addAtk.interactable = false;
+            ////测试用代码
+            //if (magicCore.skillPoint > 2)
+            //    addAtk.interactable = true;
+            //else
+            //    addAtk.interactable = false;
 
         }
         /// <summary>
