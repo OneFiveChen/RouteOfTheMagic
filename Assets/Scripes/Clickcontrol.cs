@@ -179,6 +179,13 @@ public class Clickcontrol : MonoBehaviour {
                         break;
                     }
                 }
+                //foreach (Sprite sp in LoadResources.Instance.itemSp.itemSprite)
+                //{
+                //    if (sp.name == englishName)
+                //    {
+                //        nowSprite = sp;
+                //    }
+                //}
                 nowSprite = LoadResources.Instance.itemSp.nameToSprite(englishName);
                 gameOver.SetActive(true);
                 GameObject.Find("tool").GetComponentInChildren<Text>().text = Ibuff.iName.ToString();
@@ -973,25 +980,28 @@ public class Clickcontrol : MonoBehaviour {
         {
             Slime temp = new Slime();
             temp.Start();
-            Debug.Log("MonsterHP++++" + temp.monsterHP);
             Monster tempMonster = temp;
             magic.addMonster(tempMonster);
+
         }
         if (m == MonsterType.DoubleSwordMan)
         {
             DoubleSwordMan temp = new DoubleSwordMan();
+            temp.Start();
             Monster tempMonster = temp;
             magic.addMonster(tempMonster);
         }
         if (m == MonsterType.BigSpider)
         {
             BigSpider temp = new BigSpider();
+            temp.Start();
             Monster tempMonster = temp;
             magic.addMonster(tempMonster);
         }
         if (m == MonsterType.Vampire)
         {
             Vampire temp = new Vampire();
+            temp.Start();
             Monster tempMonster = temp;
             magic.addMonster(tempMonster);
         }

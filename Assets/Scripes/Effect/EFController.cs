@@ -46,28 +46,13 @@ public class EFController{
             {
                 if (ef.nowTime == 0)
                 {
-                    ef.EFStart(ef.selfGO);
+                    ef.EFStart(ef);
                 }
                 ef.nowTime += 1;
-                float rate = (float)ef.nowTime / (float)ef.runningTime;
-                switch (ef.type)
-                {
-                    case EFType.LineEffect:
-                        LineEffect lef = (LineEffect)ef;
-                        lef.lineEF(lef.sGO, lef.eGO, lef.selfGO, rate);
-                        break;
-                    case EFType.RingEffect:
-                        RingEffect e = (RingEffect)ef;
-                        e.ringEF(e.selfGO, e.sSize, e.eSize, e.sAlpha, e.eAlpha, 0 ,rate);
-                        break;
-                    case EFType.FigureEffect:
-                        FigureEffect f = (FigureEffect)ef;
-                        f.figureEF(f.selfGO, rate);
-                        break;
-                }
+                ef.EFRunning(ef);
                 if (ef.nowTime == ef.runningTime)
                 {
-                    ef.EFEnd(ef.selfGO);
+                    ef.EFEnd(ef);
                     efList.Remove(ef);
                     if(efList.Count == 0)
                         MagicCore.Instance.setFlag(ClickFlag.normal);
@@ -87,28 +72,13 @@ public class EFController{
             {
                 if (ef.nowTime == 0)
                 {
-                    ef.EFStart(ef.selfGO);
+                    ef.EFStart(ef);
                 }
                 ef.nowTime += 1;
-                float rate = (float)ef.nowTime / (float)ef.runningTime;
-                switch (ef.type)
-                {
-                    case EFType.LineEffect:
-                        LineEffect lef = (LineEffect)ef;
-                        lef.lineEF(lef.sGO, lef.eGO, lef.selfGO, rate);
-                        break;
-                    case EFType.RingEffect:
-                        RingEffect e = (RingEffect)ef;
-                        e.ringEF(e.selfGO, e.sSize, e.eSize, e.sAlpha, e.eAlpha, 0, rate);
-                        break;
-                    case EFType.FigureEffect:
-                        FigureEffect f = (FigureEffect)ef;
-                        f.figureEF(f.selfGO, rate);
-                        break;
-                }
+                ef.EFRunning(ef);
                 if (ef.nowTime == ef.runningTime)
                 {
-                    ef.EFEnd(ef.selfGO);
+                    ef.EFEnd(ef);
                     efListPara.Remove(ef);
                     if (efListPara.Count == 0)
                         MagicCore.Instance.setFlag(ClickFlag.normal);
@@ -138,7 +108,7 @@ public class EFController{
         LineEffect lineEffect = new LineEffect(delay, time, EFType.LineEffect, sGO, eGO, line);
         lineEffect.EFStart += lineCreateStart;
         lineEffect.EFEnd += lineCreateEnd;
-        lineEffect.lineEF += lineCreateRunning;
+        lineEffect.EFRunning += lineCreateRunning;
         if (!isPara)
             efList.Add(lineEffect);
         else
@@ -157,7 +127,7 @@ public class EFController{
     {
         ring.transform.localScale = Vector3.zero;
         RingEffect ringEffect = new RingEffect(delay, time, EFType.RingEffect,ring, 0, size, 0, alpha, 0);
-        ringEffect.ringEF += ringCreateRunning;
+        ringEffect.EFRunning += ringCreateRunning;
         ringEffect.EFStart += nothing;
         ringEffect.EFEnd += nothing;
         efList.Add(ringEffect);
@@ -172,7 +142,7 @@ public class EFController{
     public void NewFigureCreateAnimation(GameObject f, int delay, int time, bool isPara = false)
     {
         FigureEffect figureEffect = new FigureEffect(delay, time, EFType.FigureEffect, f);
-        figureEffect.figureEF += figureCreateRunning;
+        figureEffect.EFRunning += figureCreateRunning;
         figureEffect.EFStart += nothing;
         figureEffect.EFEnd += nothing;
         efList.Add(figureEffect);
@@ -189,7 +159,7 @@ public class EFController{
         LineEffect lineEffect = new LineEffect(delay, time, EFType.LineEffect, sGO, eGO, line);
         lineEffect.EFStart += nothing;
         lineEffect.EFEnd += lineRemoveEnd;
-        lineEffect.lineEF += lineRemoveRunning;
+        lineEffect.EFRunning += lineRemoveRunning;
         if (!isPara)
             efList.Add(lineEffect);
         else
@@ -218,80 +188,127 @@ public class EFController{
         RemoveLineAnimation(p1, p2, o, delay, time,isPara);
     }
 
-    void lineCreateRunning(GameObject sGO, GameObject eGO, GameObject line, float rate)
+    public void NewBulletEffect(GameObject res, GameObject tar, GameObject self, BombType bt, string dmg, int delay, int time)
     {
+        //新建一个飞弹
+        BulletEffect bEffect = new BulletEffect(delay, time, EFType.BulletEffect, res, tar, self, bt, dmg);
+        //加入事件
+
+    }
+
+    void lineCreateRunning(EffectBasic eb)
+    {
+        LineEffect lineEF = (LineEffect)eb;
+        float rate = (float)eb.nowTime / (float)eb.runningTime;
         //计算当前位置并调整之
-        LineRenderer LineRenderer = line.GetComponent<LineRenderer>();
-        Vector3 nPos = (eGO.transform.position - sGO.transform.position) * rate + sGO.transform.position;
+        LineRenderer LineRenderer = lineEF.selfGO.GetComponent<LineRenderer>();
+        Vector3 nPos = (lineEF.eGO.transform.position - lineEF.sGO.transform.position) * rate + lineEF.sGO.transform.position;
         LineRenderer.SetPosition(1, nPos);
         //调整子对象中的粒子发射器位置，使其与终点相同
         nPos.z = -5;
-        line.GetComponentInChildren<ParticleSystem>().transform.position = nPos;
+        lineEF.selfGO.GetComponentInChildren<ParticleSystem>().transform.position = nPos;
     }
 
-    void lineRemoveRunning(GameObject sGO,GameObject eGO, GameObject line, float rate)
+    void lineRemoveRunning(EffectBasic eb)
     {
+        LineEffect lineEF = (LineEffect)eb;
+        float rate = (float)eb.nowTime / (float)eb.runningTime;
         //计算当前位置并调整之
-        LineRenderer LineRenderer = line.GetComponent<LineRenderer>();
-        Vector3 nPos = (eGO.transform.position - sGO.transform.position) * rate + sGO.transform.position;
+        LineRenderer LineRenderer = lineEF.selfGO.GetComponent<LineRenderer>();
+        Vector3 nPos = (lineEF.eGO.transform.position - lineEF.sGO.transform.position) * rate + lineEF.sGO.transform.position;
         LineRenderer.SetPosition(0, nPos);
         //调整子对象中的粒子发射器位置，使其与终点相同
         nPos.z = -5;
-        line.GetComponentInChildren<ParticleSystem>().transform.position = nPos;
+        lineEF.selfGO.GetComponentInChildren<ParticleSystem>().transform.position = nPos;
     }
 
-    void lineCreateStart(GameObject self)
+    void lineCreateStart(EffectBasic eb)
     {
         //在自己子物体添加一个粒子发射器
-        self.GetComponentInChildren<ParticleSystem>().Play();
+        eb.selfGO.GetComponentInChildren<ParticleSystem>().Play();
 
     }
 
-    void lineCreateEnd(GameObject self)
+    void lineCreateEnd(EffectBasic eb)
     {
         //删除添加的粒子发射器
-        self.GetComponentInChildren<ParticleSystem>().Stop();
+        eb.selfGO.GetComponentInChildren<ParticleSystem>().Stop();
     }
 
-    void lineRemoveEnd(GameObject self)
+    void lineRemoveEnd(EffectBasic eb)
     {
-        GameObject.Destroy(self);
+        GameObject.Destroy(eb.selfGO);
     }
 
-    void ringCreateRunning(GameObject ring, float s1, float s2, float a1, float a2, float r, float rate)
+    void ringCreateRunning(EffectBasic eb)
     {
-        float a = s1 - s2;
+        RingEffect ringEF = (RingEffect)eb;
+        float rate = (float)eb.nowTime / (float)eb.runningTime;
+
+        float a = ringEF.sSize - ringEF.eSize;
         float b = -2*a;
 
-        float size = rate * rate * a + rate * b + s1;
-        float alpha = (a2 - a1) * rate;
+        float size = rate * rate * a + rate * b + ringEF.sSize;
+        float alpha = (ringEF.eAlpha - ringEF.sAlpha) * rate;
 
-        ring.transform.localScale = new Vector3(size,size,1);
-        Color c = ring.GetComponent<SpriteRenderer>().color;
-        c.a = alpha + a1;
-        ring.GetComponent<SpriteRenderer>().color = c;
-        
-        ring.transform.Rotate(0, 0, r);
+        eb.selfGO.transform.localScale = new Vector3(size,size,1);
+        Color c = eb.selfGO.GetComponent<SpriteRenderer>().color;
+        c.a = alpha + ringEF.sAlpha;
+        eb.selfGO.GetComponent<SpriteRenderer>().color = c;
+
+        eb.selfGO.transform.Rotate(0, 0, ringEF.TotalRotateAngle);
     }
 
-
-    void figureCreateRunning(GameObject self, float rate)
+    void figureCreateRunning(EffectBasic eb)
     {
-        self.GetComponent<SpriteRenderer>().material.SetFloat("_Rate", rate);
+        float rate = (float)eb.nowTime / (float)eb.runningTime;
+        eb.selfGO.GetComponent<SpriteRenderer>().material.SetFloat("_Rate", rate);
     }
 
-    public void nothing(GameObject s) { }
+    void BulletStart(EffectBasic eb)
+    {
+        eb.selfGO.SetActive(true);
+    }
+
+    void BulletRunning(EffectBasic eb)
+    {
+        BulletEffect be = (BulletEffect)eb;
+        //从开始目标往目标飞行
+        float rate = (float)eb.nowTime / (float)eb.runningTime;
+        Vector3 nPos = (be.target.transform.position - be.resorce.transform.position) * rate + be.resorce.transform.position;
+        be.selfGO.transform.position = nPos;
+    }
+
+    void BulletEnd(EffectBasic eb)
+    {
+        //生成爆炸
+        eb.selfGO.transform.GetChild(0).gameObject.SetActive(true);
+        //生成说明文字
+        
+    }
+
+    public void nothing(EffectBasic eb) { }
 }
 
 public enum EFType
 {
     LineEffect = 0,
+    BulletEffect =1,
     FigureEffect = 2,
     RingEffect = 3,
+
     count
 }
 
-class EffectBasic
+public enum BombType
+{
+    dmg = 0,
+    buff = 1,
+    debuff = 2,
+    count
+}
+
+public class EffectBasic
 {
 
     public int delayFrame;
@@ -301,10 +318,11 @@ class EffectBasic
 
     public EFType type;
     public EFDelegate EFStart;
+    public EFDelegate EFRunning;
     public EFDelegate EFEnd;
 }
 
-class LineEffect:EffectBasic
+public class LineEffect:EffectBasic
 {
     public LineEffect(int delay, int time, EFType t, GameObject sgo, GameObject ego, GameObject l)
     {
@@ -316,13 +334,13 @@ class LineEffect:EffectBasic
         selfGO = l;
     }
 
-    public LEF lineEF;
+    
 
     public GameObject sGO;
     public GameObject eGO;
 }
 
-class RingEffect : EffectBasic
+public class RingEffect : EffectBasic
 {
     public RingEffect(int delay, int time, EFType t, GameObject r,float s1,float s2,float a1,float a2,float angel)
     {
@@ -337,7 +355,7 @@ class RingEffect : EffectBasic
         TotalRotateAngle = angel;
 
     }
-    public REF ringEF;
+   
 
     public float sSize;
     public float eSize;
@@ -346,7 +364,7 @@ class RingEffect : EffectBasic
     public float TotalRotateAngle;
 }
 
-class FigureEffect : EffectBasic
+public class FigureEffect : EffectBasic
 {
     public FigureEffect(int delay, int time, EFType t,GameObject l)
     {
@@ -355,10 +373,31 @@ class FigureEffect : EffectBasic
         type = t;
         selfGO = l;
     }
-    public FEF figureEF;
+    
 }
 
-delegate void LEF(GameObject sGO, GameObject eGO, GameObject line,float rate);
-delegate void EFDelegate(GameObject selfGO);
-delegate void REF(GameObject ring, float s1,float s2, float a1,float a2,float r,float rate);
-delegate void FEF(GameObject figure, float rate);
+public class BulletEffect : EffectBasic
+{
+    public BulletEffect(int delay,int time,EFType t,GameObject res,GameObject tar,GameObject self,BombType b,string dmgt)
+    {
+        delayFrame = delay;
+        runningTime = time;
+        type = t;
+        resorce = res;
+        target = tar;
+        selfGO = self;
+        bt = b;
+        dmgTxt = dmgt;
+    }
+
+    public BombType bt;
+    public string dmgTxt;
+    public GameObject resorce;
+    public GameObject target;
+
+    
+    
+}
+
+public delegate void EFDelegate(EffectBasic selfEF);
+
