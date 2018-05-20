@@ -63,7 +63,8 @@ namespace RouteOfTheMagic
         }
         void dead()
         {
-            SceneManager.LoadScene("star"); 
+            SceneManager.LoadScene("star");
+            GameObject.Find("MusicController").GetComponent<Music>().PlayMap();
         }
         // Update is called once per frame
         void Update()

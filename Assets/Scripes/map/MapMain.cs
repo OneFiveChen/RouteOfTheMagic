@@ -409,6 +409,14 @@ namespace RouteOfTheMagic
             if (mapNode.nodeType == NodeType.fight)
             {
                 SceneManager.LoadSceneAsync("Magic");
+                if (isBoss)
+                {
+                    GameObject.Find("MusicController").GetComponent<Music>().PlayBossFight();
+                }
+                else
+                {
+                    GameObject.Find("MusicController").GetComponent<Music>().PlayNormalFight();
+                }
             }
             else if (mapNode.nodeType == NodeType.shop)
             {
@@ -517,6 +525,10 @@ namespace RouteOfTheMagic
                 item.SetActive(true);
             }
             mapRoot.SetActive(true);
+            if (SceneManager.GetActiveScene().name != "Shop" && SceneManager.GetActiveScene().name != "Event")
+            {
+                GameObject.Find("MusicController").GetComponent<Music>().PlayMap();
+            }
         }
     }
 }
