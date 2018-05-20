@@ -2244,7 +2244,7 @@ public class MagicCore {
         }
         if (skillReady.skill.skillDoType != SkillDoType.norequire)
         {
-            for (int id = skillReady.magicRoute[0]; id < skillReady.magicRoute[1]; ++id)
+            for (int id = skillReady.magicRoute[0]; id <= skillReady.magicRoute[1]; ++id)
             {
                 //节点恢复变成技能的颜色
                 Color c = new Color(1,1,1);
@@ -2274,7 +2274,11 @@ public class MagicCore {
         skillReady.skill.addcount = 0;
         skillReady.skill.addpower = 0;
 
-
+        for (int id = 1; id < mRoute.Count; ++id)
+        {
+            //节点恢复变成绿色
+            GameObject.Find("MagicEventSystem").GetComponent<Clickcontrol>().LineColorChange(mRoute[i].moveLine, mRoute[i].pStart, mRoute[i].pEnd, new Color(0, 1, 0, 1), (i - 1) * 10);
+        }
     }
 
     public void randomPoint()
