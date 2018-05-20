@@ -64,7 +64,15 @@ public class mouseevent : MonoBehaviour {
             if (magic.drag(int.Parse(this.tag)))
             {
                 //添加转换特效
-                GameObject.Find("MagicEventSystem").GetComponent<Clickcontrol>().newLineTransfer(true);
+                //判断是否是添加第一个节点
+                if (MagicCore.Instance.getRoute().Count == 1)
+                {
+                    GameObject.Find("MagicEventSystem").GetComponent<Clickcontrol>().newLineTransfer(false,true,PointColor.white);
+                }
+                else
+                {
+                    GameObject.Find("MagicEventSystem").GetComponent<Clickcontrol>().newLineTransfer(true);
+                }
             }
         }
         if (Input.GetMouseButton(1))

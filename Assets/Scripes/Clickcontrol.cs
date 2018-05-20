@@ -181,6 +181,13 @@ public class Clickcontrol : MonoBehaviour {
                         break;
                     }
                 }
+                //foreach (Sprite sp in LoadResources.Instance.itemSp.itemSprite)
+                //{
+                //    if (sp.name == englishName)
+                //    {
+                //        nowSprite = sp;
+                //    }
+                //}
                 nowSprite = LoadResources.Instance.itemSp.nameToSprite(englishName);
                 gameOver.SetActive(true);
                 GameObject.Find("tool").GetComponentInChildren<Text>().text = Ibuff.iName.ToString();
@@ -984,6 +991,7 @@ public class Clickcontrol : MonoBehaviour {
             temp.Start();
             Monster tempMonster = temp;
             magic.addMonster(tempMonster);
+
         }
         if (m == MonsterType.DoubleSwordMan)
         {
