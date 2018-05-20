@@ -819,13 +819,6 @@ public class Clickcontrol : MonoBehaviour {
                         break;
                     }
                 }
-                //foreach (Sprite sp in LoadResources.Instance.itemSp.itemSprite)
-                //{
-                //    if (sp.name == englishName)
-                //    {
-                //        nowSprite = sp;
-                //    }
-                //}
                 nowSprite = LoadResources.Instance.itemSp.nameToSprite(englishName);
                 item.GetComponent<Image>().sprite = nowSprite;
                 item.transform.localScale = new Vector3(1, 1, 1);
