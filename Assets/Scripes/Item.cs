@@ -231,7 +231,7 @@ public class ItemTool {
         }
         if (doingbuff.count == doingbuff.maxCount)
         {
-            magiccore.addBuff(magiccore.skillTool.buffTool.getBuff(BuffName.电容火花), -1);
+            magiccore.doAOEToMonster(1, 10);
             doingbuff.count = 0;
         }
         //下次技能伤害1.2倍化
