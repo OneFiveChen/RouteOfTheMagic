@@ -1994,7 +1994,7 @@ public class MagicCore {
         p = new Point(10, PointColor.red, PointType.normal, 0, new List<int> { 18, 19, 27, 28 });
         r.Add(p);
 
-        p = new Point(11, PointColor.yellow, PointType.normal, 0, new List<int> { 16, 17, 34, 35, 38 });
+        p = new Point(11, PointColor.yellow, PointType.normal, 0, new List<int> { 20, 21, 34, 35, 38 });
         r.Add(p);
 
         p = new Point(12, PointColor.blue, PointType.normal, 0, new List<int> { 22, 23, 24, 29 });
