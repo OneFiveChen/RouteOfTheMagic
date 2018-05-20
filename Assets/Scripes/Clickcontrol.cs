@@ -163,10 +163,12 @@ public class Clickcontrol : MonoBehaviour {
         if (magic.getFlag()==ClickFlag.defencer)
         {
             startButton.GetComponent<Image>().color = Color.green;
+            startButton.GetComponentInChildren<Text>().text = "冥想";
         }
         else
         {
             startButton.GetComponent<Image>().color = Color.red;
+            startButton.GetComponentInChildren<Text>().text = "防御";
         }
 
         //检测怪物是否活着
