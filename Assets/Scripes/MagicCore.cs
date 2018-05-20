@@ -25,7 +25,7 @@ public class MagicCore {
         mMonster = new List<Monster>();
         mMonsterAttack = new List<EDamage>();
 
-        MaxHp = 100;
+        MaxHp = 300;
         MaxATK = 5;
         MaxDEF = 0;
         Hp = MaxHp;
@@ -1079,7 +1079,6 @@ public class MagicCore {
                 if (p1M == -1 && p2M == -1)
                 {
                     //伤害事件
-
                     foreach (int s in ed.sorce)
                     {
 
@@ -1297,7 +1296,7 @@ public class MagicCore {
         {
 
             --ATK;
-
+            Debug.Log("pass");
             Point p = mPoint[locate];
             p.isActivity = true;
             mPoint[locate] = p;
