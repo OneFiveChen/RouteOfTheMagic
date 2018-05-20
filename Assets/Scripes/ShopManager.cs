@@ -212,6 +212,8 @@ namespace RouteOfTheMagic
                 item.onClick.AddListener(delegate ()
                 {
                     this.Item(itemName, price);
+                    item.interactable = false;
+                    item.GetComponentInChildren<Text>().text = "XXX" ;
                 });
                 item.GetComponentInChildren<Text>().text = "" + price;
                  foreach(Transform child in itemP.transform)

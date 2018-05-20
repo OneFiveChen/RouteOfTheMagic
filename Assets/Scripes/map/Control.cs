@@ -235,11 +235,11 @@ public class Control : MonoBehaviour {
         }
 
        
-            {
-                Vector3 pos = pointGameObjectlist[18].transform.position - pointGameObjectlist[0].transform.position;
-                GameObject go = GameObject.Instantiate(SpFigure2, 0.77f * pos + nodes.transform.position, Quaternion.FromToRotation(Vector3.up, Vector3.Normalize(pos)), nodes.transform);
-                EFController.Instance.NewFigureCreateAnimation(go, 110, 10);
-            }
+        {
+            Vector3 pos = pointGameObjectlist[18].transform.position - pointGameObjectlist[0].transform.position;
+            GameObject go = GameObject.Instantiate(SpFigure2, 0.77f * pos + nodes.transform.position, Quaternion.FromToRotation(Vector3.up, Vector3.Normalize(pos)), nodes.transform);
+            EFController.Instance.NewFigureCreateAnimation(go, 110, 10);
+        }
 
     }
 

@@ -53,16 +53,32 @@ namespace RouteOfTheMagic
             {
                 //button.GetComponent<Image>().color +=new Color(0.5f, 0.5f, 0.5f);
                 Sprite nowSprite;
-                if (nodeType == NodeType.fight)
-                {
-                    nowSprite = LoadResources.Instance.fight.normal;
-                }
-                else if (nodeType == NodeType.shop)
-                {
-                    nowSprite = LoadResources.Instance.shop.normal;
+                if (value)
+                {     
+                    if (nodeType == NodeType.fight)
+                    {
+                        nowSprite = LoadResources.Instance.fight.normal;
+                    }
+                    else if (nodeType == NodeType.shop)
+                    {
+                        nowSprite = LoadResources.Instance.shop.normal;
+                    }
+                    else
+                        nowSprite = LoadResources.Instance.random.normal;   
                 }
                 else
-                    nowSprite = LoadResources.Instance.random.normal;
+                {
+                    if (nodeType == NodeType.fight)
+                    {
+                        nowSprite = LoadResources.Instance.fight.disable;
+                    }
+                    else if (nodeType == NodeType.shop)
+                    {
+                        nowSprite = LoadResources.Instance.shop.disable;
+                    }
+                    else
+                        nowSprite = LoadResources.Instance.random.disable;
+                }
                 button.GetComponent<Image>().sprite = nowSprite;
 
                 button.fatherIsPass = value;
@@ -88,7 +104,7 @@ namespace RouteOfTheMagic
         static MapMain instance;
         MapNode currentMapNode;
         //UI的高度
-        float mapHight = 1500;
+        float mapHight = 1350;
         float width = 200;
 
         float buttonWidth = 74;
@@ -129,7 +145,7 @@ namespace RouteOfTheMagic
         {
             if (magicCore.skillPoint > 2)
             {
-                magicCore.setATK(magicCore.getMaxATK() + 1);
+                magicCore.setMaxATK(magicCore.getMaxATK() + 1);
                 magicCore.skillPoint -= 3;
             }
                 
@@ -165,10 +181,10 @@ namespace RouteOfTheMagic
                     node.layer = i;
                     //node属性设置TODO
                     NodeType nodeType;
-                    if (i == 2 || i == 6)
+                    if (i == 1 || i == 5)
                         //nodeType = (NodeType)Random.Range(0, (int)NodeType.count);
                         nodeType = NodeType.shop;
-                    else if (i == 4)
+                    else if (i == 3)
                         nodeType = NodeType.thing;
                     else
                         nodeType = NodeType.fight;
@@ -327,9 +343,11 @@ namespace RouteOfTheMagic
                         nowSprite = LoadResources.Instance.random.disable;
                     }
                     //color = Color.red;
-
-
-                    ButtonEx button = CreatButton(new Vector2(layerXNum + width * j, -(mapHight - buttonWidth) / 2 + length * i), new Vector2(buttonWidth, buttonWidth), nowSprite, Color.white);
+                    ButtonEx button;
+                    if (i==layerCount)
+                        button = CreatButton(new Vector2(layerXNum + width * j, -(mapHight - buttonWidth) / 2 + length * i+ buttonWidth/2), new Vector2(buttonWidth*2f, buttonWidth*2f), nowSprite, Color.red);
+                    else
+                        button = CreatButton(new Vector2(layerXNum + width * j, -(mapHight - buttonWidth) / 2 + length * i), new Vector2(buttonWidth, buttonWidth), nowSprite, Color.white);
                     map[i][j].button = button;
 
                     button.onClick.AddListener(delegate ()
@@ -353,6 +371,10 @@ namespace RouteOfTheMagic
                         //li.y = new Vector2(0, -260 + length * (i+1));
                         //else
                         li.y = new Vector2(layerYNum + width * num, -(mapHight / 2) + length * (i + 1));
+                        if (i == map.Count - 2)
+                            li.color = Color.red;
+                        else
+                            li.color = Color.white;
                         render.addLine(li);
 
                     }
@@ -414,7 +436,7 @@ namespace RouteOfTheMagic
             //return go;
             go.AddComponent<CanvasRenderer>();
             Image img = go.AddComponent<Image>();
-            img.color = Color.white;
+            img.color = color;
             //img.color = color -new Color(0.5f,0.5f,0.5f,0);
             img.fillCenter = true;
             img.raycastTarget = true;
@@ -459,18 +481,6 @@ namespace RouteOfTheMagic
             //Debug.Log("gameOver");
             int layer = currentMapNode.layer;
             currentMapNode.button.interactable = false;
-            Sprite nowSprite;
-            if (currentMapNode.nodeType == NodeType.fight)
-            {
-                nowSprite = LoadResources.Instance.fight.unable;
-            }
-            else if (currentMapNode.nodeType == NodeType.shop)
-            {
-                nowSprite = LoadResources.Instance.shop.unable;
-            }
-            else
-                nowSprite = LoadResources.Instance.random.unable;
-            currentMapNode.button.GetComponent<Image>().sprite = nowSprite;
 
             if (currentMapNode.layer==layerCount-1)
                 isBoss=true;
@@ -485,6 +495,23 @@ namespace RouteOfTheMagic
                 {
                     map[layer + 1][item].FatherIsPass = true;
                 }
+            foreach (var item in map[layer ])
+            {
+                item.FatherIsPass = false;
+            }
+            Sprite nowSprite;
+            if (currentMapNode.nodeType == NodeType.fight)
+            {
+                nowSprite = LoadResources.Instance.fight.unable;
+            }
+            else if (currentMapNode.nodeType == NodeType.shop)
+            {
+                nowSprite = LoadResources.Instance.shop.unable;
+            }
+            else
+                nowSprite = LoadResources.Instance.random.unable;
+            currentMapNode.button.GetComponent<Image>().sprite = nowSprite;
+
             foreach (var item in Root)
             {
                 item.SetActive(true);

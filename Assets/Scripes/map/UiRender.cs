@@ -9,6 +9,7 @@ namespace RouteOfTheMagic
     {
         public Vector2 x;
         public Vector2 y;
+        public Color color;
     }
     /// <summary>
     /// 绘制UI的类
@@ -41,7 +42,7 @@ namespace RouteOfTheMagic
             vh.Clear();
             foreach (var item in line)
             {
-                vh.AddUIVertexQuad(GetQuad(item.x, item.y, Color.white));
+                vh.AddUIVertexQuad(GetQuad(item.x, item.y, item.color));
             }
 
         }
