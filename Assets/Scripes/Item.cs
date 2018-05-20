@@ -38,7 +38,7 @@ public class ItemTool {
         ib.ME += ShadowChains;
         itemList.Add(ib);
 
-        ib = new ItemBuff(ItemName.四象阵, BuffType.sBuffTurn, -1);
+        ib = new ItemBuff(ItemName.四象阵, BuffType.sBuffTurn, 3);
         ib.NE += Fourimagearray;
         ib.subItemName = ItemName.Fourimagearrays;
         itemList.Add(ib);
@@ -174,6 +174,7 @@ public class ItemTool {
     {
         Point p;
         p = magiccore.getPoint(m.pEnd);
+        
         if (p.color == PointColor.black)
         {
             magiccore.setATK(magiccore.getATK()+1);
@@ -185,6 +186,7 @@ public class ItemTool {
         int atk = magiccore.getATK();
         atk++;
         magiccore.setATK(atk);
+        doingbuff.count = 0;
     } //四圣阵      
 
     public void Fourimagearrays(ref Magic m)
@@ -194,7 +196,7 @@ public class ItemTool {
         
         if (doingbuff.count == doingbuff.maxCount)
         {
-            magiccore.endTurn();
+            magiccore.setATK(0);
             doingbuff.count = 0;
         }
     }
@@ -219,7 +221,7 @@ public class ItemTool {
         
         magiccore.setATK(magiccore.getATK()+2);
        
-        magiccore.setDEF(magiccore.getDEF()-1);        
+        magiccore.setHP(magiccore.getHP()-3);        
     } //双刃杖,可用
 
     public void FlameHeart(Move m)
@@ -231,7 +233,7 @@ public class ItemTool {
         }
         if (doingbuff.count == doingbuff.maxCount)
         {
-            magiccore.addBuff(magiccore.skillTool.buffTool.getBuff(BuffName.电容火花), -1);
+            magiccore.doAOEToMonster(1, 10);
             doingbuff.count = 0;
         }
         //下次技能伤害1.2倍化

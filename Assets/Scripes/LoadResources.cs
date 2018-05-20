@@ -58,6 +58,28 @@ namespace RouteOfTheMagic
 
     }
 
+    public class MonsterSprite
+    {
+        public Sprite Slime;
+        public Sprite DoubleSwordMan;
+        public Sprite BigSpider;
+        public Sprite Vampire;
+        public Sprite Boss_TurnMan;
+        public void load(string name)
+        {
+            Sprite temp = Resources.Load<Sprite>("monster/" + name);
+            if (temp.name == "Slime")
+                Slime = temp;
+            else if (temp.name == "DoubleSwordMan")
+                DoubleSwordMan = temp;
+            else if (temp.name == "BigSpider")
+                BigSpider = temp;
+            else if (temp.name == "Vampire")
+                Vampire = temp;
+            else if (temp.name == "Boss_TurnMan")
+                Boss_TurnMan = temp;
+        }
+    }
     public class LoadResources
     {
         static LoadResources instance;
@@ -74,6 +96,7 @@ namespace RouteOfTheMagic
         public ThreeSprite fight = new ThreeSprite();
         public ThreeSprite random = new ThreeSprite();
         public ItemSprite itemSp = new ItemSprite();
+        public MonsterSprite monsterSp = new MonsterSprite();
         public TextAsset skillText;
 
         public string skillNameToText(string name)
@@ -114,6 +137,12 @@ namespace RouteOfTheMagic
             itemSp.load("ShadowChains");
             itemSp.load("ThunderHeart");
             itemSp.load("Universalnode");
+
+            monsterSp.load("Slime");
+            monsterSp.load("DoubleSwordMan");
+            monsterSp.load("BigSpider");
+            monsterSp.load("Vampire");
+            monsterSp.load("Boss_TurnMan");
         } 
     }
 }

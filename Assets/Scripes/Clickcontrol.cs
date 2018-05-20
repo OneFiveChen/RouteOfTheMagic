@@ -110,11 +110,18 @@ public class Clickcontrol : MonoBehaviour {
         //buff个数
         buffCount = 0;
         InitializeMonsterDegreeList();
-        currentLevel = MapMain.Instance.CurrentLevel();
-        MonsterMatch currentMatch = ChooseMonster();
-        InitializeMonster(currentMatch.monster1);
-        InitializeMonster(currentMatch.monster2);
-        InitializeMonster(currentMatch.monster3);
+        if (MapMain.Instance.IsBoss())
+        {
+            InitializeMonster(MonsterType.Boss_TurnMan);
+        }
+        else { 
+            currentLevel = MapMain.Instance.CurrentLevel();
+            MonsterMatch currentMatch = ChooseMonster();
+            InitializeMonster(currentMatch.monster1);
+            InitializeMonster(currentMatch.monster2);
+            InitializeMonster(currentMatch.monster3);
+        }
+
 
         // magic.addMonster(monster0.GetComponent<Monster>());
         magic.startTurn();
@@ -156,10 +163,12 @@ public class Clickcontrol : MonoBehaviour {
         if (magic.getFlag()==ClickFlag.defencer)
         {
             startButton.GetComponent<Image>().color = Color.green;
+            startButton.GetComponentInChildren<Text>().text = "冥想";
         }
         else
         {
             startButton.GetComponent<Image>().color = Color.red;
+            startButton.GetComponentInChildren<Text>().text = "防御";
         }
 
         //检测怪物是否活着
@@ -227,6 +236,8 @@ public class Clickcontrol : MonoBehaviour {
             if (magic.isMonsterLive(i))
             monsterList.transform.GetChild(i).GetComponentInChildren<Text>().text =
                 magic.getMonsterList()[int.Parse(monsterList.transform.GetChild(i).name)].monsterHP.ToString();
+            else
+            monsterList.transform.GetChild(i).GetComponentInChildren<Text>().text = "0";
         }
     }
 
@@ -555,11 +566,21 @@ public class Clickcontrol : MonoBehaviour {
             {
                 //showState.GetComponent<Button>().interactable = false;
                 sk.GetComponent<Image>().color = Color.gray;
+                foreach (Transform child in sk.transform)
+                {
+                    if (child.name == "Name")
+                        child.GetComponent<Text>().color = Color.white;
+                }
             }
             else if (!isDrop)
             {
                 showState.GetComponent<Button>().interactable = true;
                 sk.GetComponent<Image>().color = Color.white;
+                foreach(Transform child in sk.transform)
+                {
+                    if (child.name == "Name")
+                        child.GetComponent<Text>().color = Color.black;
+                }
             }
             else if (isDrop)
             {
@@ -582,6 +603,11 @@ public class Clickcontrol : MonoBehaviour {
     {
         List<Line> lineList = magic.getLine();
         List<EDamage>edList = magic.getMonsterATK();
+        foreach (GameObject g in lineGameObjectlist)
+        {
+            g.transform.GetChild(0).GetComponent<TextMesh>().text = "";
+        }
+
         foreach (EDamage ed in edList)
         {
             if (ed.damage != 0)
@@ -595,21 +621,24 @@ public class Clickcontrol : MonoBehaviour {
                     if (child.name == "Damage")
                     {
                         child.position = new Vector3((pos1.x + pos2.x) / 2, (pos1.y + pos2.y) / 2, -4);
-                            child.GetComponent<TextMesh>().text = ed.damage.ToString();    
-                    }
+                            if(child.GetComponent<TextMesh>().text == "")
+                                child.GetComponent<TextMesh>().text = ed.damage.ToString(); 
+                            else
+                                child.GetComponent<TextMesh>().text += "+" + ed.damage.ToString();
+                        }
                    
                 }
             }
-            else
-            {
-                if(lineGameObjectlist.Count > 0)
-                foreach (Transform child in lineGameObjectlist[ed.ID].transform)
-                {
-                    if (child.name == "Damage")
-                        child.GetComponent<TextMesh>().text = null;
+            //else
+            //{
+            //    if(lineGameObjectlist.Count > 0)
+            //    foreach (Transform child in lineGameObjectlist[ed.ID].transform)
+            //    {
+            //        if (child.name == "Damage")
+            //            //child.GetComponent<TextMesh>().text +=  null;
                     
-                }
-            }
+            //    }
+            //}
         }
     }
 
@@ -794,13 +823,6 @@ public class Clickcontrol : MonoBehaviour {
                         break;
                     }
                 }
-                //foreach (Sprite sp in LoadResources.Instance.itemSp.itemSprite)
-                //{
-                //    if (sp.name == englishName)
-                //    {
-                //        nowSprite = sp;
-                //    }
-                //}
                 nowSprite = LoadResources.Instance.itemSp.nameToSprite(englishName);
                 item.GetComponent<Image>().sprite = nowSprite;
                 item.transform.localScale = new Vector3(1, 1, 1);
@@ -946,9 +968,9 @@ public class Clickcontrol : MonoBehaviour {
     {
         monsterDegreeList = new List<MonsterMatch>();
         MonsterMatch newcomer = new MonsterMatch(MonsterType.Empty, MonsterType.Slime, MonsterType.Empty);
-        MonsterMatch triSlime = new MonsterMatch(MonsterType.Slime, MonsterType.Slime, MonsterType.Slime);
-        MonsterMatch SwordMan = new MonsterMatch(MonsterType.Slime, MonsterType.DoubleSwordMan, MonsterType.Slime);
-        MonsterMatch swordManUnion = new MonsterMatch(MonsterType.DoubleSwordMan, MonsterType.DoubleSwordMan, MonsterType.DoubleSwordMan);
+        MonsterMatch triSlime = new MonsterMatch(MonsterType.Empty, MonsterType.Slime, MonsterType.Slime);
+        MonsterMatch SwordMan = new MonsterMatch(MonsterType.Slime, MonsterType.DoubleSwordMan, MonsterType.Empty);
+        MonsterMatch swordManUnion = new MonsterMatch(MonsterType.Empty, MonsterType.DoubleSwordMan, MonsterType.DoubleSwordMan);
         MonsterMatch bigSpider1 = new MonsterMatch(MonsterType.Slime, MonsterType.BigSpider, MonsterType.DoubleSwordMan);
         MonsterMatch bigSpider2 = new MonsterMatch(MonsterType.Slime, MonsterType.BigSpider, MonsterType.Slime);
         MonsterMatch bigSpider3 = new MonsterMatch(MonsterType.DoubleSwordMan, MonsterType.BigSpider, MonsterType.Slime);
@@ -982,11 +1004,11 @@ public class Clickcontrol : MonoBehaviour {
         }
         if (currentLevel <= 3 && currentLevel > 0)
         {
-            temp = monsterDegreeList[Random.Range(1, 2)];
+            temp = monsterDegreeList[Random.Range(1, 3)];
         }
         if (currentLevel <= 7 && currentLevel > 3)
         {
-            temp = monsterDegreeList[Random.Range(3, 6)];
+            temp = monsterDegreeList[Random.Range(4, 6)];
         }
         if (currentLevel <= 10 && currentLevel > 7)
         {
@@ -1005,6 +1027,7 @@ public class Clickcontrol : MonoBehaviour {
         {
             Slime temp = new Slime();
             temp.Start();
+            temp.Setmtype(MonsterType.Slime);
             Monster tempMonster = temp;
             magic.addMonster(tempMonster);
 
@@ -1013,6 +1036,7 @@ public class Clickcontrol : MonoBehaviour {
         {
             DoubleSwordMan temp = new DoubleSwordMan();
             temp.Start();
+            temp.Setmtype(MonsterType.DoubleSwordMan);
             Monster tempMonster = temp;
             magic.addMonster(tempMonster);
         }
@@ -1020,6 +1044,7 @@ public class Clickcontrol : MonoBehaviour {
         {
             BigSpider temp = new BigSpider();
             temp.Start();
+            temp.Setmtype(MonsterType.BigSpider);
             Monster tempMonster = temp;
             magic.addMonster(tempMonster);
         }
@@ -1027,6 +1052,15 @@ public class Clickcontrol : MonoBehaviour {
         {
             Vampire temp = new Vampire();
             temp.Start();
+            temp.Setmtype(MonsterType.Vampire);
+            Monster tempMonster = temp;
+            magic.addMonster(tempMonster);
+        }
+        if(m == MonsterType.Boss_TurnMan)
+        {
+            Boss_TurnMan temp = new Boss_TurnMan();
+            temp.Start();
+            temp.Setmtype(MonsterType.Boss_TurnMan);
             Monster tempMonster = temp;
             magic.addMonster(tempMonster);
         }
@@ -1038,7 +1072,29 @@ public class Clickcontrol : MonoBehaviour {
         {
             if (magic.isMonsterLive(i))
             {
+                Monster monster = magic.getMonsterList()[i];
+                MonsterType mt = monster.mtype;
                 GameObject m = GameObject.Instantiate(monsterPerb, monsterList.transform);
+                switch (mt)
+                {
+                    case MonsterType.Slime:
+                        m.GetComponent<Image>().sprite = LoadResources.Instance.monsterSp.Slime;
+                        break;
+                    case MonsterType.BigSpider:
+                        m.GetComponent<Image>().sprite = LoadResources.Instance.monsterSp.BigSpider;
+                        break;
+                    case MonsterType.DoubleSwordMan:
+                        m.GetComponent<Image>().sprite = LoadResources.Instance.monsterSp.DoubleSwordMan;
+                        break;
+                    case MonsterType.Vampire:
+                        m.GetComponent<Image>().sprite = LoadResources.Instance.monsterSp.Vampire;
+                        break;
+                    case MonsterType.Boss_TurnMan:
+                        m.GetComponent<Image>().sprite = LoadResources.Instance.monsterSp.Boss_TurnMan;
+                        break;
+                    default:
+                        break;
+                }
                 m.name = i.ToString();
                 m.GetComponentInChildren<Text>().text = magic.getMonsterList()[i].monsterHP.ToString();
                 if (magic.getMonsterList().Count == 1)

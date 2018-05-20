@@ -31,7 +31,7 @@ public class MagicCore {
         Hp = MaxHp;
         mPos = 0;
 
-        skillPoint = 100;
+        skillPoint = 5;
 
     }
 
@@ -1084,7 +1084,6 @@ public class MagicCore {
                     {
 
                         doDamage(mMonster[s].attackValue, s);
-                        Debug.Log(ed.ID);
                         ed.sorce.Remove(s);
                         ed.damage -= mMonster[s].attackValue;
 
@@ -1329,7 +1328,7 @@ public class MagicCore {
 
             FreshSkillActivity();
             mPos = locate;
-            
+            doBuff(m);
 
         }
         return r;
@@ -1396,7 +1395,8 @@ public class MagicCore {
         {
             if (b.GetType() == typeof(ItemBuff))
             {
-                r.Add(((ItemBuff)b).iName);
+                if((int)((ItemBuff)b).iName < 13)
+                 r.Add(((ItemBuff)b).iName);
             }
         }
         return r;
@@ -1500,7 +1500,14 @@ public class MagicCore {
 
     public void addItem(ItemName itName)
     {
+        ItemBuff it = itemTool.getItem(itName);
         addBuff(itemTool.getItem(itName), -1);
+        if (it.subItemName != ItemName.count)
+        {
+            Debug.Log(it.subItemName);
+            addBuff(itemTool.getItem(it.subItemName), -1);
+        }
+        
     }
 
     public void startTurn()
@@ -1567,6 +1574,19 @@ public class MagicCore {
         foreach (Move m in mRoute)
         {
             recoverMagic(m.pEnd);
+        }
+
+        //释放节点特性
+        if (mRoute.Count > 0)
+            mRoute.RemoveAt(0);
+
+        int count = 0;
+        while (mRoute.Count > 0)
+        {
+            //生成特效
+            GameObject.Find("MagicEventSystem").GetComponent<Clickcontrol>().newLineTransfer(false, false, PointColor.white, 5, (count - 1) * 5);
+            mRoute.RemoveAt(0);
+            count += 1;
         }
 
         //恢复节点状态
