@@ -20,6 +20,7 @@ public class Clickcontrol : MonoBehaviour {
     public GameObject monster0;
     public GameObject startButton;
     public GameObject showState;
+    public GameObject showPanel;
     public GameObject itemLists;
     public GameObject buffLists;
     public GameObject detail;
@@ -27,7 +28,6 @@ public class Clickcontrol : MonoBehaviour {
     public GameObject drop;
     public GameObject canvas;
     public GameObject ATK;
-    public GameObject DEF;
     public GameObject HP;
 
     public GameObject figure0;
@@ -57,7 +57,6 @@ public class Clickcontrol : MonoBehaviour {
     private List<GameObject> itemGameObjectlist;
     private List<GameObject> buffGameObjectlist;
     private List<ItemName> items;
-    private List<MonsterMatch> monsterDegreeList;
     private Dictionary<BuffName, int> buffs;
     ItemBuff Ibuff;
     ItemName it;
@@ -66,14 +65,13 @@ public class Clickcontrol : MonoBehaviour {
     
 
     public static bool isDrag;
+    public static string skillName;
     public bool isShow;
     private bool isAttacking;
     private bool isDrop;
     private int overCount;
     private int itemCount;
     private int buffCount;
-    private int currentLevel;
-
     // Use this for initialization
     void Start () {
 
@@ -109,13 +107,8 @@ public class Clickcontrol : MonoBehaviour {
         overCount = 4;
         //buff个数
         buffCount = 0;
-
-        currentLevel = MapMain.Instance.CurrentLevel();
-        MonsterMatch currentMatch = ChooseMonster();
-        InitializeMonster(currentMatch.monster1);
-        InitializeMonster(currentMatch.monster2);
-        InitializeMonster(currentMatch.monster3);
-        //magic.addMonster(monster0.GetComponent<Monster>());
+        
+        magic.addMonster(monster0.GetComponent<Monster>());
         magic.startTurn();
 
         //初始化节点位置
@@ -213,10 +206,6 @@ public class Clickcontrol : MonoBehaviour {
 
         //控制特效刷新
         EFController.Instance.Update();
-
-        //道具信息消失
-        if (Input.GetKeyDown(KeyCode.Mouse0)&& GameObject.Find("itemDetail"))
-            GameObject.Find("itemDetail").transform.localScale=new Vector3 (0,0,0);
 
         //道具查看与更新
         itemupdate();
@@ -457,16 +446,19 @@ public class Clickcontrol : MonoBehaviour {
     //点击技能触发
     public void toSkill()
     {
-        btnGameObject = EventSystem.current.currentSelectedGameObject;
-        int skillID = int.Parse(btnGameObject.name);
+        //btnGameObject = EventSystem.current.currentSelectedGameObject;
+        
+        int skillID = int.Parse(skillName);
+        
         if (isDrop)
         {
             magic.setSkill(magic.skillTool.getSkill(sk),skillID);
             foreach (GameObject go in skillList)
             {
-                go.GetComponent<Button>().interactable = false;
-                go.GetComponent<Image>().color = Color.white;
+                go.GetComponent<Image>().color = Color.gray;
             }
+            showState.GetComponent<Button>().interactable = false;
+            skillclose();
             GameObject.Find("skill").SetActive(false);
             GameObject.Find("skill (1)").SetActive(false);
             drop.SetActive(false);
@@ -474,8 +466,9 @@ public class Clickcontrol : MonoBehaviour {
             overCount--;
         }
         else
-        { 
+        {
             magic.LclickS(skillID);
+            showPanel.transform.localScale = new Vector3(0, 0, 0);
         }
     }
 
@@ -544,11 +537,17 @@ public class Clickcontrol : MonoBehaviour {
         {
             if (!magic.getSkillActivity(int.Parse(sk.name)) && !isDrop)
             {
-                sk.GetComponent<Button>().interactable = false;
+                //showState.GetComponent<Button>().interactable = false;
+                sk.GetComponent<Image>().color = Color.gray;
             }
-            else
+            else if (!isDrop)
             {
-                sk.GetComponent<Button>().interactable = true;
+                showState.GetComponent<Button>().interactable = true;
+                sk.GetComponent<Image>().color = Color.white;
+            }
+            else if (isDrop)
+            {
+                sk.GetComponent<Image>().color = Color.red;
             }
             if (int.Parse(sk.name) + 1 > magic.getSkillCap())
             {
@@ -631,10 +630,7 @@ public class Clickcontrol : MonoBehaviour {
             }
             GameObject.Find("skill").GetComponent<Image>().color = Color.red;
             isDrop = true;
-            foreach (GameObject go in skillList)
-            {
-                go.GetComponent<Button>().interactable = true;
-            }
+            showState.GetComponent<Button>().interactable = true;
         }
         else
         {
@@ -690,6 +686,7 @@ public class Clickcontrol : MonoBehaviour {
     public void itemshow()
     {
         GameObject.Find("itemDetail").transform.localScale = new Vector3(1, 1, 1);
+        skillclose();
         btnGameObject = EventSystem.current.currentSelectedGameObject;
         string[] lines = Itemtext.text.Split("\n"[0]);
         for (int i = 0; i < lines.Length; ++i)
@@ -697,10 +694,23 @@ public class Clickcontrol : MonoBehaviour {
             string[] parts = lines[i].Split(" "[0]);
             if (parts[1] == btnGameObject.name)
             {
-                GameObject.Find("itemDetail").GetComponentInChildren<Text>().text = parts[2];
+                
+                GameObject.Find("Content").GetComponent<Text>().text = parts[2];
                 break;
             }
         }
+    }
+
+    //道具信息关闭
+    public void itemclose()
+    {
+        GameObject.Find("itemDetail").transform.localScale = new Vector3(0, 0, 0);
+    } 
+
+    //技能信息关闭
+    public void skillclose()
+    {
+        GameObject.Find("DescriptionPanel").transform.localScale = new Vector3(0, 0, 0);
     }
 
     //道具查看与更新
@@ -897,91 +907,6 @@ public class Clickcontrol : MonoBehaviour {
 
             EFController.Instance.RoadTransfer(lineGameObjectlist[l], normal, pointGameObjectlist[ps], pointGameObjectlist[pe], delay, time,isPara);
             lineGameObjectlist[l] = normal;
-        }
-    }
-
-    void InitializeMonsterDegreeList()
-    {
-        monsterDegreeList = new List<MonsterMatch>();
-        MonsterMatch newcomer = new MonsterMatch(MonsterType.Empty, MonsterType.Slime,MonsterType.Empty);
-        MonsterMatch triSlime = new MonsterMatch(MonsterType.Slime, MonsterType.Slime,MonsterType.Slime);
-        MonsterMatch SwordMan = new MonsterMatch(MonsterType.Slime, MonsterType.DoubleSwordMan,MonsterType.Slime);
-        MonsterMatch swordManUnion = new MonsterMatch(MonsterType.DoubleSwordMan,MonsterType.DoubleSwordMan,MonsterType.DoubleSwordMan);
-        MonsterMatch bigSpider1 = new MonsterMatch(MonsterType.Slime,MonsterType.BigSpider,MonsterType.DoubleSwordMan);
-        MonsterMatch bigSpider2 = new MonsterMatch(MonsterType.Slime, MonsterType.BigSpider, MonsterType.Slime);
-        MonsterMatch bigSpider3 = new MonsterMatch(MonsterType.DoubleSwordMan, MonsterType.BigSpider,MonsterType.Slime);
-        MonsterMatch bigSpiderUnion = new MonsterMatch(MonsterType.BigSpider, MonsterType.BigSpider, MonsterType.BigSpider);
-        MonsterMatch vampire1 = new MonsterMatch(MonsterType.Slime, MonsterType.Vampire, MonsterType.Slime);
-        MonsterMatch vampire2 = new MonsterMatch(MonsterType.Slime, MonsterType.Vampire, MonsterType.DoubleSwordMan);
-        MonsterMatch vampire3 = new MonsterMatch(MonsterType.Slime, MonsterType.Vampire, MonsterType.BigSpider);
-        MonsterMatch vampire4 = new MonsterMatch(MonsterType.Slime, MonsterType.Vampire, MonsterType.BigSpider);
-
-
-        monsterDegreeList.Add(newcomer);
-        monsterDegreeList.Add(triSlime);
-        monsterDegreeList.Add(SwordMan);
-        monsterDegreeList.Add(swordManUnion);
-        monsterDegreeList.Add(bigSpider1);
-        monsterDegreeList.Add(bigSpider2);
-        monsterDegreeList.Add(bigSpider3);
-        monsterDegreeList.Add(bigSpiderUnion);
-        monsterDegreeList.Add(vampire1);
-        monsterDegreeList.Add(vampire2);
-        monsterDegreeList.Add(vampire3);
-        monsterDegreeList.Add(vampire4);
-    }
-
-    MonsterMatch ChooseMonster()
-    {
-        MonsterMatch temp = new MonsterMatch();
-        if (currentLevel == 0)
-        {
-            temp = monsterDegreeList[0];
-        }
-        if(currentLevel <=3 && currentLevel>0)
-        {
-            temp = monsterDegreeList[Random.Range(1, 2)];
-        }
-        if(currentLevel <=7 && currentLevel >3)
-        {
-            temp = monsterDegreeList[Random.Range(3, 6)];
-        }
-        if(currentLevel<=10 && currentLevel>7)
-        {
-            temp = monsterDegreeList[Random.Range(7, 11)];
-        }
-        return temp;
-    }
-
-    void InitializeMonster(MonsterType m)
-    {
-        if (m == MonsterType.Empty)
-        {
-            return;
-        }
-        if (m == MonsterType.Slime)
-        {
-            Slime temp = new Slime();
-            Monster tempMonster = temp;
-            magic.addMonster(tempMonster);
-        }
-        if (m == MonsterType.DoubleSwordMan)
-        {
-            DoubleSwordMan temp = new DoubleSwordMan();
-            Monster tempMonster = temp;
-            magic.addMonster(tempMonster);
-        }
-        if (m == MonsterType.BigSpider)
-        {
-            BigSpider temp = new BigSpider();
-            Monster tempMonster = temp;
-            magic.addMonster(tempMonster);
-        }
-        if (m== MonsterType.Vampire)
-        {
-            Vampire temp = new Vampire();
-            Monster tempMonster = temp;
-            magic.addMonster(tempMonster);
         }
     }
     

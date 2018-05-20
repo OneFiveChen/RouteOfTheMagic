@@ -65,7 +65,7 @@ namespace RouteOfTheMagic
         {
             //TODO
             //增加攻击的接口
-            MC.setATK(MC.getMaxATK() + 1);
+            MC.setATK(MC.getATK() + 1);
         }
         public void ChoseThree()
         {
@@ -119,7 +119,7 @@ namespace RouteOfTheMagic
         MagicCore MC;
         int bloodRedeuce;
         int bloodRedeuce2;
-        ItemName itemName = (ItemName)Random.Range(0, 9/*(int)ItemName.count*/);
+        ItemName itemName = (ItemName)Random.Range(0, 14/*(int)ItemName.count*/);
         public CEvent()
         {
             MC = MagicCore.Instance;

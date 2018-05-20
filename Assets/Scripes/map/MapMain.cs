@@ -147,17 +147,8 @@ namespace RouteOfTheMagic
                     MapNode node = new MapNode();
                     node.layer = i;
                     //node属性设置TODO
-                    NodeType nodeType;
-                    if (i == 2||i==6)
-                        //nodeType = (NodeType)Random.Range(0, (int)NodeType.count);
-                        nodeType = NodeType.shop;
-                    else if (i ==4)
-                        nodeType = NodeType.thing;
-                    else
-                        nodeType = NodeType.fight;
-
+                    NodeType nodeType = (NodeType)Random.Range(0,(int)NodeType.count);
                     node.nodeType = nodeType;
-
                     floor.Add(node);
                     floorMark.Add(false);
                 }
@@ -336,17 +327,6 @@ namespace RouteOfTheMagic
                 }
             }
 
-        }
-        /// <summary>
-        /// 返回当前结点的layer
-        /// </summary>
-        /// <returns></returns>
-        public int CurrentLevel()
-        {
-            if (currentMapNode!=null)
-                return currentMapNode.layer;
-            else
-                return 0;
         }
         /// <summary>
         /// 结点点击响应

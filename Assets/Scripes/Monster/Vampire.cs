@@ -39,7 +39,7 @@ namespace RouteOfTheMagic
         public override void SpecialEffect()
         {
             
-            restoreMonsterHP((int)(lastAttackValue*0.75f));//***********获取最终伤害值并以一定比例回复
+            restoreMonsterHP((int)(lastAttackValue*0.5f));//***********获取最终伤害值并以一定比例回复
         }
 
     }

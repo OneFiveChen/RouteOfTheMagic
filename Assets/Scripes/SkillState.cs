@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class SkillState : MonoBehaviour {
     public GameObject panel;
@@ -12,9 +13,11 @@ public class SkillState : MonoBehaviour {
     string str;
     public TextAsset Skilltext;
     public static TextAsset SkilltextGlobal;
-
+    private GameObject btGameObject;
+    Clickcontrol clickcontrol;
     // Use this for initialization
     void Start () {
+        clickcontrol = new Clickcontrol();
         if(!SkilltextGlobal)
         {
             if (Skilltext)
@@ -29,6 +32,9 @@ public class SkillState : MonoBehaviour {
 
     public void show()
     {
+        panel.transform.localScale = new Vector3(1, 1, 1);
+        clickcontrol.itemclose();
+        Clickcontrol.skillName = EventSystem.current.currentSelectedGameObject.name;
         string[] lines = SkilltextGlobal.text.Split("\n"[0]);
         for (int i = 0; i < lines.Length; ++i)
         {
@@ -36,16 +42,16 @@ public class SkillState : MonoBehaviour {
             string[] childString= child.GetComponent<Text>().text.Split("\n"[0]);
             if (parts[0] == childString[0])
             {
-                panel.GetComponentInChildren<Text>().text = parts[1];
+                foreach (Transform child in panel.transform)
+                {
+                    if (child.name == "State")
+                        child.GetComponent<Text>().text = parts[1];
+                }
                 break;
             }
         }
-        //iTween.MoveTo(panel, new Vector3(panel.transform.position.x, panel.transform.position.y - 80, panel.transform.position.z),2f);
     }
     public void hide()
     {
-        //iTween.MoveTo(panel, new Vector3(panel.transform.position.x, panel.transform.position.y + 80, panel.transform.position.z), 2f);
-
-        //panel.SetActive(false);
     }
 }
