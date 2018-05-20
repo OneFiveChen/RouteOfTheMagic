@@ -1328,7 +1328,7 @@ public class MagicCore {
 
             FreshSkillActivity();
             mPos = locate;
-            
+            doBuff(m);
 
         }
         return r;
@@ -1504,6 +1504,7 @@ public class MagicCore {
         addBuff(itemTool.getItem(itName), -1);
         if (it.subItemName != ItemName.count)
         {
+            Debug.Log(it.subItemName);
             addBuff(itemTool.getItem(it.subItemName), -1);
         }
         

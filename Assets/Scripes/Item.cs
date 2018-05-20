@@ -174,6 +174,7 @@ public class ItemTool {
     {
         Point p;
         p = magiccore.getPoint(m.pEnd);
+        
         if (p.color == PointColor.black)
         {
             magiccore.setATK(magiccore.getATK()+1);
@@ -219,7 +220,7 @@ public class ItemTool {
         
         magiccore.setATK(magiccore.getATK()+2);
        
-        magiccore.setDEF(magiccore.getDEF()-1);        
+        magiccore.setHP(magiccore.getHP()-3);        
     } //双刃杖,可用
 
     public void FlameHeart(Move m)
