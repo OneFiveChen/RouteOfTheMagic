@@ -2240,7 +2240,7 @@ public class MagicCore {
         for (int id = 1; id < skillReady.magicRoute[0]; ++id)
         {
             //节点恢复变成绿色
-            GameObject.Find("MagicEventSystem").GetComponent<Clickcontrol>().LineColorChange(mRoute[i].moveLine,mRoute[i].pStart,mRoute[i].pEnd,new Color(0,1,0,1),(i - 1)*10);
+            GameObject.Find("MagicEventSystem").GetComponent<Clickcontrol>().LineColorChange(mRoute[id].moveLine,mRoute[id].pStart,mRoute[id].pEnd,new Color(0,1,0,1),(id - 1)*10);
         }
         if (skillReady.skill.skillDoType != SkillDoType.norequire)
         {
@@ -2263,7 +2263,7 @@ public class MagicCore {
                         c = new Color(0.5f, 0.5f, 0);
                         break;
                 }
-                GameObject.Find("MagicEventSystem").GetComponent<Clickcontrol>().LineColorChange(mRoute[i].moveLine, mRoute[i].pStart, mRoute[i].pEnd, c, (i - 1) * 10);
+                GameObject.Find("MagicEventSystem").GetComponent<Clickcontrol>().LineColorChange(mRoute[id].moveLine, mRoute[id].pStart, mRoute[id].pEnd, new Color(0, 1, 0, 1), (id - 1) * 10);
             }
         }
     }
@@ -2277,7 +2277,7 @@ public class MagicCore {
         for (int id = 1; id < mRoute.Count; ++id)
         {
             //节点恢复变成绿色
-            GameObject.Find("MagicEventSystem").GetComponent<Clickcontrol>().LineColorChange(mRoute[i].moveLine, mRoute[i].pStart, mRoute[i].pEnd, new Color(0, 1, 0, 1), (i - 1) * 10);
+            GameObject.Find("MagicEventSystem").GetComponent<Clickcontrol>().LineColorChange(mRoute[id].moveLine, mRoute[id].pStart, mRoute[id].pEnd, new Color(1, 1, 1, 1), (id - 1) * 10);
         }
     }
 
