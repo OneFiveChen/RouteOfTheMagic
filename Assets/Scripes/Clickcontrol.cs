@@ -586,6 +586,7 @@ public class Clickcontrol : MonoBehaviour {
         {
             if (ed.damage != 0)
             {
+                //Debug.Log(ed.ID);
                 if (lineGameObjectlist.Count > 0)
                 foreach (Transform child in lineGameObjectlist[ed.ID].transform)
                 {
@@ -884,6 +885,7 @@ public class Clickcontrol : MonoBehaviour {
     public void LineColorChange(int l,int p1,int p2, Color pc,int delay)
     {
         GameObject light = Instantiate(lineLightPerb, lines.transform);
+        Debug.Log(l + " " + p1 + " " + p2);
         EFController.Instance.RoadTransfer(lineGameObjectlist[l], light, pointGameObjectlist[p1], pointGameObjectlist[p2], 0, 10, true);
         lineGameObjectlist[l] = light;
     }
