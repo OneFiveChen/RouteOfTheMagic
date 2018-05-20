@@ -11,6 +11,9 @@ namespace RouteOfTheMagic
         {
             base.Start();
             attackType = AttackType.Random;
+            monsterHP = 1000;
+            maxMonsterHP = 1000;
+            attackValue = 30;
             randomNum = 5;
         }
 
