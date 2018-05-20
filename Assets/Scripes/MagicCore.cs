@@ -2273,6 +2273,8 @@ public class MagicCore {
         skillReady.skill.addbasic = 0;
         skillReady.skill.addcount = 0;
         skillReady.skill.addpower = 0;
+
+
     }
 
     public void randomPoint()
