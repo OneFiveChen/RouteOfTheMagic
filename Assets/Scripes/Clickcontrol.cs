@@ -979,24 +979,29 @@ public class Clickcontrol : MonoBehaviour {
         if (m == MonsterType.Slime)
         {
             Slime temp = new Slime();
+            temp.Start();
             Monster tempMonster = temp;
             magic.addMonster(tempMonster);
+
         }
         if (m == MonsterType.DoubleSwordMan)
         {
             DoubleSwordMan temp = new DoubleSwordMan();
+            temp.Start();
             Monster tempMonster = temp;
             magic.addMonster(tempMonster);
         }
         if (m == MonsterType.BigSpider)
         {
             BigSpider temp = new BigSpider();
+            temp.Start();
             Monster tempMonster = temp;
             magic.addMonster(tempMonster);
         }
         if (m == MonsterType.Vampire)
         {
             Vampire temp = new Vampire();
+            temp.Start();
             Monster tempMonster = temp;
             magic.addMonster(tempMonster);
         }
