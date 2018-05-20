@@ -393,10 +393,7 @@ public class BulletEffect : EffectBasic
     public BombType bt;
     public string dmgTxt;
     public GameObject resorce;
-    public GameObject target;
-
-    
-    
+    public GameObject target;  
 }
 
 public delegate void EFDelegate(EffectBasic selfEF);

@@ -65,7 +65,7 @@ namespace RouteOfTheMagic
         {
             //TODO
             //增加攻击的接口
-            MC.setATK(MC.getATK() + 1);
+            MC.setMaxATK(MC.getMaxATK() + 1);
         }
         public void ChoseThree()
         {

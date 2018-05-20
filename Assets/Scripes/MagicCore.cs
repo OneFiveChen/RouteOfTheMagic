@@ -2353,6 +2353,10 @@ public class MagicCore {
     {
         ATK = a;
     }
+    public void setMaxATK(int a)
+    {
+        MaxATK = a;
+    }
 
     public void setDEF(int d)
     {

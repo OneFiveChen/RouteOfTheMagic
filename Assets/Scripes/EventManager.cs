@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 namespace RouteOfTheMagic
 {
     public class EventManager : MonoBehaviour
@@ -49,8 +50,20 @@ namespace RouteOfTheMagic
 
         void Exit()
         {
-            this.gameObject.SetActive(false);
-            MapMain.Instance.SceneEnd(true);
+            if (mc.getHP() < 0)
+            {
+                showLast.GetComponentInChildren<Text>().text = "你的生命值太低了，已经死亡了！";
+                Invoke("dead", 2);
+            }
+            else
+            {
+                this.gameObject.SetActive(false);
+                MapMain.Instance.SceneEnd(true);
+            }
+        }
+        void dead()
+        {
+            SceneManager.LoadScene("star"); 
         }
         // Update is called once per frame
         void Update()
