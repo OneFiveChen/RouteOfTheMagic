@@ -175,7 +175,7 @@ public class ItemTool {
         Point p;
         p = magiccore.getPoint(m.pEnd);
         
-        if (p.color == PointColor.black)
+        if (p.color == PointColor.black && magiccore.getPoint(m.pStart).color != PointColor.black)
         {
             magiccore.setATK(magiccore.getATK()+1);
         }
