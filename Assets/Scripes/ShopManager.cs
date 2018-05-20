@@ -33,7 +33,7 @@ namespace RouteOfTheMagic
         {
             panel.position = new Vector3(panel.position.x - width, panel.position.y, panel.position.z);
             RightButton.interactable = true;
-            Debug.Log(panel.position.x + "," + startX+","+(endX+width));
+        //    Debug.Log(panel.position.x + "," + startX+","+(endX+width));
             if (panel.position.x<= endX+1+width)
             {
                 panel.position = new Vector3(endX, panel.position.y, panel.position.z);
