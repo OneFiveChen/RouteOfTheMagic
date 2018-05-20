@@ -123,10 +123,10 @@ public class EFController{
     /// <param name="time"></param>
     /// <param name="size"></param>
     /// <param name="alpha"></param>
-    public void NewRingCreatAnimation(GameObject ring, int delay, int time, float size, float alpha)
+    public void NewRingCreatAnimation(GameObject ring, int delay, int time, float size, float alpha, float sSize = 0,float sAlpha = 0,float angle = 0)
     {
         ring.transform.localScale = Vector3.zero;
-        RingEffect ringEffect = new RingEffect(delay, time, EFType.RingEffect,ring, 0, size, 0, alpha, 0);
+        RingEffect ringEffect = new RingEffect(delay, time, EFType.RingEffect,ring, sSize, size, sAlpha, alpha, angle);
         ringEffect.EFRunning += ringCreateRunning;
         ringEffect.EFStart += nothing;
         ringEffect.EFEnd += nothing;

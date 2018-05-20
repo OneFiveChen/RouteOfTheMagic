@@ -17,12 +17,13 @@ public class Clickcontrol : MonoBehaviour {
     public GameObject lineLightPerb;
     public GameObject itemPerb;
     public GameObject buffPerb;
-    public GameObject monster0;
+    public GameObject monsterPerb;
     public GameObject startButton;
     public GameObject showState;
     public GameObject showPanel;
     public GameObject itemLists;
     public GameObject buffLists;
+    public GameObject monsterList;
     public GameObject detail;
     public GameObject gameOver;
     public GameObject drop;
@@ -125,7 +126,8 @@ public class Clickcontrol : MonoBehaviour {
         //初始化花纹
         InitFigure();
 
-
+        //初始化怪物
+        Initmonster();
     }
 	
 	// Update is called once per frame
@@ -219,6 +221,13 @@ public class Clickcontrol : MonoBehaviour {
         //更新buff
         buffupdate();
 
+        //刷新怪物血量
+        for (int i=0;i<monsterList.transform.childCount;++i)
+        {
+            if (magic.isMonsterLive(i))
+            monsterList.transform.GetChild(i).GetComponentInChildren<Text>().text =
+                magic.getMonsterList()[int.Parse(monsterList.transform.GetChild(i).name)].monsterHP.ToString();
+        }
     }
 
     //初始化
@@ -484,7 +493,7 @@ public class Clickcontrol : MonoBehaviour {
     {
         btnGameObject = EventSystem.current.currentSelectedGameObject;
         int monsterID = int.Parse(btnGameObject.name);
-        magic.LclickM(monsterID);
+        MagicCore.Instance.LclickM(monsterID);
     }
 
     //绘制连线颜色
@@ -865,6 +874,20 @@ public class Clickcontrol : MonoBehaviour {
         }
     }
 
+    //创建节点破坏效果
+    public void PointBroken(int i)
+    {
+        EFController.Instance.NewRingCreatAnimation(pointGameObjectlist[i], 0, 10, 0, 0, 3, 1, 0.1f);
+    }
+
+    //创建路径变色效果
+    public void LineColorChange(int l,int p1,int p2, Color pc,int delay)
+    {
+        GameObject light = Instantiate(lineLightPerb, lines.transform);
+        EFController.Instance.RoadTransfer(lineGameObjectlist[l], light, pointGameObjectlist[p1], pointGameObjectlist[p2], 0, 10, true);
+        lineGameObjectlist[l] = light;
+    }
+
     //创建新的路径转变特效
     public void newLineTransfer(bool isLight,bool isPara = true,PointColor skillColor = PointColor.white,int time = 12,int delay = 0)
     {
@@ -1007,5 +1030,29 @@ public class Clickcontrol : MonoBehaviour {
         }
     }
 
-
+    public void Initmonster()
+    {
+        for (int i = 0; i < 3; ++i)
+        {
+            if (magic.isMonsterLive(i))
+            {
+                GameObject m = GameObject.Instantiate(monsterPerb, monsterList.transform);
+                m.name = i.ToString();
+                m.GetComponentInChildren<Text>().text = magic.getMonsterList()[i].monsterHP.ToString();
+                if (magic.getMonsterList().Count == 1)
+                {
+                    m.transform.localPosition = new Vector3(0, -100, 0);
+                }
+                else if (magic.getMonsterList().Count == 2)
+                {
+                    m.transform.localPosition = new Vector3(200 * i-100, -100, 0);
+                }
+                else if (magic.getMonsterList().Count == 3)
+                {
+                    m.transform.localPosition = new Vector3(200 * i - 200, -100, 0);
+                }
+                   
+            }
+        }
+    }
 }

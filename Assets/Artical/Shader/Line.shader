@@ -4,6 +4,7 @@
 	{
 		_MainTex ("Texture", 2D) = "white" {}
 		_ScrollSpeed("ScrollSpeed",float) = 0
+		_Color("Color",Color) = (1,1,1,1)
 		
 	}
 	SubShader
@@ -38,6 +39,7 @@
 			sampler2D _MainTex;
 			float4 _MainTex_ST;
 			float _ScrollSpeed;
+			float4 _Color;
 			
 			v2f vert (appdata v)
 			{
@@ -54,7 +56,7 @@
 				// sample the texture
 				fixed4 col = tex2D(_MainTex, i.uv);
 
-				return col;
+				return col * _Color;
 			}
 			ENDCG
 		}
