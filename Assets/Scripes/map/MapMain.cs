@@ -95,6 +95,8 @@ namespace RouteOfTheMagic
 
         bool isBoss = false;
 
+        public Button addAtk;
+
 
         public static MapMain Instance
         {
@@ -141,7 +143,7 @@ namespace RouteOfTheMagic
             magicCore = MagicCore.Instance;
             render = mapRoot.transform.GetChild(0).GetComponent<UiRender>();
             Init();
-            //addAtk.onClick.AddListener(AddAtk);
+            addAtk.onClick.AddListener(AddAtk);
 
             DontDestroyOnLoad(this.gameObject);
 
@@ -179,6 +181,7 @@ namespace RouteOfTheMagic
                 map.Add(floor);
                 mark.Add(floorMark);
             }
+
             //填充结点的子节点
             for (int i = 0; i < layerCount - 1; i++)
             {
@@ -287,7 +290,12 @@ namespace RouteOfTheMagic
             {
                 floorTop[i].child.Add(0);
             }
-
+            List<MapNode> bossFloor = new List<MapNode>();
+            MapNode bossNode = new MapNode();
+            bossNode.layer = layerCount;
+            bossNode.nodeType = NodeType.fight;
+            bossFloor.Add(bossNode);
+            map.Add(bossFloor);
             ///绘制
             float length = mapHight / layerCount;
             for (int i = 0; i < map.Count; i++)
@@ -435,10 +443,11 @@ namespace RouteOfTheMagic
         void Update()
         {
             ////测试用代码
-            //if (magicCore.skillPoint > 2)
-            //    addAtk.interactable = true;
-            //else
-            //    addAtk.interactable = false;
+            if(addAtk)
+            if (magicCore.skillPoint > 2)
+                addAtk.interactable = true;
+            else
+                addAtk.interactable = false;
 
         }
         /// <summary>
@@ -465,13 +474,13 @@ namespace RouteOfTheMagic
 
             if (currentMapNode.layer==layerCount-1)
                 isBoss=true;
-            if (isBoss)
-            {
-                SceneManager.LoadSceneAsync("Magic");
-                return;
-            };
+            //if (isBoss)
+            //{
+               // SceneManager.LoadSceneAsync("Magic");
+                //return;
+           // };
             //非Boss处理
-            if (istrue&&!isBoss)
+            if (istrue)
                 foreach (var item in currentMapNode.child)
                 {
                     map[layer + 1][item].FatherIsPass = true;
