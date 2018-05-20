@@ -64,6 +64,7 @@ namespace RouteOfTheMagic
         public Sprite DoubleSwordMan;
         public Sprite BigSpider;
         public Sprite Vampire;
+        public Sprite Boss_TurnMan;
         public void load(string name)
         {
             Sprite temp = Resources.Load<Sprite>("monster/" + name);
@@ -75,6 +76,8 @@ namespace RouteOfTheMagic
                 BigSpider = temp;
             else if (temp.name == "Vampire")
                 Vampire = temp;
+            else if (temp.name == "Boss_TurnMan")
+                Boss_TurnMan = temp;
         }
     }
     public class LoadResources
@@ -139,6 +142,7 @@ namespace RouteOfTheMagic
             monsterSp.load("DoubleSwordMan");
             monsterSp.load("BigSpider");
             monsterSp.load("Vampire");
+            monsterSp.load("Boss_TurnMan");
         } 
     }
 }

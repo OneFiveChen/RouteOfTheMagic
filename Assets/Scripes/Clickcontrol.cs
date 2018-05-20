@@ -110,11 +110,17 @@ public class Clickcontrol : MonoBehaviour {
         //buff个数
         buffCount = 0;
         InitializeMonsterDegreeList();
-        currentLevel = MapMain.Instance.CurrentLevel();
-        MonsterMatch currentMatch = ChooseMonster();
-        InitializeMonster(currentMatch.monster1);
-        InitializeMonster(currentMatch.monster2);
-        InitializeMonster(currentMatch.monster3);
+        if (MapMain.Instance.IsBoss())
+        {
+            InitializeMonster(MonsterType.Boss_TurnMan);
+        }
+        else { 
+            currentLevel = MapMain.Instance.CurrentLevel();
+            MonsterMatch currentMatch = ChooseMonster();
+            InitializeMonster(currentMatch.monster1);
+            InitializeMonster(currentMatch.monster2);
+            InitializeMonster(currentMatch.monster3);
+        }
 
 
         // magic.addMonster(monster0.GetComponent<Monster>());
@@ -593,6 +599,11 @@ public class Clickcontrol : MonoBehaviour {
     {
         List<Line> lineList = magic.getLine();
         List<EDamage>edList = magic.getMonsterATK();
+        foreach (GameObject g in lineGameObjectlist)
+        {
+            g.transform.GetChild(0).GetComponent<TextMesh>().text = "";
+        }
+
         foreach (EDamage ed in edList)
         {
             if (ed.damage != 0)
@@ -606,21 +617,24 @@ public class Clickcontrol : MonoBehaviour {
                     if (child.name == "Damage")
                     {
                         child.position = new Vector3((pos1.x + pos2.x) / 2, (pos1.y + pos2.y) / 2, -4);
-                            child.GetComponent<TextMesh>().text = ed.damage.ToString();    
-                    }
+                            if(child.GetComponent<TextMesh>().text == "")
+                                child.GetComponent<TextMesh>().text = ed.damage.ToString(); 
+                            else
+                                child.GetComponent<TextMesh>().text += "+" + ed.damage.ToString();
+                        }
                    
                 }
             }
-            else
-            {
-                if(lineGameObjectlist.Count > 0)
-                foreach (Transform child in lineGameObjectlist[ed.ID].transform)
-                {
-                    if (child.name == "Damage")
-                        child.GetComponent<TextMesh>().text = null;
+            //else
+            //{
+            //    if(lineGameObjectlist.Count > 0)
+            //    foreach (Transform child in lineGameObjectlist[ed.ID].transform)
+            //    {
+            //        if (child.name == "Damage")
+            //            //child.GetComponent<TextMesh>().text +=  null;
                     
-                }
-            }
+            //    }
+            //}
         }
     }
 
@@ -787,10 +801,10 @@ public class Clickcontrol : MonoBehaviour {
                 itemGameObjectlist.Add(item);
                 if (items.Count % 2 == 0)
                 {
-                    item.transform.localPosition = new Vector3(120 * (itemCount+1) - 60, 0, 0);
+                    item.transform.localPosition = new Vector3(120 * itemCount - 60, 0, 0);
                 }
                 else
-                    item.transform.localPosition = new Vector3(120 * (itemCount+1) - 120, 0, 0);
+                    item.transform.localPosition = new Vector3(120 * itemCount - 120, 0, 0);
 
                 item.name = items[itemCount].ToString();
 
@@ -1045,6 +1059,14 @@ public class Clickcontrol : MonoBehaviour {
             Monster tempMonster = temp;
             magic.addMonster(tempMonster);
         }
+        if(m == MonsterType.Boss_TurnMan)
+        {
+            Boss_TurnMan temp = new Boss_TurnMan();
+            temp.Start();
+            temp.Setmtype(MonsterType.Boss_TurnMan);
+            Monster tempMonster = temp;
+            magic.addMonster(tempMonster);
+        }
     }
 
     public void Initmonster()
@@ -1069,6 +1091,9 @@ public class Clickcontrol : MonoBehaviour {
                         break;
                     case MonsterType.Vampire:
                         m.GetComponent<Image>().sprite = LoadResources.Instance.monsterSp.Vampire;
+                        break;
+                    case MonsterType.Boss_TurnMan:
+                        m.GetComponent<Image>().sprite = LoadResources.Instance.monsterSp.Boss_TurnMan;
                         break;
                     default:
                         break;

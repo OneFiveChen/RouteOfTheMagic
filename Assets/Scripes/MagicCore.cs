@@ -1569,6 +1569,19 @@ public class MagicCore {
             recoverMagic(m.pEnd);
         }
 
+        //释放节点特性
+        if (mRoute.Count > 0)
+            mRoute.RemoveAt(0);
+
+        int count = 0;
+        while (mRoute.Count > 0)
+        {
+            //生成特效
+            GameObject.Find("MagicEventSystem").GetComponent<Clickcontrol>().newLineTransfer(false, false, PointColor.white, 5, (count - 1) * 5);
+            mRoute.RemoveAt(0);
+            count += 1;
+        }
+
         //恢复节点状态
         for (int i = 0; i < mLine.Count; ++i)
         {

@@ -20,6 +20,7 @@ public class mouseevent : MonoBehaviour {
         magic = MagicCore.Instance;
         pList = magic.getPoint();
 
+
         
         //判断状态,确定节点是否显示，以及其魔力值等
         if (magic.getPoint(int.Parse(this.tag)).MaxMagic == 0)
@@ -28,8 +29,16 @@ public class mouseevent : MonoBehaviour {
         }
         else if (!magic.getPointBroked(int.Parse(this.tag)))
         {
-            this.GetComponentInChildren<TextMesh>().text =
-            magic.getPoint(int.Parse(this.tag)).magic + "";
+            this.transform.GetChild(0).GetComponent<TextMesh>().text =
+            magic.getPoint(int.Parse(this.tag)).magic.ToString();
+            if (magic.getPoint(int.Parse(this.tag)).isProtected)
+            {
+                this.transform.GetChild(0).GetComponent<TextMesh>().color = Color.blue;
+            }
+            else
+            {
+                this.transform.GetChild(0).GetComponent<TextMesh>().color = Color.white;
+            }
             this.GetComponent<SpriteRenderer>().sprite = oldSprite;
         }
 
@@ -37,6 +46,27 @@ public class mouseevent : MonoBehaviour {
 
         //节点颜色初始化
         this.GetComponent<SpriteRenderer>().color = toPointColor(magic.getPointColor(int.Parse(this.tag)));
+        if (magic.getPoint(int.Parse(this.tag)).isActivity)
+        {
+            if (magic.getPointColor(int.Parse(this.tag)) == PointColor.black)
+                this.transform.GetChild(1).localScale = new Vector3(0.05f, 0.05f, 0);
+            if (magic.getPointColor(int.Parse(this.tag)) == PointColor.blue)
+                this.transform.GetChild(2).localScale = new Vector3(0.05f, 0.05f, 0);
+            if(magic.getPointColor(int.Parse(this.tag)) == PointColor.red)
+                this.transform.GetChild(3).localScale = new Vector3(0.05f, 0.05f, 0);
+            if(magic.getPointColor(int.Parse(this.tag)) == PointColor.white)
+                this.transform.GetChild(4).localScale = new Vector3(0.05f, 0.05f, 0);
+            if (magic.getPointColor(int.Parse(this.tag)) == PointColor.yellow)
+                this.transform.GetChild(5).localScale = new Vector3(0.05f, 0.05f, 0);
+        }
+        else
+        {
+            this.transform.GetChild(1).localScale = new Vector3(0, 0, 0);
+            this.transform.GetChild(2).localScale = new Vector3(0, 0, 0);
+            this.transform.GetChild(3).localScale = new Vector3(0, 0, 0);
+            this.transform.GetChild(4).localScale = new Vector3(0, 0, 0);
+            this.transform.GetChild(5).localScale = new Vector3(0, 0, 0);
+        }
         if (magic.isDefencer(int.Parse(this.tag)))
         {
             this.GetComponent<SpriteRenderer>().color = Color.gray;
@@ -136,7 +166,7 @@ public class mouseevent : MonoBehaviour {
         if (magic.getPointBroked(int.Parse(this.tag)))
         {
             //this.GetComponent<SpriteRenderer>().sprite = mySprite;
-            this.GetComponentInChildren<TextMesh>().text = null;
+            this.transform.GetChild(0).GetComponent<TextMesh>().text = null;
         }
     }
 }
