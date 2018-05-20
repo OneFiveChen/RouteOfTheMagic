@@ -1396,7 +1396,8 @@ public class MagicCore {
         {
             if (b.GetType() == typeof(ItemBuff))
             {
-                r.Add(((ItemBuff)b).iName);
+                if((int)((ItemBuff)b).iName > 13)
+                 r.Add(((ItemBuff)b).iName);
             }
         }
         return r;
