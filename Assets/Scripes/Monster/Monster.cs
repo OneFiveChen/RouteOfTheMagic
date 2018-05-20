@@ -16,6 +16,8 @@ namespace RouteOfTheMagic
         public List<Point> panelPoint = new List<Point>();
         public List<Line> panelLine = new List<Line>();
 
+        [HideInInspector]
+        public MonsterType mtype;
         public int lastAttackValue = 0;
 
         [HideInInspector]
@@ -665,6 +667,11 @@ namespace RouteOfTheMagic
         public void LastFinalAttackValue(int attackValue)
         {
             lastAttackValue = attackValue;
+        }
+
+        public void Setmtype(MonsterType type)
+        {
+            mtype = type;
         }
     }
 }

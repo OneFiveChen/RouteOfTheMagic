@@ -116,6 +116,7 @@ public class Clickcontrol : MonoBehaviour {
         InitializeMonster(currentMatch.monster2);
         InitializeMonster(currentMatch.monster3);
 
+
         // magic.addMonster(monster0.GetComponent<Monster>());
         magic.startTurn();
 
@@ -555,11 +556,21 @@ public class Clickcontrol : MonoBehaviour {
             {
                 //showState.GetComponent<Button>().interactable = false;
                 sk.GetComponent<Image>().color = Color.gray;
+                foreach (Transform child in sk.transform)
+                {
+                    if (child.name == "Name")
+                        child.GetComponent<Text>().color = Color.white;
+                }
             }
             else if (!isDrop)
             {
                 showState.GetComponent<Button>().interactable = true;
                 sk.GetComponent<Image>().color = Color.white;
+                foreach(Transform child in sk.transform)
+                {
+                    if (child.name == "Name")
+                        child.GetComponent<Text>().color = Color.black;
+                }
             }
             else if (isDrop)
             {
@@ -1005,6 +1016,7 @@ public class Clickcontrol : MonoBehaviour {
         {
             Slime temp = new Slime();
             temp.Start();
+            temp.Setmtype(MonsterType.Slime);
             Monster tempMonster = temp;
             magic.addMonster(tempMonster);
 
@@ -1013,6 +1025,7 @@ public class Clickcontrol : MonoBehaviour {
         {
             DoubleSwordMan temp = new DoubleSwordMan();
             temp.Start();
+            temp.Setmtype(MonsterType.DoubleSwordMan);
             Monster tempMonster = temp;
             magic.addMonster(tempMonster);
         }
@@ -1020,6 +1033,7 @@ public class Clickcontrol : MonoBehaviour {
         {
             BigSpider temp = new BigSpider();
             temp.Start();
+            temp.Setmtype(MonsterType.BigSpider);
             Monster tempMonster = temp;
             magic.addMonster(tempMonster);
         }
@@ -1027,6 +1041,7 @@ public class Clickcontrol : MonoBehaviour {
         {
             Vampire temp = new Vampire();
             temp.Start();
+            temp.Setmtype(MonsterType.Vampire);
             Monster tempMonster = temp;
             magic.addMonster(tempMonster);
         }
