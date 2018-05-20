@@ -362,7 +362,7 @@ namespace RouteOfTheMagic
             {
                 SceneManager.LoadSceneAsync("Event");
             }
-            Debug.Log(mapNode.nodeType);
+
         }
         /// <summary>
         /// 创建按钮

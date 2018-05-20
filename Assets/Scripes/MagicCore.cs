@@ -776,12 +776,13 @@ public class MagicCore {
         skillReady.skill.addpower = 0;
         //更新mRoute
         int count = 0;
+        mRoute.RemoveAt(0);
         for (int i = 0; i < mRoute.Count; ++i)
         {
             //获取技能属性
             PointColor pc = skillReady.skill.mRequire[0];
             count += 1;
-
+            
             if (mRoute.Count > 0 && mRoute[0].moveLine != -1)
             {
                 mLine[mRoute[0].moveLine].isPassed = false;
@@ -1304,8 +1305,8 @@ public class MagicCore {
             mPoint[locate] = p;
 
             Move m;
-            if (mRoute.Count > 0 || DragDoc.Count > 0)
-            {
+            //if (mRoute.Count > 0 || DragDoc.Count > 0)
+            //{
 
                 m.pStart = mPos;
                 m.pEnd = locate;
@@ -1314,14 +1315,14 @@ public class MagicCore {
                 Line l = mLine[roadID];
                 l.isPassed = true;
                 mLine[roadID] = l;
-                r = true;
-            }
-            else
-            {
-                m.pStart = locate;
-                m.pEnd = locate;
-                m.moveLine = -1;
-            }
+               
+            //}
+            //else
+            //{
+            //    m.pStart = locate;
+            //    m.pEnd = locate;
+            //    m.moveLine = -1;
+            //}
             mRoute.Add(m);
             DragDoc.Add(m);
 
@@ -1329,7 +1330,8 @@ public class MagicCore {
 
             FreshSkillActivity();
             mPos = locate;
-            
+            r = true;
+
         }
         return r;
     }
