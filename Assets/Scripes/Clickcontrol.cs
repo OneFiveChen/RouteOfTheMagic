@@ -865,6 +865,20 @@ public class Clickcontrol : MonoBehaviour {
         }
     }
 
+    //创建节点破坏效果
+    public void PointBroken(int i)
+    {
+        EFController.Instance.NewRingCreatAnimation(pointGameObjectlist[i], 0, 10, 0, 0, 3, 1, 0.1f);
+    }
+
+    //创建路径变色效果
+    public void LineColorChange(int l,int p1,int p2, Color pc,int delay)
+    {
+        GameObject light = Instantiate(lineLightPerb, lines.transform);
+        EFController.Instance.RoadTransfer(lineGameObjectlist[l], light, pointGameObjectlist[p1], pointGameObjectlist[p2], 0, 10, true);
+        lineGameObjectlist[l] = light;
+    }
+
     //创建新的路径转变特效
     public void newLineTransfer(bool isLight,bool isPara = true,PointColor skillColor = PointColor.white,int time = 12,int delay = 0)
     {

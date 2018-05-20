@@ -357,9 +357,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 209923105}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b0d90ff1a45003f45a8788d95309e45f, type: 3}
+  m_Script: {fileID: 11500000, guid: f372e89c4d4016f4fa1da88c3bb40ab6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Hp: {fileID: 1106831253}
+  Attack: {fileID: 878624314}
+  Defend: {fileID: 1867332961}
 --- !u!1 &310289016
 GameObject:
   m_ObjectHideFlags: 0
@@ -438,6 +441,12 @@ MonoBehaviour:
   linePerb: {fileID: 1768600077517898, guid: 6af2a6018f7f0784c895ff16d8fefe1e, type: 2}
   nodes: {fileID: 1758726413}
   lines: {fileID: 759187329}
+  figure0: {fileID: 0}
+  figure1: {fileID: 0}
+  figure2: {fileID: 0}
+  SpFigure0: {fileID: 0}
+  SpFigure1: {fileID: 0}
+  SpFigure2: {fileID: 0}
 --- !u!1001 &315062835
 Prefab:
   m_ObjectHideFlags: 0
