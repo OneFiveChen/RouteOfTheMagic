@@ -83,7 +83,7 @@ namespace RouteOfTheMagic
         public GameObject[] Root;
         private UiRender render;
         public int layerCount = 5;
-        public Sprite sprite;
+        public Button addAtk;
         private MagicCore magicCore;
         static MapMain instance;
         MapNode currentMapNode;
@@ -92,6 +92,8 @@ namespace RouteOfTheMagic
         float width = 200;
 
         float buttonWidth = 74;
+
+        bool isBoss = false;
 
 
         public static MapMain Instance
@@ -121,15 +123,28 @@ namespace RouteOfTheMagic
         {
             instance = this;
         }
+        void AddAtk()
+        {
+            if (magicCore.skillPoint > 2)
+            {
+                magicCore.setATK(magicCore.getMaxATK() + 1);
+                magicCore.skillPoint -= 3;
+            }
+                
+        }
+        public bool IsBoss()
+        {
+            return isBoss;
+        }
         void Start()
         {
             magicCore = MagicCore.Instance;
             render = mapRoot.transform.GetChild(0).GetComponent<UiRender>();
             Init();
-            
+            addAtk.onClick.AddListener(AddAtk);
 
             DontDestroyOnLoad(this.gameObject);
-            
+
         }
         //初始化地图
         void Init()
@@ -147,8 +162,17 @@ namespace RouteOfTheMagic
                     MapNode node = new MapNode();
                     node.layer = i;
                     //node属性设置TODO
-                    NodeType nodeType = (NodeType)Random.Range(0,(int)NodeType.count);
+                    NodeType nodeType;
+                    if (i == 2 || i == 6)
+                        //nodeType = (NodeType)Random.Range(0, (int)NodeType.count);
+                        nodeType = NodeType.shop;
+                    else if (i == 4)
+                        nodeType = NodeType.thing;
+                    else
+                        nodeType = NodeType.fight;
+
                     node.nodeType = nodeType;
+
                     floor.Add(node);
                     floorMark.Add(false);
                 }
@@ -177,14 +201,14 @@ namespace RouteOfTheMagic
                     }
                     else
                     {
-                        if(j< childNum-1)
+                        if (j < childNum - 1)
                         {
                             if (Random.Range(0.0f, 1.0f) >= 0.5)
                             {
                                 floor[j].child.Add(j);
                                 floorMark[j] = true;
                             }
-                            if (Random.Range(0.0f, 1.0f) >= 0.5&& j < childNum - 2)
+                            if (Random.Range(0.0f, 1.0f) >= 0.5 && j < childNum - 2)
                             {
                                 floor[j].child.Add(j + 1);
                                 floorMark[j + 1] = true;
@@ -212,7 +236,7 @@ namespace RouteOfTheMagic
                                 }
                             }
                         }
-                        else if(floorMark[childNum - 1])
+                        else if (floorMark[childNum - 1])
                         {
                             floor[j].child.Add(childNum - 1);
                             floorMark[childNum - 1] = true;
@@ -234,12 +258,12 @@ namespace RouteOfTheMagic
                                 floor[j].child.Add(childNum - 1);
                                 floorMark[childNum - 1] = true;
                             }
-                            if(j== floor.Count - 1)
+                            if (j == floor.Count - 1)
                             {
                                 floor[floor.Count - 1].child.Add(childNum - 1);
                                 floorMark[childNum - 1] = true;
                             }
-                                
+
 
                         }
                         for (int m = 0; m < childNum; m++)
@@ -270,7 +294,7 @@ namespace RouteOfTheMagic
             {
                 for (int j = 0; j < map[i].Count; j++)
                 {
-                    float layerXNum = map[i].Count * -(width/2) + (width / 2);
+                    float layerXNum = map[i].Count * -(width / 2) + (width / 2);
                     float layerYNum = 0;
                     if (i == map.Count - 1)
                         layerYNum = 0;
@@ -297,14 +321,14 @@ namespace RouteOfTheMagic
                     //color = Color.red;
 
 
-                    ButtonEx button = CreatButton(new Vector2(layerXNum + width * j, -(mapHight-buttonWidth)/2 + length * i), new Vector2(buttonWidth, buttonWidth), nowSprite, Color.white);
+                    ButtonEx button = CreatButton(new Vector2(layerXNum + width * j, -(mapHight - buttonWidth) / 2 + length * i), new Vector2(buttonWidth, buttonWidth), nowSprite, Color.white);
                     map[i][j].button = button;
-                    
+
                     button.onClick.AddListener(delegate ()
                     {
                         button.Exit();
                         this.buttonResponse(mapNode);
-                        
+
                     });
                     if (i == 0)
                     {
@@ -316,11 +340,11 @@ namespace RouteOfTheMagic
                         int num = map[i][j].child[m];
                         mapLine li = new mapLine();
 
-                        li.x = new Vector2(layerXNum + width * j, -(mapHight /2- buttonWidth) + length * i);
+                        li.x = new Vector2(layerXNum + width * j, -(mapHight / 2 - buttonWidth) + length * i);
                         //if(i==map.Count-1)
                         //li.y = new Vector2(0, -260 + length * (i+1));
                         //else
-                        li.y = new Vector2(layerYNum + width * num, -(mapHight/2)+ length * (i + 1));
+                        li.y = new Vector2(layerYNum + width * num, -(mapHight / 2) + length * (i + 1));
                         render.addLine(li);
 
                     }
@@ -328,7 +352,10 @@ namespace RouteOfTheMagic
             }
 
         }
-
+        /// <summary>
+        /// 返回当前结点的layer
+        /// </summary>
+        /// <returns></returns>
         public int CurrentLevel()
         {
             if (currentMapNode != null)
@@ -336,7 +363,6 @@ namespace RouteOfTheMagic
             else
                 return 0;
         }
-
         /// <summary>
         /// 结点点击响应
         /// </summary>
@@ -350,11 +376,11 @@ namespace RouteOfTheMagic
                 item.SetActive(false);
                 //Debug.Log(item.activeSelf);
             }
-            if (mapNode.nodeType==NodeType.fight)
+            if (mapNode.nodeType == NodeType.fight)
             {
-                SceneManager.LoadSceneAsync("Magic");   
+                SceneManager.LoadSceneAsync("Magic");
             }
-            else if(mapNode.nodeType == NodeType.shop)
+            else if (mapNode.nodeType == NodeType.shop)
             {
                 SceneManager.LoadSceneAsync("Shop");
             }
@@ -372,7 +398,7 @@ namespace RouteOfTheMagic
         /// <param name="sprite"></param>
         /// <param name="color"></param>
         /// <returns></returns>
-        ButtonEx CreatButton(Vector2 pos,Vector2 size, Sprite sprite,Color color= new Color())
+        ButtonEx CreatButton(Vector2 pos, Vector2 size, Sprite sprite, Color color = new Color())
         {
             GameObject go = new GameObject("node");
             RectTransform rect = go.AddComponent<RectTransform>();
@@ -388,10 +414,10 @@ namespace RouteOfTheMagic
 
             if (img.sprite != null)
                 img.type = Image.Type.Sliced;
-            ButtonEx button=go.AddComponent<ButtonEx>();
+            ButtonEx button = go.AddComponent<ButtonEx>();
             button.onEnter.AddListener(delegate ()
             {
-                
+
             });
             go.GetComponent<Selectable>().image = img;
             go.transform.SetParent(mapRoot.transform);
@@ -409,10 +435,11 @@ namespace RouteOfTheMagic
         void Update()
         {
             //测试用代码
-            if(Input.GetKeyDown(KeyCode.A))
-            {
-                SceneEnd(true);
-            }
+            if (magicCore.skillPoint > 2)
+                addAtk.interactable = true;
+            else
+                addAtk.interactable = false;
+
         }
         /// <summary>
         /// 场景功能结束后调用
@@ -436,19 +463,24 @@ namespace RouteOfTheMagic
                 nowSprite = LoadResources.Instance.random.unable;
             currentMapNode.button.GetComponent<Image>().sprite = nowSprite;
 
-            if (istrue)
+            if (currentMapNode.layer==layerCount-1)
+                isBoss=true;
+            if (isBoss)
+            {
+                SceneManager.LoadSceneAsync("Magic");
+                return;
+            };
+            //非Boss处理
+            if (istrue&&!isBoss)
                 foreach (var item in currentMapNode.child)
                 {
-                    map[layer+1][item].FatherIsPass = true;
+                    map[layer + 1][item].FatherIsPass = true;
                 }
             foreach (var item in Root)
             {
                 item.SetActive(true);
             }
             mapRoot.SetActive(true);
-
         }
     }
-
-
 }

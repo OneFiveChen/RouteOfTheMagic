@@ -14,6 +14,6 @@ public class SkillPointShow : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        SkillPoint.text = magic.skillPoint.ToString();
+        SkillPoint.text ="技能点："+ magic.skillPoint.ToString();
 	}
 }
