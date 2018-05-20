@@ -1084,7 +1084,6 @@ public class MagicCore {
                     {
 
                         doDamage(mMonster[s].attackValue, s);
-                        Debug.Log(ed.ID);
                         ed.sorce.Remove(s);
                         ed.damage -= mMonster[s].attackValue;
 
@@ -1396,7 +1395,8 @@ public class MagicCore {
         {
             if (b.GetType() == typeof(ItemBuff))
             {
-                r.Add(((ItemBuff)b).iName);
+                if((int)((ItemBuff)b).iName < 13)
+                 r.Add(((ItemBuff)b).iName);
             }
         }
         return r;
