@@ -900,7 +900,7 @@ public class Clickcontrol : MonoBehaviour {
     //创建节点破坏效果
     public void PointBroken(int i)
     {
-        EFController.Instance.NewRingCreatAnimation(pointGameObjectlist[i], 0, 10, 0, 0, 3, 1, 0.1f);
+        EFController.Instance.NewRingCreatAnimation(pointGameObjectlist[i], 0, 10,3, 0, 3, 0, 0.1f);
     }
 
     //创建路径变色效果
