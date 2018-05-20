@@ -134,7 +134,7 @@ public class Clickcontrol : MonoBehaviour {
         ATK.GetComponent<Text>().text = "ATK: "+ magic.getATK().ToString();
         HP.GetComponent<Text>().text = "HP:" + magic.getHP().ToString();
         //测试monster，获取血量等
-        monster0.GetComponentInChildren<Text>().text = monster0.GetComponent<Monster>().monsterHP.ToString();
+        //monster0.GetComponentInChildren<Text>().text = monster0.GetComponent<Monster>().monsterHP.ToString();
         //绘制连线颜色
         drawLineColor();
 
