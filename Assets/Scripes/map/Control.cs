@@ -38,10 +38,14 @@ public class Control : MonoBehaviour {
 
         //初始化连线
         InitLine();
+
+        //初始化花纹
+        InitFigure();
     }
 	
 	// Update is called once per frame
 	void Update () {
+        EFController.Instance.Update();
         for (int i = 0; i < lineGameObjectlist.Count; ++i)
         {
             Line l = lineList[i];
@@ -50,13 +54,17 @@ public class Control : MonoBehaviour {
             int p2 = l.p2;
             if (Plist[p1].MaxMagic != 0 && Plist[p2].MaxMagic != 0)
             {
-                lineGameObjectlist[i].GetComponent<LineRenderer>().startColor = new Color(0,0,0,1);
-                lineGameObjectlist[i].GetComponent<LineRenderer>().endColor = new Color(0, 0, 0, 1);
+                lineGameObjectlist[i].GetComponent<LineRenderer>().startWidth = 0.08f;
+                lineGameObjectlist[i].GetComponent<LineRenderer>().endWidth = 0.08f;
+                lineGameObjectlist[i].GetComponent<LineRenderer>().startColor = new Color(1,1,1,1);
+                lineGameObjectlist[i].GetComponent<LineRenderer>().endColor = new Color(1, 1, 1, 1);
             }
             else
             {
-                lineGameObjectlist[i].GetComponent<LineRenderer>().startColor = new Color(0, 0, 0, 0.5f);
-                lineGameObjectlist[i].GetComponent<LineRenderer>().endColor = new Color(0, 0, 0, 0.5f);
+                lineGameObjectlist[i].GetComponent<LineRenderer>().startWidth = 0.05f;
+                lineGameObjectlist[i].GetComponent<LineRenderer>().endWidth = 0.05f;
+                lineGameObjectlist[i].GetComponent<LineRenderer>().startColor = new Color(0, 0, 0, 0.2f);
+                lineGameObjectlist[i].GetComponent<LineRenderer>().endColor = new Color(0, 0, 0, 0.2f);
             }
         }
     }
@@ -130,15 +138,8 @@ public class Control : MonoBehaviour {
             linePerb.GetComponentInChildren<ParticleSystem>().Pause();
             GameObject lineP = GameObject.Instantiate(linePerb);
             lineP.transform.parent = lines.transform;
-            lineP.SetActive(false);
 
             lineGameObjectlist.Add(lineP);
-
-
-            if (Plist[p1].MaxMagic != 0 && Plist[p2].MaxMagic != 0)
-            {
-                lineP.SetActive(true);
-            }
         }
 
         //特效测试
@@ -208,15 +209,12 @@ public class Control : MonoBehaviour {
             Vector3 e = pointGameObjectlist[i - 23].transform.position;
             Vector3 s = pointGameObjectlist[0].transform.position;
 
-            //生成左侧花纹
-            if ((left && right) || (left && mid))
             {
                 GameObject go = GameObject.Instantiate(figure2, e - s + nodes.transform.position, Quaternion.FromToRotation(Vector3.up, Vector3.Normalize(e - s)), nodes.transform);
                 EFController.Instance.NewFigureCreateAnimation(go.gameObject, 115, 5);
             }
-            //生成右侧花纹
-            if ((left && right) || (right && mid))
             {
+
                 GameObject go = GameObject.Instantiate(figure2, e - s + nodes.transform.position, Quaternion.FromToRotation(Vector3.up, Vector3.Normalize(e - s)), nodes.transform);
                 go.transform.localScale = new Vector3(-1, 1, 1);
                 EFController.Instance.NewFigureCreateAnimation(go.gameObject, 115, 5);
@@ -224,24 +222,19 @@ public class Control : MonoBehaviour {
         }
 
         //特殊花纹
-        if (magic.getPoint(magic.getLine(30).p1).MaxMagic > 0 && magic.getPoint(magic.getLine(30).p2).MaxMagic > 0)
-            if (magic.getPoint(magic.getLine(35).p1).MaxMagic > 0 && magic.getPoint(magic.getLine(35).p2).MaxMagic > 0)
-            {
-                Vector3 pos = pointGameObjectlist[16].transform.position - pointGameObjectlist[0].transform.position;
-                GameObject go = GameObject.Instantiate(SpFigure0, 0.77f * pos + nodes.transform.position, Quaternion.FromToRotation(Vector3.up, Vector3.Normalize(pos)), nodes.transform);
-                EFController.Instance.NewFigureCreateAnimation(go, 110, 10);
-            }
+        {
+            Vector3 pos = pointGameObjectlist[16].transform.position - pointGameObjectlist[0].transform.position;
+            GameObject go = GameObject.Instantiate(SpFigure0, 0.77f * pos + nodes.transform.position, Quaternion.FromToRotation(Vector3.up, Vector3.Normalize(pos)), nodes.transform);
+            EFController.Instance.NewFigureCreateAnimation(go, 110, 10);
+        }
 
-        if (magic.getPoint(magic.getLine(31).p1).MaxMagic > 0 && magic.getPoint(magic.getLine(31).p2).MaxMagic > 0)
-            if (magic.getPoint(magic.getLine(32).p1).MaxMagic > 0 && magic.getPoint(magic.getLine(32).p2).MaxMagic > 0)
-            {
-                Vector3 pos = pointGameObjectlist[17].transform.position - pointGameObjectlist[0].transform.position;
-                GameObject go = GameObject.Instantiate(SpFigure1, 0.77f * pos + nodes.transform.position, Quaternion.FromToRotation(Vector3.up, Vector3.Normalize(pos)), nodes.transform);
-                EFController.Instance.NewFigureCreateAnimation(go, 110, 10);
-            }
+        {
+            Vector3 pos = pointGameObjectlist[17].transform.position - pointGameObjectlist[0].transform.position;
+            GameObject go = GameObject.Instantiate(SpFigure1, 0.77f * pos + nodes.transform.position, Quaternion.FromToRotation(Vector3.up, Vector3.Normalize(pos)), nodes.transform);
+            EFController.Instance.NewFigureCreateAnimation(go, 110, 10);
+        }
 
-        if (magic.getPoint(magic.getLine(33).p1).MaxMagic > 0 && magic.getPoint(magic.getLine(33).p2).MaxMagic > 0)
-            if (magic.getPoint(magic.getLine(34).p1).MaxMagic > 0 && magic.getPoint(magic.getLine(34).p2).MaxMagic > 0)
+       
             {
                 Vector3 pos = pointGameObjectlist[18].transform.position - pointGameObjectlist[0].transform.position;
                 GameObject go = GameObject.Instantiate(SpFigure2, 0.77f * pos + nodes.transform.position, Quaternion.FromToRotation(Vector3.up, Vector3.Normalize(pos)), nodes.transform);
