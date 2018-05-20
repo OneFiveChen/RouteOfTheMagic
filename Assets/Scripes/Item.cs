@@ -38,7 +38,7 @@ public class ItemTool {
         ib.ME += ShadowChains;
         itemList.Add(ib);
 
-        ib = new ItemBuff(ItemName.四象阵, BuffType.sBuffTurn, -1);
+        ib = new ItemBuff(ItemName.四象阵, BuffType.sBuffTurn, 3);
         ib.NE += Fourimagearray;
         ib.subItemName = ItemName.Fourimagearrays;
         itemList.Add(ib);
@@ -186,6 +186,7 @@ public class ItemTool {
         int atk = magiccore.getATK();
         atk++;
         magiccore.setATK(atk);
+        doingbuff.count = 0;
     } //四圣阵      
 
     public void Fourimagearrays(ref Magic m)
@@ -195,7 +196,7 @@ public class ItemTool {
         
         if (doingbuff.count == doingbuff.maxCount)
         {
-            magiccore.endTurn();
+            magiccore.setATK(0);
             doingbuff.count = 0;
         }
     }
