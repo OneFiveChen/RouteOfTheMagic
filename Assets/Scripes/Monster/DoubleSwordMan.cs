@@ -10,6 +10,10 @@ namespace RouteOfTheMagic
         public override void Start()
         {
             base.Start();
+            monsterHP = 100;
+            maxMonsterHP = 100;
+            attackValue = 10;
+            attackType = AttackType.Random;
             randomNum = 2;
         }
 

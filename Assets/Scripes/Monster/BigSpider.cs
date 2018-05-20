@@ -10,6 +10,11 @@ namespace RouteOfTheMagic
         public override void Start()
         {
             base.Start();
+            monsterHP = 100;
+            maxMonsterHP = 100;
+            attackValue = 10;
+            attackType = AttackType.DoubleLine;
+            randomNum = 1;
         }
 
         // Update is called once per frame

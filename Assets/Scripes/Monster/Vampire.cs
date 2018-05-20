@@ -13,6 +13,11 @@ namespace RouteOfTheMagic
             base.Start();
             StageOne = true;
             StageTwo = true;
+            monsterHP = 100;
+            maxMonsterHP = 100;
+            attackValue = 10;
+            attackType = AttackType.TribleLine;
+            randomNum = 1;
         }
 
         // Update is called once per frame
@@ -39,7 +44,7 @@ namespace RouteOfTheMagic
         public override void SpecialEffect()
         {
             
-            restoreMonsterHP((int)(lastAttackValue*0.5f));//***********获取最终伤害值并以一定比例回复
+            restoreMonsterHP((int)(lastAttackValue*0.75f));//***********获取最终伤害值并以一定比例回复
         }
 
     }
