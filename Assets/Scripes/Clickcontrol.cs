@@ -787,10 +787,10 @@ public class Clickcontrol : MonoBehaviour {
                 itemGameObjectlist.Add(item);
                 if (items.Count % 2 == 0)
                 {
-                    item.transform.localPosition = new Vector3(120 * itemCount - 60, 0, 0);
+                    item.transform.localPosition = new Vector3(120 * (itemCount+1) - 60, 0, 0);
                 }
                 else
-                    item.transform.localPosition = new Vector3(120 * itemCount - 120, 0, 0);
+                    item.transform.localPosition = new Vector3(120 * (itemCount+1) - 120, 0, 0);
 
                 item.name = items[itemCount].ToString();
 
@@ -1053,7 +1053,26 @@ public class Clickcontrol : MonoBehaviour {
         {
             if (magic.isMonsterLive(i))
             {
+                Monster monster = magic.getMonsterList()[i];
+                MonsterType mt = monster.mtype;
                 GameObject m = GameObject.Instantiate(monsterPerb, monsterList.transform);
+                switch (mt)
+                {
+                    case MonsterType.Slime:
+                        m.GetComponent<Image>().sprite = LoadResources.Instance.monsterSp.Slime;
+                        break;
+                    case MonsterType.BigSpider:
+                        m.GetComponent<Image>().sprite = LoadResources.Instance.monsterSp.BigSpider;
+                        break;
+                    case MonsterType.DoubleSwordMan:
+                        m.GetComponent<Image>().sprite = LoadResources.Instance.monsterSp.DoubleSwordMan;
+                        break;
+                    case MonsterType.Vampire:
+                        m.GetComponent<Image>().sprite = LoadResources.Instance.monsterSp.Vampire;
+                        break;
+                    default:
+                        break;
+                }
                 m.name = i.ToString();
                 m.GetComponentInChildren<Text>().text = magic.getMonsterList()[i].monsterHP.ToString();
                 if (magic.getMonsterList().Count == 1)
