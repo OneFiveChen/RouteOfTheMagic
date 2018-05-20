@@ -328,6 +328,15 @@ namespace RouteOfTheMagic
             }
 
         }
+
+        public int CurrentLevel()
+        {
+            if (currentMapNode != null)
+                return currentMapNode.layer;
+            else
+                return 0;
+        }
+
         /// <summary>
         /// 结点点击响应
         /// </summary>
