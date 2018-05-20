@@ -234,6 +234,8 @@ public class Clickcontrol : MonoBehaviour {
             if (magic.isMonsterLive(i))
             monsterList.transform.GetChild(i).GetComponentInChildren<Text>().text =
                 magic.getMonsterList()[int.Parse(monsterList.transform.GetChild(i).name)].monsterHP.ToString();
+            else
+            monsterList.transform.GetChild(i).GetComponentInChildren<Text>().text = "0";
         }
     }
 
@@ -964,9 +966,9 @@ public class Clickcontrol : MonoBehaviour {
     {
         monsterDegreeList = new List<MonsterMatch>();
         MonsterMatch newcomer = new MonsterMatch(MonsterType.Empty, MonsterType.Slime, MonsterType.Empty);
-        MonsterMatch triSlime = new MonsterMatch(MonsterType.Slime, MonsterType.Slime, MonsterType.Slime);
-        MonsterMatch SwordMan = new MonsterMatch(MonsterType.Slime, MonsterType.DoubleSwordMan, MonsterType.Slime);
-        MonsterMatch swordManUnion = new MonsterMatch(MonsterType.DoubleSwordMan, MonsterType.DoubleSwordMan, MonsterType.DoubleSwordMan);
+        MonsterMatch triSlime = new MonsterMatch(MonsterType.Empty, MonsterType.Slime, MonsterType.Slime);
+        MonsterMatch SwordMan = new MonsterMatch(MonsterType.Slime, MonsterType.DoubleSwordMan, MonsterType.Empty);
+        MonsterMatch swordManUnion = new MonsterMatch(MonsterType.Empty, MonsterType.DoubleSwordMan, MonsterType.DoubleSwordMan);
         MonsterMatch bigSpider1 = new MonsterMatch(MonsterType.Slime, MonsterType.BigSpider, MonsterType.DoubleSwordMan);
         MonsterMatch bigSpider2 = new MonsterMatch(MonsterType.Slime, MonsterType.BigSpider, MonsterType.Slime);
         MonsterMatch bigSpider3 = new MonsterMatch(MonsterType.DoubleSwordMan, MonsterType.BigSpider, MonsterType.Slime);
@@ -1000,11 +1002,11 @@ public class Clickcontrol : MonoBehaviour {
         }
         if (currentLevel <= 3 && currentLevel > 0)
         {
-            temp = monsterDegreeList[Random.Range(1, 2)];
+            temp = monsterDegreeList[Random.Range(1, 3)];
         }
         if (currentLevel <= 7 && currentLevel > 3)
         {
-            temp = monsterDegreeList[Random.Range(3, 6)];
+            temp = monsterDegreeList[Random.Range(4, 6)];
         }
         if (currentLevel <= 10 && currentLevel > 7)
         {

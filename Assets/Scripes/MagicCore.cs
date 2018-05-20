@@ -31,7 +31,7 @@ public class MagicCore {
         Hp = MaxHp;
         mPos = 0;
 
-        skillPoint = 100;
+        skillPoint = 5;
 
     }
 
@@ -1500,7 +1500,13 @@ public class MagicCore {
 
     public void addItem(ItemName itName)
     {
+        ItemBuff it = itemTool.getItem(itName);
         addBuff(itemTool.getItem(itName), -1);
+        if (it.subItemName != ItemName.count)
+        {
+            addBuff(itemTool.getItem(it.subItemName), -1);
+        }
+        
     }
 
     public void startTurn()

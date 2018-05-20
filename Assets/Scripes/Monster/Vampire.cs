@@ -13,7 +13,7 @@ namespace RouteOfTheMagic
             base.Start();
             StageOne = true;
             StageTwo = true;
-            monsterHP = 100;
+            monsterHP = 30;
             maxMonsterHP = 100;
             attackValue = 10;
             attackType = AttackType.TribleLine;
